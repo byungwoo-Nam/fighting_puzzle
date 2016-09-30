@@ -1,0 +1,29 @@
+*{margin:0 auto;padding:0; background-color:#DDDFE2 !important;}
+*:not(.fa){font-family:'NotoSansCJKkr-Regular' !important;}
+body{padding-top:0;}
+
+.db{display:block;}
+.dib{display:inline-block;}
+
+.ta-r{text-align:right;}
+.ta-l{text-align:left;}
+.ta-c{text-align:center;}
+
+.va-m{vertical-align:middle;}
+
+.clear{clear:both;}
+
+.fl{float:left;}
+.fr{float:right;}
+
+.bold{font-weight:bold;}
+
+.hide{display:none;}
+
+.pointer{cursor:pointer;}
+
+.hoverLine:hover{
+	text-decoration: underline;
+}
+
+.fa{vertical-align:middle;}

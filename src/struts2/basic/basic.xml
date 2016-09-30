@@ -6,6 +6,11 @@
 		<action name="index" class="action.basic.Index">
 			<result>/jsp/index.jsp</result>
 		</action>		
+		
+		<!-- 로그인 페이지-->
+		<action name="login" class="action.basic.Index">
+			<result>/jsp/common/login.jsp</result>
+		</action>
 
 		<!--예시
 		<action name="ipApporveList" class="action.ip.IpAction" method="IpList">

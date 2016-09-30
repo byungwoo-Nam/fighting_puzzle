@@ -22,75 +22,8 @@ public class ActionConfig{
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// ----------------------------basic.xml-----------------------------
-		hashmap.put("index", 									"needSession => false,		needAdmin => false,		pageTitle => ");
-		hashmap.put("login", 									"needSession => false,		needAdmin => false,		pageTitle => ");
-		hashmap.put("loginAction", 							"needSession => false,		needAdmin => false,		pageTitle => ");
-		hashmap.put("logoutAction",							"needSession => true, 	needAdmin => false,		pageTitle => ");
-		hashmap.put("ajaxFormValidate",						"needSession => true, 	needAdmin => false,		pageTitle => ");
-		hashmap.put("ajaxGetData",							"needSession => true, 	needAdmin => false,		pageTitle => ");
-		hashmap.put("ajaxAction",								"needSession => true, 	needAdmin => false,		pageTitle => ");
-		hashmap.put("excelFileDownload",					"needSession => true, 	needAdmin => false,		pageTitle => ");
-		
-		// ----------------------------member.xml-----------------------------
-		hashmap.put("shopMemberList",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("shopMemberEditor",					"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("shopMemberWriteAction",			"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("shopMemberUpdateAction",			"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("shopMemberDeleteAction",			"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("userList",								"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("userEditor",								"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("userWriteAction",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("userUpdateAction",					"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("userDeleteAction",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		
-		// ----------------------------product.xml-----------------------------
-		hashmap.put("generalProductList",					"needSession => true,		needAdmin => false,		pageTitle => ");
-		hashmap.put("generalProductEditor",				"needSession => true,		needAdmin => false,		pageTitle => ");
-		hashmap.put("generalProductWriteAction",			"needSession => true,		needAdmin => false,		pageTitle => ");
-		hashmap.put("generalProductUpdateAction",		"needSession => true,		needAdmin => false,		pageTitle => ");
-		hashmap.put("generalProductDeleteAction",		"needSession => true,		needAdmin => false,		pageTitle => ");
-		
-		// ----------------------------order.xml-----------------------------
-		hashmap.put("orderList",								"needSession => true,		needAdmin => false,		pageTitle => ");
-		hashmap.put("orderListExcelDownload",				"needSession => true,		needAdmin => false,		pageTitle => ");
-		hashmap.put("orderChart",							"needSession => true,		needAdmin => false,		pageTitle => ");
-		
-		// ----------------------------help.xml-----------------------------
-		hashmap.put("faqList",									"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("faqEditor",								"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("faqWriteAction",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("faqUpdateAction",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("faqDeleteAction",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("qnaList",									"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("qnaReplyWriteAction",					"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("qnaReplyUpdateAction",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("qnaDeleteAction",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		
-		// ----------------------------banner.xml-----------------------------
-		hashmap.put("eventBannerList",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("eventBannerEditor",					"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("eventBannerWriteAction",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("eventBannerUpdateAction",			"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("eventBannerDeleteAction",			"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("promotionList",							"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("promotionEditor",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("promotionWriteAction",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("promotionUpdateAction",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("promotionDeleteAction",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("promotionContentList",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("promotionContentUpdateAction",	"needSession => true,		needAdmin => true,		pageTitle => ");
-		
-		// ----------------------------contentManager.xml-----------------------------
-		hashmap.put("mainLabelList",							"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("mainLabelUpdateAction",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("labelProductList",						"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("labelProductUpdateAction",			"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("adminTagList",							"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("adminTagUpdateAction",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("colorList",								"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("colorListUpdateAction",				"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("sizeList",									"needSession => true,		needAdmin => true,		pageTitle => ");
-		hashmap.put("sizeListUpdateAction",					"needSession => true,		needAdmin => true,		pageTitle => ");
+		hashmap.put("index", 					"adminAction => false,		pageTitle => ");
+		hashmap.put("login", 					"adminAction => false,		pageTitle => ");
 		
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

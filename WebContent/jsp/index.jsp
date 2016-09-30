@@ -9,24 +9,53 @@
 		</jsp:include>
 		<script type="text/javascript">
 			$(function(){
-				var filter = "win16|win32|win64|mac";
-				 
-				if(navigator.platform){
-					if(0 > filter.indexOf(navigator.platform.toLowerCase())){
-						alert("Mobile");
-					}else{
-						alert("PC");
-					}
-				}
 			});
 		</script>
 	</head>
 	<body>
 		<jsp:include page="/jsp/include/gnb.jsp" flush="false" />
-		<div class="admin_container">
-			<div class="adminContentArea">
-				<img src="/jsp/common/img/sample.png" style="width:100%;" />
-			</div>
+		<div class="container">
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
+			ddd테스트123<br/>
 		</div>
 	</body>
 </html>

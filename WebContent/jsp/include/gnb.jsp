@@ -2,9 +2,9 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
 <div class="gnbArea">
-	<div class="logo ml20 pointer fl"></div>
-	<input type="button" id="logoutBtn" class="fr mt45 mr5" value="로그아웃"  />
-	<p class="fr mt60 mr20"><span class="fs20"><s:property value="#session.admin_name"/></span> 님 환영합니다</p>
-	<div class="clear"></div>
-	<hr/>
+	<div class="on"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i></div>
+	<div><i class="fa fa-gamepad fa-2x" aria-hidden="true"></i></div>
+	<div><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></div>
+	<div><i class="fa fa-search fa-2x" aria-hidden="true"></i></div>
+	<div><i class="fa fa-user fa-2x" aria-hidden="true"></i></div>
 </div>
