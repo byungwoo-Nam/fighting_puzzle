@@ -1,0 +1,17 @@
+<!DOCTYPE struts PUBLIC    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"    
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="favoriteGame" namespace="/favoriteGame" extends="fighting_puzzle">
+		<!-- 나의 게임 -->
+		<action name="favoriteGame" class="action.basic.Index">
+			<result>/jsp/page/favoriteGame/favoriteGame.jsp</result>
+		</action>		
+		
+		<!--예시
+		<action name="ipApporveList" class="action.ip.IpAction" method="IpList">
+		  <result>/jsp/admin/ip/ipApporveList.jsp</result>
+		  <result name="EXCEL">/jsp/admin/ip/ipListExcelDownload.jsp</result>
+		</action>
+		-->
+	</package>
+</struts>
