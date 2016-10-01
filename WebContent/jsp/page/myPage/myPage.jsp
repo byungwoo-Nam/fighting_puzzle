@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 	<head>
-		<jsp:include page="/jsp/include/head.jsp" flush="false">
+		<jsp:include page="/jsp/page/include/head.jsp" flush="false">
 			<jsp:param value=""  name="title"/>
 		</jsp:include>
 		<script type="text/javascript">
@@ -13,8 +13,10 @@
 		</script>
 	</head>
 	<body>
-		<jsp:include page="/jsp/include/gnb.jsp" flush="false" />
+		<jsp:include page="/jsp/page/include/gnb.jsp" flush="false" />
 		<div class="container">
+			마이페이지!!!!!!!!!!<br/>
+			ddd테스트123<br/>
 			ddd테스트123<br/>
 			ddd테스트123<br/>
 			ddd테스트123<br/>

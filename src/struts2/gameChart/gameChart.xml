@@ -1,10 +1,10 @@
 <!DOCTYPE struts PUBLIC    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"    
 "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-	<package name="basic" namespace="/" extends="fighting_puzzle">
-		<!-- 메인 -->
-		<action name="index" class="action.basic.Index">
-			<result>/jsp/page/index.jsp</result>
+	<package name="gameChart" namespace="/gameChart" extends="fighting_puzzle">
+		<!-- 나의 게임 -->
+		<action name="gameChart" class="action.basic.Index">
+			<result>/jsp/page/gameChart/gameChart.jsp</result>
 		</action>		
 		
 		<!--예시

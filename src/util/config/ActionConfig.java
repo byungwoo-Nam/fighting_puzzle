@@ -25,6 +25,18 @@ public class ActionConfig{
 		hashmap.put("index", 					"adminAction => false,		pageTitle => ");
 		hashmap.put("login", 					"adminAction => false,		pageTitle => ");
 		
+		// ----------------------------myGame.xml-----------------------------
+		hashmap.put("myGame", 				"adminAction => false,		pageTitle => ");
+
+		// ----------------------------gameChart.xml-----------------------------
+		hashmap.put("gameChart",			"adminAction => false,		pageTitle => ");
+		
+		// ----------------------------search.xml-----------------------------
+		hashmap.put("search",					"adminAction => false,		pageTitle => ");
+		
+		// ----------------------------myPage.xml-----------------------------
+		hashmap.put("myPage",				"adminAction => false,		pageTitle => ");
+		
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 	<head>
-		<jsp:include page="/jsp/include/head.jsp" flush="false" />
+		<jsp:include page="/jsp/page/include/head.jsp" flush="false" />
 		<script type="text/javascript">
 			$(function(){
 			});
