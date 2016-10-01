@@ -1,9 +1,13 @@
-*{margin:0 auto;padding:0; background-color:#DDDFE2 !important;}
+*{margin:0 auto;padding:0;}
 *:not(.fa){font-family:'NotoSansCJKkr-Regular' !important;}
-body{padding-top:0;}
+body{padding-top:0; background-color:#DDDFE2;}
+h1, h2, h3, h4, h5{margin:0;}
 
-.db{display:block;}
-.dib{display:inline-block;}
+.mr10{margin-right:10px !important;}
+.mb10{margin-bottom:10px !important;}
+
+.dis-b{display:block;}
+.dis-ib{display:inline-block;}
 
 .ta-r{text-align:right;}
 .ta-l{text-align:left;}

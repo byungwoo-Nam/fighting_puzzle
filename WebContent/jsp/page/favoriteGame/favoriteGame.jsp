@@ -15,7 +15,7 @@
 	<body>
 		<jsp:include page="/jsp/page/include/gnb.jsp" flush="false" />
 		<div class="container">
-			나의게임!!!!!!!!!!<br/>
+			즐겨찾기!!!!!!!!!!<br/>
 			ddd테스트123<br/>
 			ddd테스트123<br/>
 			ddd테스트123<br/>

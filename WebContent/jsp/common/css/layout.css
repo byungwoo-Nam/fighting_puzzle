@@ -29,8 +29,50 @@
     color: #FFFFFF !important;
 }
 
-/*** ÄÁÅÙÃ÷ ¿µ¿ª ***/
+/*** ÄÁÅÙÃ÷ °øÅë ***/
 .container{
 	margin-top:50px;
+}
+
+.container .regDate{
+	color: #90949c;
+}
+
+article{
 	background-color: #FFFFFF !important;
+	padding: 0 10px 10px 10px;
+	margin:0 0 8px;
+}
+
+/*** index ***/
+#a_index header{
+	padding: 10px 0 0;
+	display:inline-flex;
+	margin: 0 0 12px;
+}
+
+#a_index .userImage{
+    height: 50px;
+    width: 50px;
+    border-radius: 1000px;
+    overflow:hidden;
+    align-items: flex-start;
+    display: flex;
+}
+
+#a_index .userImage img{
+    width: 100%;
+    height: auto;
+}
+
+#a_index .title{
+    margin: auto 0;
+}
+
+#a_index .contentArea .bestRecord{
+	color: #007F6B;
+}
+
+#a_index footer{
+	color: #90949c;
 }

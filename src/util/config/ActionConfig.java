@@ -11,10 +11,9 @@ public class ActionConfig{
 	String falseFlag = ":";				// 조건이 맞지 않을 때 returnURL 시작 부분
 
 	public ActionConfig(){
-		/************session체크 모든 action정보 [16.04.10 by.Nam]**********
+		/************session체크 모든 action정보 [16.10. 02 by.FighTeam]**********
 		
-		needSession : 세션(관리자/업체) 필수여부(true/false)
-		needAdmin : 관리자세션 필수여부(true/false)
+		adminAction : 관리자 페이지
 		pageTitle : action에 대한 title(설명)
 		
 		***********************************************************************/
@@ -25,8 +24,8 @@ public class ActionConfig{
 		hashmap.put("index", 					"adminAction => false,		pageTitle => ");
 		hashmap.put("login", 					"adminAction => false,		pageTitle => ");
 		
-		// ----------------------------myGame.xml-----------------------------
-		hashmap.put("myGame", 				"adminAction => false,		pageTitle => ");
+		// ----------------------------favoriteGame.xml-----------------------------
+		hashmap.put("favoriteGame", 			"adminAction => false,		pageTitle => ");
 
 		// ----------------------------gameChart.xml-----------------------------
 		hashmap.put("gameChart",			"adminAction => false,		pageTitle => ");

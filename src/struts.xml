@@ -52,7 +52,7 @@
     </package>
     
     <include file="struts2/basic/basic.xml" />
-    <include file="struts2/myGame/myGame.xml" />
+    <include file="struts2/favoriteGame/favoriteGame.xml" />
     <include file="struts2/gameChart/gameChart.xml" />
     <include file="struts2/search/search.xml" />
     <include file="struts2/myPage/myPage.xml" />

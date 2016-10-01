@@ -1,10 +1,10 @@
 <!DOCTYPE struts PUBLIC    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"    
 "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-	<package name="myGame" namespace="/myGame" extends="fighting_puzzle">
+	<package name="favoriteGame" namespace="/favoriteGame" extends="fighting_puzzle">
 		<!-- 나의 게임 -->
-		<action name="myGame" class="action.basic.Index">
-			<result>/jsp/page/myGame/myGame.jsp</result>
+		<action name="favoriteGame" class="action.basic.Index">
+			<result>/jsp/page/favoriteGame/favoriteGame.jsp</result>
 		</action>		
 		
 		<!--예시
