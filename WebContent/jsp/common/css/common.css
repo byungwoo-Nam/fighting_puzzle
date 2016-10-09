@@ -3,6 +3,16 @@
 body{padding-top:0; background-color:#DDDFE2;}
 h1, h2, h3, h4, h5{margin:0;}
 
+.btn-basic:focus, .btn-basic:hover {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.btn-basic, .btn-basic:active, .btn-basic:focus, .btn-basic:hover {
+    background-color: #007F6B;
+}
+
 .mr10{margin-right:10px !important;}
 .mb10{margin-bottom:10px !important;}
 

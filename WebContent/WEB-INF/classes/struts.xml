@@ -56,5 +56,6 @@
     <include file="struts2/gameChart/gameChart.xml" />
     <include file="struts2/search/search.xml" />
     <include file="struts2/myPage/myPage.xml" />
+    <include file="struts2/puzzle/puzzle.xml" />
     
 </struts> 

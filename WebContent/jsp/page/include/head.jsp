@@ -15,6 +15,7 @@
 <script type="text/javascript" src="/jsp/common/plugin/jquery/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/jsp/common/plugin/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src='/jsp/common/js/common.js'></script>
+<script type="text/javascript" src='/jsp/common/js/layerPopup.js'></script>
 
 <script type="text/javascript">
 	$(function(){

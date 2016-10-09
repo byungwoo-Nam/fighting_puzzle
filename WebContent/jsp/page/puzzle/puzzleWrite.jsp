@@ -13,7 +13,7 @@
 	<body>
 		<s:include value="/jsp/page/include/gnb.jsp" />
 		<div class="container">
-			검색!!!!!!!!!!<br/>
+			퍼즐등록!!!!!!!!!!<br/>
 			ddd테스트123<br/>
 			ddd테스트123<br/>
 			ddd테스트123<br/>

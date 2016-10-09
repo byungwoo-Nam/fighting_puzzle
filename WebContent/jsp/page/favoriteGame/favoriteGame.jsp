@@ -4,16 +4,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 	<head>
-		<jsp:include page="/jsp/page/include/head.jsp" flush="false">
-			<jsp:param value=""  name="title"/>
-		</jsp:include>
+		<s:include value="/jsp/page/include/head.jsp" />
 		<script type="text/javascript">
 			$(function(){
 			});
 		</script>
 	</head>
 	<body>
-		<jsp:include page="/jsp/page/include/gnb.jsp" flush="false" />
+		<s:include value="/jsp/page/include/gnb.jsp" />
 		<div class="container">
 			즐겨찾기!!!!!!!!!!<br/>
 			ddd테스트123<br/>
