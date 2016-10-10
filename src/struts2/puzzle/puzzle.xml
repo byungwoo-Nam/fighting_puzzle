@@ -7,6 +7,10 @@
 			<result>/jsp/page/puzzle/puzzleMain.jsp</result>
 		</action>		
 		
+		<action name="puzzleGame" class="action.basic.Index">
+			<result>/jsp/page/puzzle/puzzleGame.jsp</result>
+		</action>
+		
 		<action name="puzzleWrite" class="action.basic.Index">
 			<result>/jsp/page/puzzle/puzzleWrite.jsp</result>
 		</action>	

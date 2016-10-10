@@ -46,7 +46,7 @@
 							<i class="fa fa-heart" aria-hidden="true"></i> 200명
 						</div>
 						<div class="replyInfo fr">
-							댓글 0개
+							댓글 3개
 						</div>
 					</footer>
 				</div>

@@ -38,6 +38,7 @@ public class ActionConfig{
 		
 		// ----------------------------puzzle.xml-----------------------------
 		hashmap.put("puzzleMain",			"adminAction => false,		pageTitle => ");
+		hashmap.put("puzzleGame",			"adminAction => false,		pageTitle => ");
 		hashmap.put("puzzleWrite",			"adminAction => false,		pageTitle => ");
 		
 	}

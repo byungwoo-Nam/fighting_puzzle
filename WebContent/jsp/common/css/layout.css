@@ -113,9 +113,8 @@ article footer{
 .pop-layer{
 	display:none; 
 	position: absolute;
-	top: 50%; 
-	left: 50%; 
-	max-width: 900px; 
+	height:100% !important;
+	width:100%; 
 	height:auto;  
 	background-color:#fff; 
 	border: 5px solid #4A4A4A; 
@@ -130,7 +129,10 @@ article footer{
 #pop-title{
 	font-size:20px;
 }
-.pop-layer .pop-container {padding: 20px 25px;}
+.pop-layer .pop-container {
+	padding: 20px 25px;
+	max-height:100%;
+}
 .pop-layer p.ctxt {color: #666; line-height: 25px;}
 .pop-layer .btn-r {
 	width: 100%;
@@ -150,6 +152,14 @@ article footer{
 }
 
 /*** view ***/
-#a_puzzle .contentArea img{
+#a_puzzleMain .contentArea img{
 	width:100%;
+}
+
+#a_puzzleGame, #a_puzzleGame>div, #a_puzzleGame .contentArea, #a_puzzleGame .contentArea #imgArea{
+	height:100%;
+}
+
+#a_puzzleGame{
+	margin:0;
 }

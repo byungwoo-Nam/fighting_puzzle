@@ -13,15 +13,15 @@ $(function(){
 			layer.fadeIn();
 		}
 		
-		layer_location_setting(layer);
+		//layer_location_setting(layer);
 		
 		//반투명된 배경 스크롤 막기
 		$("body").css("overflow-x","hidden");
 		$("body").css("overflow-y","hidden");
-//		$("body").on("mousewheel.disableScroll DOMMouseScroll.disableScroll touchmove.disableScroll", function(e) {
-//	        e.preventDefault();
-//	        return;
-//	    });
+		$("body").on("mousewheel.disableScroll DOMMouseScroll.disableScroll touchmove.disableScroll", function(e) {
+	        e.preventDefault();
+	        return;
+	    });
 	    $(window).on("keydown.disableScroll", function(e) {
 	        var eventKeyArray = [33, 34, 35, 36, 37, 38, 39, 40];
 	        for (var i = 0; i < eventKeyArray.length; i++) {

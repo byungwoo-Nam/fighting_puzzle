@@ -7,6 +7,11 @@
 		<s:include value="/jsp/page/include/head.jsp" />
 		<script type="text/javascript">
 			$(function(){
+				$("#gameStart").click(function(){
+					var url = "/puzzle/puzzleGame.do";
+					$(location).attr("href",url);
+					e.preventDefault();
+				});
 			});
 		</script>
 	</head>
@@ -16,7 +21,7 @@
 			<s:param name="title">남병우님의 퍼즐</s:param>
 		</s:include> 
 		<div class="site-wrapper">			
-			<article id="a_puzzle">
+			<article id="a_puzzleMain">
 				<div>
 					<header>
 						<div class="userImage small mr10">
@@ -43,10 +48,10 @@
 					</div>
 					<div class="btn-group btn-group-justified" role="group" aria-label="버튼그룹">
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-success openPop" data-pop-id="puzzleGame"><i class="fa fa-gamepad fa-2x" aria-hidden="true"></i> 게임시작</button>
+							<button type="button" id="gameStart" class="btn btn-success"><i class="fa fa-gamepad fa-2x" aria-hidden="true"></i> 게임시작</button>
 					  	</div>
 					  	<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default"><i class="fa fa-heart-o fa-2x" aria-hidden="true"></i> 좋아요</button>
+							<button type="button" class="btn btn-default"><i class="fa fa-heart fa-2x" aria-hidden="true"></i> 좋아요</button>
 					  	</div>
 					</div>
 					<footer>
@@ -60,6 +65,5 @@
 				</div>
 			</article>
 		</div>	
-		<s:include value="/jsp/page/puzzle/pop/puzzleGame.jsp" />
 	</body>
 </html>

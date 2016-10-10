@@ -1,6 +1,6 @@
 *{margin:0 auto;padding:0;}
 *:not(.fa){font-family:'NotoSansCJKkr-Regular' !important;}
-body{padding-top:0; background-color:#DDDFE2;}
+body{padding:0 !important; background-color:#DDDFE2;}
 h1, h2, h3, h4, h5{margin:0;}
 
 .btn-basic:focus, .btn-basic:hover {
