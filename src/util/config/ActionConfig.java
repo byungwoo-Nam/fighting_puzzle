@@ -22,7 +22,7 @@ public class ActionConfig{
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// ----------------------------basic.xml-----------------------------
 		hashmap.put("index", 					"adminAction => false,		pageTitle => ");
-		hashmap.put("login", 					"adminAction => false,		pageTitle => ");
+		hashmap.put("loginTest", 					"adminAction => false,		pageTitle => ");
 		
 		// ----------------------------favoriteGame.xml-----------------------------
 		hashmap.put("favoriteGame", 			"adminAction => false,		pageTitle => ");

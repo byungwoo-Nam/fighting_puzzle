@@ -14,3 +14,9 @@ $(document).on("click",".backBtn",function(e){
 	history.back();
 	e.preventDefault();
 });
+
+$(document).on("click",".snsLogo",function(e){
+	var url = "/index.do";
+	$(location).attr("href",url);
+	e.preventDefault();
+});

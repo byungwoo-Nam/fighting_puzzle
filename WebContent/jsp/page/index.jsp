@@ -43,7 +43,8 @@
 					</div>
 					<footer>
 						<div class="dis-ib">
-							<i class="fa fa-heart" aria-hidden="true"></i> 200명
+							<i class="fa fa-child" aria-hidden="true"></i> 10명
+							<i class="fa fa-heart ml10" aria-hidden="true"></i> 200명
 						</div>
 						<div class="replyInfo fr">
 							댓글 3개
@@ -83,7 +84,8 @@
 					</div>
 					<footer>
 						<div class="dis-ib">
-							<i class="fa fa-heart" aria-hidden="true"></i> 100명
+							<i class="fa fa-child" aria-hidden="true"></i> 14명
+							<i class="fa fa-heart ml10" aria-hidden="true"></i> 100명
 						</div>
 						<div class="replyInfo fr">
 							댓글 10개
@@ -123,7 +125,8 @@
 					</div>
 					<footer>
 						<div class="dis-ib">
-							<i class="fa fa-heart" aria-hidden="true"></i> 202명
+							<i class="fa fa-child" aria-hidden="true"></i> 7명
+							<i class="fa fa-heart ml10" aria-hidden="true"></i> 202명
 						</div>
 						<div class="replyInfo fr">
 							댓글 20개

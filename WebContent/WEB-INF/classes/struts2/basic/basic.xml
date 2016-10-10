@@ -5,7 +5,11 @@
 		<!-- 메인 -->
 		<action name="index" class="action.basic.Index">
 			<result>/jsp/page/index.jsp</result>
-		</action>		
+		</action>	
+		
+		<action name="loginTest" class="action.basic.Index">
+			<result>/jsp/page/common/login.jsp</result>
+		</action>	
 		
 		<!--예시
 		<action name="ipApporveList" class="action.ip.IpAction" method="IpList">

@@ -13,9 +13,11 @@ h1, h2, h3, h4, h5{margin:0;}
     background-color: #007F6B;
 }
 
+.ml10{margin-left:10px !important;}
 .mr10{margin-right:10px !important;}
 .mb10{margin-bottom:10px !important;}
 
+.dis-fl{display:flex;}
 .dis-b{display:block;}
 .dis-ib{display:inline-block;}
 

@@ -24,7 +24,7 @@
 			<article id="a_puzzleMain">
 				<div>
 					<header>
-						<div class="userImage small mr10">
+						<div class="userImage mr10">
 							<img src="/jsp/temp/userSample1.jpg" />
 						</div>
 						<div class="title">
@@ -46,12 +46,12 @@
 						</div>
 						<img src="/jsp/temp/thumbnail1.jpg" class="img-responsive" alt="thumbnail1" />
 					</div>
-					<div class="btn-group btn-group-justified" role="group" aria-label="버튼그룹">
+					<div class="btn-group btn-group-justified mb10" role="group" aria-label="버튼그룹">
 						<div class="btn-group" role="group">
-							<button type="button" id="gameStart" class="btn btn-success"><i class="fa fa-gamepad fa-2x" aria-hidden="true"></i> 게임시작</button>
+							<button type="button" id="gameStart" class="btn btn-success"><i class="fa fa-play" aria-hidden="true"></i> 게임시작</button>
 					  	</div>
 					  	<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default"><i class="fa fa-heart fa-2x" aria-hidden="true"></i> 좋아요</button>
+							<button type="button" class="btn btn-default"><i class="fa fa-heart" aria-hidden="true"></i> 좋아요</button>
 					  	</div>
 					</div>
 					<footer>
@@ -59,11 +59,62 @@
 							<i class="fa fa-heart" aria-hidden="true"></i> 200명
 						</div>
 						<div class="replyInfo fr">
-							댓글 0개
+							댓글 10개
 						</div>
 					</footer>
 				</div>
 			</article>
+			<div class="replyArea">
+				<div class="dis-fl mb10">
+					<div class="userImage mr10">
+						<img src="/jsp/temp/userSample1.jpg" />
+					</div>
+					<input type="text" id="userReplyInput" class="form-control" placeholder="댓글을 입력하세요..." />
+					<button type="submit" class="btn btn-default ml10">게시</button>
+				</div>
+				<div class="replyItems">
+					<div class="userImage mr10">
+						<img src="/jsp/temp/userSample2.jpg" />
+					</div>
+					<div class="replyItem">
+						<div class="replyWriter">
+							<strong>신광호</strong>
+							<span>30분 전</span>
+						</div>
+						<div class="replyContent">
+							재밌음!!
+						</div>
+					</div>
+				</div>
+				<div class="replyItems">
+					<div class="userImage mr10">
+						<img src="/jsp/temp/userSample3.jpg" />
+					</div>
+					<div class="replyItem">
+						<div class="replyWriter">
+							<strong>이성호</strong>
+							<span>4시간 전</span>
+						</div>
+						<div class="replyContent">
+							너무 어려운데ㅠㅠ
+						</div>
+					</div>
+				</div>
+				<div class="replyItems">
+					<div class="userImage mr10">
+						<img src="/jsp/temp/userSample1.jpg" />
+					</div>
+					<div class="replyItem">
+						<div class="replyWriter">
+							<strong>남병우</strong>
+							<span>1일 전</span>
+						</div>
+						<div class="replyContent">
+							깨볼사람은 깨봐~~~~ㅋㅋㅋㅋ
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>	
 	</body>
 </html>

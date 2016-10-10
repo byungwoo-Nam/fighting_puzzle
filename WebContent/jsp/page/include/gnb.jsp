@@ -13,6 +13,11 @@
 		<div><s:property value="#title" /></div>
 	</div>
 </s:if>
+<s:elseif test="#option == 'login'">
+	<div class="gnbArea-view">
+		<div><s:property value="#title" /></div>
+	</div>
+</s:elseif>
 <s:else>
 	<div class="gnbArea">
 		<div data-url="/index.do" <s:if test="#request['struts.actionMapping'].name.equals('index')">class="on"</s:if>><i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i></div>

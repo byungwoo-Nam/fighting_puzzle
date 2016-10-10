@@ -4,26 +4,30 @@
 <!DOCTYPE html>
 <html lang="ko">
 	<head>
-		<jsp:include page="/jsp/page/include/head.jsp" flush="false" />
+		<s:include value="/jsp/page/include/head.jsp" />
 		<script type="text/javascript">
 			$(function(){
 			});
 		</script>
 	</head>
-	<body class="indexBG" style="background: black;">
-		<form id="loginForm" name="login" class="mt200 mb100" method="post" action="<s:url namespace="/" action="loginAction" />" autocomplete="off">
-			<div class="loginDiv" >
-				<div class="logo mainLogo mb10"></div>
-				<div class="mb10">
-					<div>
-						<input type="text" id="admin_id" name="admin_id" placeholder="아이디" value="${admin_id}" autofocus />
-					</div>
-					<div class="mt15">
-						<input type="password" id="admin_pw" name="admin_pw" placeholder="비밀번호" value="${admin_pw}" />
-					</div>
-				</div>
-				<input type="submit" id="loginBtn" class="loginBtn btn1 mt10 center" value="로그인" />
+	<body>
+		<s:include value="/jsp/page/include/gnb.jsp" >
+			<s:param name="option">login</s:param>
+			<s:param name="title">Fighting Photo Puzzle</s:param>
+		</s:include>
+		<div class="container loginArea">
+			<div class="ta-c mb10">
+				<strong class="dis-b">보유하신 SNS계정을 사용하여 로그인 가능합니다.</strong>
+				<strong class="dis-b">원하시는 로그인 SNS 버튼을 클릭해주세요.</strong>
 			</div>
-		</form>
+			<div class="snsLogos">
+				<div class="snsLogo">
+					<img src="/jsp/img/facebook_logo.png" />
+				</div>	
+				<div class="snsLogo">
+					<img src="/jsp/img/kakaotalk_logo.jpg" />
+				</div>	
+			</div>	
+		</div>
 	</body>
 </html>

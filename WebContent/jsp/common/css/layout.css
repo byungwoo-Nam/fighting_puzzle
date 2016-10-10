@@ -58,6 +58,24 @@
 	color: #90949c;
 }
 
+/*** 로그인페이지 ***/
+.loginArea{
+	padding-top: 50px;
+    overflow-y: hidden;
+}
+
+.snsLogos{
+	display:flex;
+}
+
+.snsLogo{
+	width:45%;
+}
+
+.snsLogo img{
+	width:100%;
+}
+
 /*** view 공통 ***/
 .site-wrapper{
 	margin-top:50px;
@@ -152,14 +170,62 @@ article footer{
 }
 
 /*** view ***/
+#a_puzzleMain{
+	margin-bottom:2px;
+}
+
 #a_puzzleMain .contentArea img{
 	width:100%;
 }
 
+/*** 댓글영역 ***/
+.replyArea{
+	padding: 10px 10px;
+	background-color:#f3f3f3;
+}
+
+.replyArea .userImage{
+    height: 40px;
+    width: 40px;
+    border-radius: 1000px;
+    overflow:hidden;
+}
+
+.replyArea .userImage img{
+    width: 100%;
+    height: auto;
+}
+
+.replyArea #userReplyInput{
+	flex:1;
+}
+
+.replyArea .replyItems{
+	border-top: 1px solid #DDDFE2;
+	padding: 10px 0;
+	display:flex;
+}
+
+.replyArea .replyItems .replyItem{
+	flex:1;
+}
+
+.replyArea .replyItems .replyItem .replyWriter span{
+	margin-left:5px;
+	color:#90949c;
+}
+
+
+/*** game화면 ***/
 #a_puzzleGame, #a_puzzleGame>div, #a_puzzleGame .contentArea, #a_puzzleGame .contentArea #imgArea{
 	height:100%;
 }
 
 #a_puzzleGame{
 	margin:0;
+}
+
+#a_puzzleGame .ui-draggable-dragging{
+	opacity:0.5;
+	z-index:9999;
 }
