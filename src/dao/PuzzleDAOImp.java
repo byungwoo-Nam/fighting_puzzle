@@ -86,11 +86,11 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 			sql += "	SELECT P.user_seq, P.puzzleURL, U.name AS userName, U.pictureUrl AS userPicture, \n";
 			sql += "	P.SEQ,	\n";
 			sql += "	CASE		\n";
-//			sql += "	WHEN DATE_FORMAT(P.regDate,'%p') = 'AM' THEN 		\n";
-//			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
-//			sql += "	ELSE		\n";
-//			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
-//			sql += "	END AS REGDATE, P.regDate as orig_regdate		\n";
+			sql += "	WHEN DATE_FORMAT(P.regDate,'%p') = 'AM' THEN 		\n";
+			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
+			sql += "	ELSE		\n";
+			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
+			sql += "	END AS REGDATE, P.regDate as orig_regdate		\n";
 		}
         sql += " FROM "+ table_name + " P JOIN USER U ON P.user_seq = U.seq WHERE :one = :one \n";
         if(whereMap!=null && !whereMap.isEmpty()){
