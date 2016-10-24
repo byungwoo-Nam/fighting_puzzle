@@ -3,19 +3,27 @@
 <struts>
 	<package name="basic" namespace="/" extends="fighting_puzzle">
 		<!-- 메인 -->
-		<action name="index" class="action.basic.Index">
+		<action name="index" class="action.puzzle.Puzzle" method="getList">
+			<param name="pageKind">index</param>
 			<result>/jsp/page/index.jsp</result>
 		</action>	
 		
-		<action name="loginTest" class="action.basic.Index">
-			<result>/jsp/page/common/login.jsp</result>
+		<!-- 페이스북 로그인 -->
+		<action name="loginAPI" class="action.basic.Login" method="callAPI">
+			<result type="httpheader">
+				<param name="status">301</param>
+				<param name="headers.Location">${apiURL}</param>
+			</result>
 		</action>	
 		
-		<!--예시
-		<action name="ipApporveList" class="action.ip.IpAction" method="IpList">
-		  <result>/jsp/admin/ip/ipApporveList.jsp</result>
-		  <result name="EXCEL">/jsp/admin/ip/ipListExcelDownload.jsp</result>
-		</action>
-		-->
+		<!-- 로그인 DB 및 세션 처리 -->
+		<action name="loginCallback" class="action.basic.Login" method="callBack">
+			<result type="redirectAction">
+		  		<param name="namespace">${nextActionNamespace}</param>
+		  		<param name="actionName">${nextActionName}</param>
+    	  	</result>
+			<result name="validation">/jsp/common/login.jsp</result>
+		</action>			
+
 	</package>
 </struts>

@@ -53,6 +53,28 @@ public class StringUtil {
 	}
 	
 	/**
+	 * TODO 쿼리스트링을 json으로 변환한다
+	 * 
+	 * @param s : 대상 쿼리스트링 <br>
+	 * @return String <br>
+	 */
+	public static String querystringToJson(String s) {
+        String res = "{\"";
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '=') {
+                res += "\"" + ":" + "\"";
+            } else if (s.charAt(i) == '&') {
+                res += "\"" + "," + "\"";
+            } else {
+                res += s.charAt(i);
+            }
+        }
+        res += "\"" + "}";
+        return res;
+    }
+	
+	/**
 	 * TODO NVL 함수처럼 null인 것을 다른 문자로 치환한다.
 	 * 
 	 * @param str1	: 비교할 문자 <br>
@@ -75,7 +97,7 @@ public class StringUtil {
 	}	
 	
 	/**
-	 * TODO string to boolean 변환
+	 * TODO long to int 변환
 	 * 
 	 * @param l : 변환할 long데이터 <br>
 	 * @return int <br>
@@ -88,178 +110,178 @@ public class StringUtil {
 	    return i;
 	}
 	
-	/**
-	 * TODO 객체에 gson형식으로 다른 객체 추가
-	 * 
-	 * @param str1 : 원본gson문자열 <br>
-	 * @param str2 : 추가할gson문자열 값 <br>
-	 * @param str3 : 추가할gson문자열 키 <br>
-	 * @return String <br>
-	 */
-	public static String addObjectGson(String str1, String str2, String str3){
-		return str1.substring(0, str1.length()-1) + ",\"" + str3 + "\":" + str2 + "}";
-	}	
-	
-	/**
-	 * TODO 아이디 validation 체크.
-	 * 
-	 * @param str : 체크할 아이디 <br>
-	 * @return boolean <br>
-	 */
-	public boolean id_validation(String str){
-		// 5~19자의 영문 대 소문자, 숫자 사용 가능
-		String strRegex = "^[A-Za-z0-9]{5,19}$";
-		return str.matches(strRegex);
-	}
-	
-	/**
-	 * TODO 패스워드 validation 체크.
-	 * 
-	 * @param str : 체크할 패스워드 <br>
-	 * @return boolean <br>
-	 */
-	public boolean pw_validation(String str){
-		// 6~16자의 영문 대 소문자, 숫자, 특수문자 사용 가능
-		String strRegex = "^[A-Za-z0-9~!@#$%<>^&*()-=+_\']{6,16}$";
-		return str.matches(strRegex);
-	}	
-	
-	/**
-	 * TODO 휴대폰번호 validation 체크.
-	 * 
-	 * @param num1 : 휴대폰번호 앞자리 <br>
-	 * @param num2 : 휴대폰번호 중간자리 <br>
-	 * @param num3 : 휴대폰번호 뒷자리 <br>
-	 * @param num1Map : 휴대폰번호 앞자리가 명시되어있는 맵
-	 * @return boolean <br>
-	 */
-	public boolean mobileNumber_validation(String num1, String num2, String num3, LinkedHashMap num1Map){
-		String strRegex = "[0-9]{3,4}";
-		int falseCnt = 0;
-		falseCnt = num1Map.containsKey(num1) ? falseCnt : falseCnt+1;
-		falseCnt = num2.matches(strRegex) ? falseCnt : falseCnt+1;
-		strRegex = "[0-9]{4}";
-		falseCnt = num3.matches(strRegex) ? falseCnt : falseCnt+1;
-		return falseCnt > 0  ? false : true;
-	}
-	
-	/**
-	 * TODO 16진수 색상 체크.
-	 * 
-	 * @param strList : 색상값 <br>
-	 * @return boolean <br>
-	 */
-	public boolean colorHex_validation(List<String> strList){
-		for(String code : strList){
-			String strRegex = "^#?([a-f0-9]{6}|[a-f0-9]{3})$";
-			if(!code.matches(strRegex)){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * TODO String -> Hex 변환.
-	 * 
-	 * @param str : 변환할 String <br>
-	 * @return String <br>
-	 */
-	public static String stringToHex(String str) {
-		char[] chars = str.toCharArray();
-		StringBuffer strBuffer = new StringBuffer();
-		for (int i = 0; i < chars.length; i++) {
-			strBuffer.append(Integer.toHexString((int) chars[i]));
-		}
-		return strBuffer.toString();
-	}
-	
-	/**
-	 * TODO Hex -> String 변환.
-	 * 
-	 * @param hexText : 변환할 hexText <br>
-	 * @return String <br>
-	 */
-	public static String hexToString(String hexText) {
-
-		String decodedText = "";
-		String chunk = null;
-
-		if (hexText != null && hexText.length() > 0) {
-			int numBytes = hexText.length() / 2;
-
-			byte[] rawToByte = new byte[numBytes];
-			int offset = 0;
-			int bCounter = 0;
-			for (int i = 0; i < numBytes; i++) {
-				chunk = hexText.substring(offset, offset + 2);
-				offset += 2;
-				rawToByte[i] = (byte) (Integer.parseInt(chunk, 16) & 0x000000FF);
-			}
-			decodedText = new String(rawToByte);
-		}
-		return decodedText;
-	}
-	
-	/**
-	 * TODO int형 문자열 숫자 제외한 모든 문자 제거.
-	 * 
-	 * @param str : 변환할 str <br>
-	 * @return String <br>
-	 */
-	public static String removeStrType(String str) {
-		String strRegex = "[^0-9]";
-		return str.replaceAll(strRegex, "");
-	}
-	
-	/**
-	 * TODO 천단위 콤마표시
-	 * 
-	 * @param str : 표시할 str <br>
-	 * @return String <br>
-	 */
-	public static String addMoneyComma(String str) {
-		return String.format("%,d", Integer.parseInt(str));
-	}
-	
-	/**
-	 * TODO 10진수 정수 체크
-	 * 
-	 * @param str : 체크할 str <br>
-	 * @return boolean <br>
-	 */
-	public static boolean isStringInt(String str) {
-		try{
-			Integer.parseInt(str);
-			return true;
-		}catch(NumberFormatException e) {
-			return false;
-		}
-	}
-	
-	/**
-	 * TODO list -> string으로 변환 (java8에 추가됨 String.join())
-	 * 
-	 * @param list : 변환할 리스트 <br>
-	 * @return String <br>
-	 */
-	public static String arrayToString(List list) {
-		String temp = list.toString();
-		temp = temp.replaceAll("\\s", "");
-		temp = temp.substring(1, temp.length()-1);
-		return temp;
-	}
-	
-	/**
-	 * TODO DATE정보 간단히 표시(년월일까지)
-	 * 
-	 * @param date : date형 string <br>
-	 * @return String <br>
-	 */
-	public static String simpleDate(String date){
-		return date.substring(0,10);
-	}
-	
+//	/**
+//	 * TODO 객체에 gson형식으로 다른 객체 추가
+//	 * 
+//	 * @param str1 : 원본gson문자열 <br>
+//	 * @param str2 : 추가할gson문자열 값 <br>
+//	 * @param str3 : 추가할gson문자열 키 <br>
+//	 * @return String <br>
+//	 */
+//	public static String addObjectGson(String str1, String str2, String str3){
+//		return str1.substring(0, str1.length()-1) + ",\"" + str3 + "\":" + str2 + "}";
+//	}	
+//	
+//	/**
+//	 * TODO 아이디 validation 체크.
+//	 * 
+//	 * @param str : 체크할 아이디 <br>
+//	 * @return boolean <br>
+//	 */
+//	public boolean id_validation(String str){
+//		// 5~19자의 영문 대 소문자, 숫자 사용 가능
+//		String strRegex = "^[A-Za-z0-9]{5,19}$";
+//		return str.matches(strRegex);
+//	}
+//	
+//	/**
+//	 * TODO 패스워드 validation 체크.
+//	 * 
+//	 * @param str : 체크할 패스워드 <br>
+//	 * @return boolean <br>
+//	 */
+//	public boolean pw_validation(String str){
+//		// 6~16자의 영문 대 소문자, 숫자, 특수문자 사용 가능
+//		String strRegex = "^[A-Za-z0-9~!@#$%<>^&*()-=+_\']{6,16}$";
+//		return str.matches(strRegex);
+//	}	
+//	
+//	/**
+//	 * TODO 휴대폰번호 validation 체크.
+//	 * 
+//	 * @param num1 : 휴대폰번호 앞자리 <br>
+//	 * @param num2 : 휴대폰번호 중간자리 <br>
+//	 * @param num3 : 휴대폰번호 뒷자리 <br>
+//	 * @param num1Map : 휴대폰번호 앞자리가 명시되어있는 맵
+//	 * @return boolean <br>
+//	 */
+//	public boolean mobileNumber_validation(String num1, String num2, String num3, LinkedHashMap num1Map){
+//		String strRegex = "[0-9]{3,4}";
+//		int falseCnt = 0;
+//		falseCnt = num1Map.containsKey(num1) ? falseCnt : falseCnt+1;
+//		falseCnt = num2.matches(strRegex) ? falseCnt : falseCnt+1;
+//		strRegex = "[0-9]{4}";
+//		falseCnt = num3.matches(strRegex) ? falseCnt : falseCnt+1;
+//		return falseCnt > 0  ? false : true;
+//	}
+//	
+//	/**
+//	 * TODO 16진수 색상 체크.
+//	 * 
+//	 * @param strList : 색상값 <br>
+//	 * @return boolean <br>
+//	 */
+//	public boolean colorHex_validation(List<String> strList){
+//		for(String code : strList){
+//			String strRegex = "^#?([a-f0-9]{6}|[a-f0-9]{3})$";
+//			if(!code.matches(strRegex)){
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
+//	
+//	/**
+//	 * TODO String -> Hex 변환.
+//	 * 
+//	 * @param str : 변환할 String <br>
+//	 * @return String <br>
+//	 */
+//	public static String stringToHex(String str) {
+//		char[] chars = str.toCharArray();
+//		StringBuffer strBuffer = new StringBuffer();
+//		for (int i = 0; i < chars.length; i++) {
+//			strBuffer.append(Integer.toHexString((int) chars[i]));
+//		}
+//		return strBuffer.toString();
+//	}
+//	
+//	/**
+//	 * TODO Hex -> String 변환.
+//	 * 
+//	 * @param hexText : 변환할 hexText <br>
+//	 * @return String <br>
+//	 */
+//	public static String hexToString(String hexText) {
+//
+//		String decodedText = "";
+//		String chunk = null;
+//
+//		if (hexText != null && hexText.length() > 0) {
+//			int numBytes = hexText.length() / 2;
+//
+//			byte[] rawToByte = new byte[numBytes];
+//			int offset = 0;
+//			int bCounter = 0;
+//			for (int i = 0; i < numBytes; i++) {
+//				chunk = hexText.substring(offset, offset + 2);
+//				offset += 2;
+//				rawToByte[i] = (byte) (Integer.parseInt(chunk, 16) & 0x000000FF);
+//			}
+//			decodedText = new String(rawToByte);
+//		}
+//		return decodedText;
+//	}
+//	
+//	/**
+//	 * TODO int형 문자열 숫자 제외한 모든 문자 제거.
+//	 * 
+//	 * @param str : 변환할 str <br>
+//	 * @return String <br>
+//	 */
+//	public static String removeStrType(String str) {
+//		String strRegex = "[^0-9]";
+//		return str.replaceAll(strRegex, "");
+//	}
+//	
+//	/**
+//	 * TODO 천단위 콤마표시
+//	 * 
+//	 * @param str : 표시할 str <br>
+//	 * @return String <br>
+//	 */
+//	public static String addMoneyComma(String str) {
+//		return String.format("%,d", Integer.parseInt(str));
+//	}
+//	
+//	/**
+//	 * TODO 10진수 정수 체크
+//	 * 
+//	 * @param str : 체크할 str <br>
+//	 * @return boolean <br>
+//	 */
+//	public static boolean isStringInt(String str) {
+//		try{
+//			Integer.parseInt(str);
+//			return true;
+//		}catch(NumberFormatException e) {
+//			return false;
+//		}
+//	}
+//	
+//	/**
+//	 * TODO list -> string으로 변환 (java8에 추가됨 String.join())
+//	 * 
+//	 * @param list : 변환할 리스트 <br>
+//	 * @return String <br>
+//	 */
+//	public static String arrayToString(List list) {
+//		String temp = list.toString();
+//		temp = temp.replaceAll("\\s", "");
+//		temp = temp.substring(1, temp.length()-1);
+//		return temp;
+//	}
+//	
+//	/**
+//	 * TODO DATE정보 간단히 표시(년월일까지)
+//	 * 
+//	 * @param date : date형 string <br>
+//	 * @return String <br>
+//	 */
+//	public static String simpleDate(String date){
+//		return date.substring(0,10);
+//	}
+//	
 //	/**
 //	 * TODO 이름 validation 체크.
 //	 * 

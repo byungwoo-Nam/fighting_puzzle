@@ -52,11 +52,11 @@ public class SessionInterceptor extends AbstractInterceptor {
     	
     	boolean isMobile = (request.getHeader("User-Agent").toLowerCase().replaceAll("","")).indexOf("mobile") != -1 ? true : false;
     	
-    	boolean isNoneSessionPage = context.getName().equals("login") || context.getName().equals("adminLogin") || context.getName().equals("logoutAction") || context.getName().equals("notMobile");
+    	boolean isNoneSessionPage = context.getName().equals("login") || context.getName().equals("loginAPI") || context.getName().equals("loginCallback") || context.getName().equals("adminLogin") || context.getName().equals("logoutAction") || context.getName().equals("notMobile");
     	
     	String result = "";
     	if(false){
-//        	if(!isMobile){
+//      if(!isMobile){
     		result = "notMobile";
     	}else if(!actionConfig.ActionNameChk(context.getName())){		
     		// 1. Action이 명시되어 있는지 체크 -> 없는 액션이면 에러
@@ -64,15 +64,15 @@ public class SessionInterceptor extends AbstractInterceptor {
     	}else if(needAdminAction && !isAdminSession){
     		// 2. 관리자 페이지 불법 접근시
     		result = "/adminLogin";
-//        	}else if(!isNoneSessionPage && !isMemberSession){
-//        		// login을 제외한 그 외 모든페이지 세션 없을 때
-//        		result = "login";
-//               	if(nextActionArr.length==1){
-//            		session.put("nextActionName", nextActionArr[0]);
-//            	}else{
-//            		session.put("nextActionNamespace", nextActionArr[0]);
-//            		session.put("nextActionName", nextActionArr[1]);
-//            	}	***********************************로그인 회원 DB완성되면 주석 제거
+    	}else if(!isNoneSessionPage && !isMemberSession){
+    		// login을 제외한 그 외 모든페이지 세션 없을 때
+    		result = "login";
+           	if(nextActionArr.length==1){
+        		session.put("nextActionName", nextActionArr[0]);
+        	}else{
+        		session.put("nextActionNamespace", nextActionArr[0]);
+        		session.put("nextActionName", nextActionArr[1]);
+        	}
     	}
     	
     	System.out.println("context::::" + context.getName() + "(sessionIntercepteor.java)");

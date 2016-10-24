@@ -22,7 +22,9 @@ public class ActionConfig{
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// ----------------------------basic.xml-----------------------------
 		hashmap.put("index", 					"adminAction => false,		pageTitle => ");
-		hashmap.put("loginTest", 					"adminAction => false,		pageTitle => ");
+		hashmap.put("login", 					"adminAction => false,		pageTitle => ");
+		hashmap.put("loginAPI",				"adminAction => false,		pageTitle => ");
+		hashmap.put("loginCallback",			"adminAction => false,		pageTitle => ");
 		
 		// ----------------------------favoriteGame.xml-----------------------------
 		hashmap.put("favoriteGame", 			"adminAction => false,		pageTitle => ");
@@ -35,11 +37,13 @@ public class ActionConfig{
 		
 		// ----------------------------myPage.xml-----------------------------
 		hashmap.put("myPage",				"adminAction => false,		pageTitle => ");
+		hashmap.put("myPage2",				"adminAction => false,		pageTitle => ");
 		
 		// ----------------------------puzzle.xml-----------------------------
 		hashmap.put("puzzleMain",			"adminAction => false,		pageTitle => ");
 		hashmap.put("puzzleGame",			"adminAction => false,		pageTitle => ");
 		hashmap.put("puzzleWrite",			"adminAction => false,		pageTitle => ");
+		hashmap.put("puzzleWriteAction",	"adminAction => false,		pageTitle => ");
 		
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,15 +82,4 @@ public class ActionConfig{
 			return true;
 		}
 	}
-	
-	/*
-	private boolean sessionLevChk(String[] attrList, String userLev){		// 접근권한체크(LEV)
-		for(int i=0; i<attrList.length; i++){
-			if(attrList[i].equals(code.getMemberLevCodeMap().get(userLev))){		// 접근 가능한 lev 인지 체크
-				return true;			// 일치 할 경우 true
-			}
-		}
-		return false;
-	}
-	*/
 }

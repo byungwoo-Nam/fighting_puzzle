@@ -2,24 +2,22 @@
 "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<package name="puzzle" namespace="/puzzle" extends="fighting_puzzle">
-		<!-- 나의 게임 -->
-		<action name="puzzleMain" class="action.basic.Index">
+		<!-- 퍼즐 -->
+		<action name="puzzleMain" class="action.puzzle.Puzzle">
 			<result>/jsp/page/puzzle/puzzleMain.jsp</result>
 		</action>		
 		
-		<action name="puzzleGame" class="action.basic.Index">
+		<action name="puzzleGame" class="action.puzzle.Puzzle">
 			<result>/jsp/page/puzzle/puzzleGame.jsp</result>
 		</action>
 		
-		<action name="puzzleWrite" class="action.basic.Index">
+		<action name="puzzleWrite" class="action.puzzle.Puzzle">
 			<result>/jsp/page/puzzle/puzzleWrite.jsp</result>
 		</action>	
 		
-		<!--예시
-		<action name="ipApporveList" class="action.ip.IpAction" method="IpList">
-		  <result>/jsp/admin/ip/ipApporveList.jsp</result>
-		  <result name="EXCEL">/jsp/admin/ip/ipListExcelDownload.jsp</result>
-		</action>
-		-->
+		<action name="puzzleWriteAction" class="action.puzzle.Puzzle" method="writeAction">
+			<result>/jsp/page/index.jsp</result>
+		</action>	
+
 	</package>
 </struts>

@@ -7,6 +7,11 @@
 		<s:include value="/jsp/page/include/head.jsp" />
 		<script type="text/javascript">
 			$(function(){
+				$(".snsLogo img").click(function(){
+					var sns = $(this).attr("alt");
+					$(location).attr("href","/loginAPI.do?state="+sns);
+					e.preventDefault();
+				});
 			});
 		</script>
 	</head>
@@ -22,10 +27,10 @@
 			</div>
 			<div class="snsLogos">
 				<div class="snsLogo">
-					<img src="/jsp/img/facebook_logo.png" />
+					<img src="/jsp/img/facebook_logo.png" alt="facebook" />
 				</div>	
 				<div class="snsLogo">
-					<img src="/jsp/img/kakaotalk_logo.jpg" />
+					<img src="/jsp/img/kakaotalk_logo.jpg" alt="kakao" />
 				</div>	
 			</div>	
 		</div>

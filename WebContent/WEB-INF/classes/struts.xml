@@ -20,7 +20,7 @@
 		
 	    <global-results>
 	    	<result name="notMobile">/jsp/page/common/notMobile.jsp</result>
-	        <!--  <result name="login">/jsp/page/common/login.jsp</result> -->
+	        <result name="login">/jsp/page/common/login.jsp</result>
 	        <result name="logout" type="redirectAction">
 				<param name="namespace">/</param>
 				<param name="actionName">logoutAction</param>

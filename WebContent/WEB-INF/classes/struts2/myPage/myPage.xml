@@ -2,16 +2,14 @@
 "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<package name="myPage" namespace="/myPage" extends="fighting_puzzle">
-		<!-- 나의 게임 -->
+		<!-- 마이페이지 -->
 		<action name="myPage" class="action.basic.Index">
 			<result>/jsp/page/myPage/myPage.jsp</result>
 		</action>		
 		
-		<!--예시
-		<action name="ipApporveList" class="action.ip.IpAction" method="IpList">
-		  <result>/jsp/admin/ip/ipApporveList.jsp</result>
-		  <result name="EXCEL">/jsp/admin/ip/ipListExcelDownload.jsp</result>
-		</action>
-		-->
+		<action name="myPage2" class="action.basic.Index">
+			<result>/jsp/page/myPage/myPage2.jsp</result>
+		</action>	
+
 	</package>
 </struts>
