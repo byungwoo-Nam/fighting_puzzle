@@ -44,9 +44,10 @@
 		</script>
 	</head>
 	<body>
+		<s:set name="data" value='puzzleDTO' />
 		<s:include value="/jsp/page/include/gnb.jsp">
 			<s:param name="option">view</s:param>
-			<s:param name="title">남병우님의 퍼즐</s:param>
+			<s:param name="title">${data.userName}님의 퍼즐</s:param>
 		</s:include> 
 		<div class="site-wrapper">			
 			<article id="a_puzzleGame">
@@ -77,7 +78,7 @@
 						</div>
 						 -->
 						<div id="imgArea">
-							<img id="gameImg" src="/jsp/temp/thumbnail1.jpg" alt="thumbnail1" />
+							<img id="gameImg" src="${data.puzzleUrl}" alt="thumbnail1" />
 						</div>
 					</div>
 				</div>

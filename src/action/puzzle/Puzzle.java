@@ -33,6 +33,16 @@ public class Puzzle extends ActionSupport  {
 	private JSONObject paramJson = new JSONObject();
 	private JSONObject whereJson = new JSONObject();
 	
+	private int sortCol = 0;											// 	정렬 컬럼
+    private String sortVal = "";										// 	정렬 내용
+    
+	private JSONObject sortColKindJson = new JSONObject() {{
+		// db상의 name과 매칭
+		put(0,"P.seq");				// 기본값 정렬
+		put(1,"P.seq");				// 등록번호 정렬
+	}};
+	
+	private int seq;				//	퍼즐seq
 	private int user_seq;		//	회원seq
 	private String pageKind;	//	호출한 페이지 종류
 	
@@ -64,9 +74,25 @@ public class Puzzle extends ActionSupport  {
 	public String getList() throws Exception{
 		init();
 		
+		this.sortCol = this.sortColKindJson.containsKey(this.sortCol) ? this.sortCol : 0;
+		this.sortVal = this.sortVal.equals("ASC") ? "ASC" : "DESC";
+		this.paramJson.put("sortCol", this.sortColKindJson.get(this.sortCol));
+		this.paramJson.put("sortVal", this.sortVal);
+		
 		this.dataList = (List<PuzzleDTO>)this.fightingPuzzleDAO.getList(this.paramJson);
 		
-		System.out.println(this.dataList);
+		return SUCCESS;
+	}
+	
+	public String getData() throws Exception{
+		init();
+		
+		this.whereJson.put("P.seq", this.seq);
+		this.paramJson.put("whereJson", this.whereJson);
+		
+		this.puzzleDTO = (PuzzleDTO) this.fightingPuzzleDAO.getOneRow(this.paramJson);
+		
+		System.out.println(this.puzzleDTO);
 		
 		return SUCCESS;
 	}

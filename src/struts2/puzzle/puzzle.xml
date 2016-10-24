@@ -3,11 +3,11 @@
 <struts>
 	<package name="puzzle" namespace="/puzzle" extends="fighting_puzzle">
 		<!-- 퍼즐 -->
-		<action name="puzzleMain" class="action.puzzle.Puzzle">
+		<action name="puzzleMain" class="action.puzzle.Puzzle" method="getData">
 			<result>/jsp/page/puzzle/puzzleMain.jsp</result>
 		</action>		
 		
-		<action name="puzzleGame" class="action.puzzle.Puzzle">
+		<action name="puzzleGame" class="action.puzzle.Puzzle" method="getData">
 			<result>/jsp/page/puzzle/puzzleGame.jsp</result>
 		</action>
 		
@@ -16,7 +16,10 @@
 		</action>	
 		
 		<action name="puzzleWriteAction" class="action.puzzle.Puzzle" method="writeAction">
-			<result>/jsp/page/index.jsp</result>
+			<result type="redirectAction">
+		  		<param name="namespace">/</param>
+		  		<param name="actionName">index</param>
+    	  	</result>
 		</action>	
 
 	</package>

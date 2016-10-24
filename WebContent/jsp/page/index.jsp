@@ -43,7 +43,7 @@
 									<a href="/" >#창조관</a>
 								</div>
 							</div>
-							<img src="<s:property value="puzzleUrl"/>" class="viewPuzzleMain img-responsive" alt="thumbnail1" />
+							<img src="<s:property value="puzzleUrl"/>" class="viewPuzzleMain img-responsive" alt="thumbnail1" data-idx="<s:property value="seq"/>" />
 						</div>
 						<footer>
 							<div class="dis-ib">

@@ -9,6 +9,8 @@
 			$(function(){
 				$("#gameStart").click(function(){
 					var url = "/puzzle/puzzleGame.do";
+					var seq = $(this).attr("data-idx");
+					url += "?seq=" + seq;
 					$(location).attr("href",url);
 					e.preventDefault();
 				});
@@ -16,16 +18,17 @@
 		</script>
 	</head>
 	<body>
+		<s:set name="data" value='puzzleDTO' />
 		<s:include value="/jsp/page/include/gnb.jsp">
 			<s:param name="option">view</s:param>
-			<s:param name="title">남병우님의 퍼즐</s:param>
+			<s:param name="title">${data.userName}님의 퍼즐</s:param>
 		</s:include> 
 		<div class="site-wrapper">			
 			<article id="a_puzzleMain">
 				<div>
 					<header>
 						<div class="userImage mr10">
-							<img src="/jsp/temp/userSample1.jpg" />
+							<img src="${data.userPicture}" />
 						</div>
 						<div class="title">
 							<div>
@@ -44,11 +47,11 @@
 								<h2 class="bestRecord bold ta-c mb10"><i class="fa fa-clock-o" aria-hidden="true"></i> 20.00초</h2>
 							</div>
 						</div>
-						<img src="/jsp/temp/thumbnail1.jpg" class="img-responsive" alt="thumbnail1" />
+						<img src="${data.puzzleUrl}" class="img-responsive" alt="thumbnail1" />
 					</div>
 					<div class="btn-group btn-group-justified mb10" role="group" aria-label="버튼그룹">
 						<div class="btn-group" role="group">
-							<button type="button" id="gameStart" class="btn btn-success"><i class="fa fa-play" aria-hidden="true"></i> 게임시작</button>
+							<button type="button" id="gameStart" class="btn btn-success" data-idx="${data.seq}"><i class="fa fa-play" aria-hidden="true"></i> 게임시작</button>
 					  	</div>
 					  	<div class="btn-group" role="group">
 							<button type="button" class="btn btn-default"><i class="fa fa-heart" aria-hidden="true"></i> 좋아요</button>

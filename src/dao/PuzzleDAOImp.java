@@ -40,12 +40,13 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 	public Object getOneRow(JSONObject paramJson) {
 		JSONObject sqlJson = new JSONObject();
 		List<PuzzleDTO> list = new ArrayList<PuzzleDTO>();
-		JSONObject whereJson = (JSONObject) (paramJson.containsKey("whereMap") ? paramJson.get("whereMap") : null);
+		JSONObject whereJson = (JSONObject) (paramJson.containsKey("whereJson") ? paramJson.get("whereJson") : null);
 		String sql = "";
 		
 		sqlJson.put("one", 1);
 		
-        sql = "	SELECT * FROM"+ table_name + "WHERE :one = :one	\n";
+        sql = "	SELECT P.*, U.name AS userName, U.pictureUrl AS userPicture FROM	" + table_name;
+        sql += "	P JOIN USER U ON P.user_seq = U.seq	WHERE :one = :one	\n		";
         if(whereJson!=null && !whereJson.isEmpty()){
             for( Object key : whereJson.keySet() ){
             	sqlJson.put(key, whereJson.get(key));
@@ -65,7 +66,7 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 		Map<String,Object> sqlMap = new HashMap<String,Object>();
 		List<PuzzleDTO> list = new ArrayList<PuzzleDTO>();
 		boolean isCount = paramJson.containsKey("isCount") ? (boolean)paramJson.get("isCount") : false;
-		Map<String, Object> whereMap = (Map<String, Object>) (paramJson.containsKey("whereMap") ? paramJson.get("whereMap") : null);
+		Map<String, Object> whereMap = (Map<String, Object>) (paramJson.containsKey("whereJson") ? paramJson.get("whereJson") : null);
 		Map<String, Object> searchMap = (Map<String, Object>) (paramJson.containsKey("searchMap") ? paramJson.get("searchMap") : null);
 		int pageNum = paramJson.containsKey("pageNum") ? (int)paramJson.get("pageNum") : 0;
 		int countPerPage = paramJson.containsKey("countPerPage") ? (int)paramJson.get("countPerPage") : 0;
@@ -85,11 +86,11 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 			sql += "	SELECT P.user_seq, P.puzzleURL, U.name AS userName, U.pictureUrl AS userPicture, \n";
 			sql += "	P.SEQ,	\n";
 			sql += "	CASE		\n";
-			sql += "	WHEN DATE_FORMAT(P.regDate,'%p') = 'AM' THEN 		\n";
-			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
-			sql += "	ELSE		\n";
-			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
-			sql += "	END AS REGDATE, P.regDate as orig_regdate		\n";
+//			sql += "	WHEN DATE_FORMAT(P.regDate,'%p') = 'AM' THEN 		\n";
+//			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
+//			sql += "	ELSE		\n";
+//			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
+//			sql += "	END AS REGDATE, P.regDate as orig_regdate		\n";
 		}
         sql += " FROM "+ table_name + " P JOIN USER U ON P.user_seq = U.seq WHERE :one = :one \n";
         if(whereMap!=null && !whereMap.isEmpty()){

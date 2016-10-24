@@ -6,6 +6,8 @@ $(document).on("click",".gnbArea div",function(e){
 
 $(document).on("click",".viewPuzzleMain",function(e){
 	var url = "/puzzle/puzzleMain.do";
+	var seq = $(this).attr("data-idx");
+	url += "?seq=" + seq;
 	$(location).attr("href",url);
 	e.preventDefault();
 });
