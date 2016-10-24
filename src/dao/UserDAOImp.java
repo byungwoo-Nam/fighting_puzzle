@@ -40,7 +40,7 @@ public class UserDAOImp implements FightingPuzzleDAO {
 	public Object getOneRow(JSONObject paramJson) {
 		JSONObject sqlJson = new JSONObject();
 		List<UserDTO> list = new ArrayList<UserDTO>();
-		JSONObject whereJson = (JSONObject) (paramJson.containsKey("whereMap") ? paramJson.get("whereMap") : null);
+		JSONObject whereJson = (JSONObject) (paramJson.containsKey("whereJson") ? paramJson.get("whereJson") : null);
 		String sql = "";
 		
 		sqlJson.put("one", 1);
