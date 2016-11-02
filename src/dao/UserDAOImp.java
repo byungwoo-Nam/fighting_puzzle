@@ -2,9 +2,7 @@ package dao;
 
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -62,11 +60,11 @@ public class UserDAOImp implements FightingPuzzleDAO {
 	
 	//	LIST
 	public Object getList(JSONObject paramJson) {
-		Map<String,Object> sqlMap = new HashMap<String,Object>();
+		JSONObject sqlJson = new JSONObject();
 		List<UserDTO> list = new ArrayList<UserDTO>();
 		boolean isCount = paramJson.containsKey("isCount") ? (boolean)paramJson.get("isCount") : false;
-		Map<String, Object> whereMap = (Map<String, Object>) (paramJson.containsKey("whereMap") ? paramJson.get("whereMap") : null);
-		Map<String, Object> searchMap = (Map<String, Object>) (paramJson.containsKey("searchMap") ? paramJson.get("searchMap") : null);
+		JSONObject whereJson = (JSONObject) (paramJson.containsKey("whereJson") ? paramJson.get("whereJson") : null);
+		JSONObject searchJson = (JSONObject) (paramJson.containsKey("searchJson") ? paramJson.get("searchJson") : null);
 		int pageNum = paramJson.containsKey("pageNum") ? (int)paramJson.get("pageNum") : 0;
 		int countPerPage = paramJson.containsKey("countPerPage") ? (int)paramJson.get("countPerPage") : 0;
 		int startNum = (pageNum-1)*countPerPage;
@@ -75,9 +73,9 @@ public class UserDAOImp implements FightingPuzzleDAO {
 		
 		String sql = "";
 		
-		sqlMap.put("one", 1);
-		sqlMap.put("startNum", startNum);
-		sqlMap.put("countPerPage", countPerPage);
+		sqlJson.put("one", 1);
+		sqlJson.put("startNum", startNum);
+		sqlJson.put("countPerPage", countPerPage);
 		
 		if(isCount){
 			sql += "	SELECT COUNT(*)	\n";
@@ -92,15 +90,15 @@ public class UserDAOImp implements FightingPuzzleDAO {
 			sql += "	END AS REGDATE, regdate as orig_regdate		\n";
 		}
         sql += " FROM "+ table_name + " T WHERE :one = :one \n";
-        if(whereMap!=null && !whereMap.isEmpty()){
-            for( String key : whereMap.keySet() ){
-            	sqlMap.put(key, whereMap.get(key));
+        if(whereJson!=null && !whereJson.isEmpty()){
+            for( Object key : whereJson.keySet() ){
+            	sqlJson.put(key, whereJson.get(key));
             	sql += " and " + key + " = :"+key+"		\n";
             }
         }
-        if(searchMap!=null && !searchMap.isEmpty()){
-            for( String key : searchMap.keySet() ){
-            	sqlMap.put(key, "%" + searchMap.get(key) + "%");
+        if(searchJson!=null && !searchJson.isEmpty()){
+            for( Object key : searchJson.keySet() ){
+            	sqlJson.put(key, "%" + searchJson.get(key) + "%");
             	sql += " and LOWER( "+key+" ) like LOWER( :"+key+" )";
             }
         }
@@ -117,9 +115,9 @@ public class UserDAOImp implements FightingPuzzleDAO {
         System.out.println("sql:::"+sql);
         
         if(isCount){
-        	return this.jdbcTemplate.queryForInt(sql,sqlMap);
+        	return this.jdbcTemplate.queryForInt(sql,sqlJson);
 		}else{
-			list  = this.jdbcTemplate.query(sql, sqlMap, new BeanPropertyRowMapper(UserDTO.class));
+			list  = this.jdbcTemplate.query(sql, sqlJson, new BeanPropertyRowMapper(UserDTO.class));
 	        return list;
 		}
 	}
@@ -159,25 +157,18 @@ public class UserDAOImp implements FightingPuzzleDAO {
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 		String sql = "";
 		sql += "	UPDATE " + table_name + " SET	\n";
-		sql += "	name = :name, tel1 = :tel1, tel2 = :tel2, tel3 = :tel3	\n";
+		sql += "	name = :name, pictureUrl = :pictureUrl	\n";
 		
 		if(!((UserDTO)dto).getId().equals("")){
 			sql += ", id = :id	\n";
 			paramSource.addValue("id", ((UserDTO)dto).getId(), Types.VARCHAR);
 		}
 		
-//		if(!((UserDTO)dto).getPw().equals("")){
-//			sql += ", pw = :pw	\n";
-//			paramSource.addValue("pw", ((UserDTO)dto).getPw(), Types.VARCHAR);
-//		}
-		
 		sql += "	where seq = :seq	\n";
 		
 		paramSource.addValue("name", ((UserDTO)dto).getName(), Types.VARCHAR);
-//		paramSource.addValue("tel1", ((UserDTO)dto).getTel1(), Types.VARCHAR);
-//		paramSource.addValue("tel2", ((UserDTO)dto).getTel2(), Types.VARCHAR);
-//		paramSource.addValue("tel3", ((UserDTO)dto).getTel3(), Types.VARCHAR);
-//		paramSource.addValue("seq", ((UserDTO)dto).getSeq(), Types.NUMERIC);
+		paramSource.addValue("pictureUrl", ((UserDTO)dto).getPictureUrl(), Types.VARCHAR);
+		paramSource.addValue("seq", ((UserDTO)dto).getSeq(), Types.NUMERIC);
 		
 		if(this.jdbcTemplate.update(sql, paramSource) > 0){
 			return ((UserDTO)dto).getSeq();

@@ -25,6 +25,7 @@ public class ActionConfig{
 		hashmap.put("login", 					"adminAction => false,		pageTitle => ");
 		hashmap.put("loginAPI",				"adminAction => false,		pageTitle => ");
 		hashmap.put("loginCallback",			"adminAction => false,		pageTitle => ");
+		hashmap.put("logout",					"adminAction => false,		pageTitle => ");
 		
 		// ----------------------------favoriteGame.xml-----------------------------
 		hashmap.put("favoriteGame", 			"adminAction => false,		pageTitle => ");

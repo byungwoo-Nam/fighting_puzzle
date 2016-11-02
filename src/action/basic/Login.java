@@ -18,6 +18,7 @@ import dao.FightingPuzzleDAO;
 import dto.UserDTO;
 import lombok.Data;
 import util.api.Facebook;
+import util.api.Kakao;
 import util.config.CodeConfig;
 
 @Data
@@ -26,6 +27,7 @@ public class Login extends ActionSupport  {
 	private ActionContext context;
 	private WebApplicationContext wac;
 	private Facebook facebook;
+	private Kakao kakao;
 	private FightingPuzzleDAO fightingPuzzleDAO;
 	
 	private JSONObject paramJson = new JSONObject();
@@ -57,9 +59,12 @@ public class Login extends ActionSupport  {
 	
 	//	sns api 호출 세팅
 	public String callAPI() throws Exception {
-		if(state.equals("facebook")){
+		if(this.state.equals("facebook")){
 			this.facebook = new Facebook();
 			this.apiURL = this.facebook.getLoginAPI();
+		}else if(this.state.equals("kakao")){
+			this.kakao = new Kakao();
+			this.apiURL = this.kakao.getLoginAPI();
 		}
 		return SUCCESS;
 	}
@@ -72,15 +77,24 @@ public class Login extends ActionSupport  {
 		UserDTO userDTO = null; 
 		if(state.equals("facebook")){
 			this.facebook = new Facebook();
-			userObject = facebook.getUser(code);
+			userObject = this.facebook.getUser(this.code);
+			if(userObject==null){
+				return "error";
+			}
 			userObject.put("snsCode", 1);
-			userObject.put("pictureUrl", facebook.getGraphURL() + "/" + userObject.get("id") + "/picture");
+			userObject.put("pictureUrl", facebook.getProfileURL() + "/" + userObject.get("id") + "/picture");
+		}else if(state.equals("kakao")){
+			this.kakao = new Kakao();
+			userObject = this.kakao.getUser(this.code);
+			if(userObject==null){
+				return "error";
+			}
+			userObject.put("snsCode", 2);
+			userObject.put("name", userObject.get("nickName"));
+			userObject.put("pictureUrl", userObject.remove("profileImageURL"));
+			
 		}
 		
-		if(userObject==null){
-			return "error";
-		}
-
 		this.whereJson.put("snsCode", userObject.get("snsCode"));
 		this.whereJson.put("id", userObject.get("id"));
 		this.paramJson.put("whereJson", this.whereJson);
@@ -90,10 +104,12 @@ public class Login extends ActionSupport  {
 		
 		if(userDTO == null){
 			// 새로 등록
-			System.out.println("새로등록");
 			userDTO = gson.fromJson(userObject.toJSONString(), UserDTO.class);
 			user_seq = this.fightingPuzzleDAO.write(userDTO);
 		}else{
+			userDTO.setName(userObject.get("name").toString());
+			userDTO.setPictureUrl(userObject.get("pictureUrl").toString());
+			this.fightingPuzzleDAO.update(userDTO);
 			user_seq = userDTO.getSeq();
 		}
 		
@@ -113,5 +129,12 @@ public class Login extends ActionSupport  {
 		this.context.setSession(this.session);
 		
 		return SUCCESS;
+	}
+	
+	public String logout(){
+		init();
+		this.session.clear();
+		this.context.setSession(this.session);
+		return SUCCESS;		
 	}
 }

@@ -22,8 +22,16 @@
 		  		<param name="namespace">${nextActionNamespace}</param>
 		  		<param name="actionName">${nextActionName}</param>
     	  	</result>
-			<result name="validation">/jsp/common/login.jsp</result>
-		</action>			
+			<result name="error">/jsp/page/common/error/loginError.jsp</result>
+		</action>		
+		
+		<!-- 로그아웃 -->
+		<action name="logout" class="action.basic.Login" method="logout">
+			<result type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">index</param>
+		    </result>
+		</action>		
 
 	</package>
 </struts>

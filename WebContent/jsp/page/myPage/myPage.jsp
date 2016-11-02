@@ -13,6 +13,7 @@
 	<body>
 		<s:include value="/jsp/page/include/gnb.jsp" />
 		<div class="container">
+			<a href="/logout.do" class="btn btn-primary btn-lg" role="button">로그아웃</a>
 			마이페이지!!!!!!!!!!<br/>
 			ddd테스트123<br/>
 			ddd테스트123<br/>
