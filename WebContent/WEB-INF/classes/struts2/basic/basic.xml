@@ -32,6 +32,11 @@
 				<param name="actionName">index</param>
 		    </result>
 		</action>		
+		
+		<!-- ajax FormValidate 로직-->
+		<action name="ajaxFormValidate" class="action.basic.Ajax" method="ajaxFormValidate">
+			<result>/jsp/page/common/json_result.jsp</result>
+		</action>
 
 	</package>
 </struts>

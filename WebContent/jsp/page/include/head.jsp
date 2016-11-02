@@ -23,5 +23,6 @@
 
 <script type="text/javascript">
 	$(function(){
+		$("#alertSection").hide();
 	});
 </script>

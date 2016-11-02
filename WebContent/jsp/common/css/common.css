@@ -3,6 +3,19 @@
 body{padding:0 !important; background-color:#DDDFE2;}
 h1, h2, h3, h4, h5{margin:0;}
 
+
+.alert{
+	margin: 0 !important;
+    position: fixed !important;
+    top: 0 !important;
+    width:100% !important;
+    height: 44px;
+    padding: 10px !important;
+    z-index:9999 !important;
+    text-align:center;
+}
+
+
 .btn-basic:focus, .btn-basic:hover {
     color: #ffffff;
     text-decoration: none;
@@ -13,6 +26,7 @@ h1, h2, h3, h4, h5{margin:0;}
     background-color: #007F6B;
 }
 
+.ml5{margin-left:5px !important;}
 .ml10{margin-left:10px !important;}
 .mr10{margin-right:10px !important;}
 .mb10{margin-bottom:10px !important;}

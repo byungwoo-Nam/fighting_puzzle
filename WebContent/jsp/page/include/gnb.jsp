@@ -28,3 +28,7 @@
 		<div data-url="/myPage/myPage.do" <s:if test="#request['struts.actionMapping'].name.equals('myPage')">class="on"</s:if>><i class="fa fa-user fa-2x" aria-hidden="true"></i></div>
 	</div>
 </s:else>
+<div class="alert alert-danger" id="alertSection">
+	<strong id="alertTitle"></strong>
+	<span class="ml5" id="alertMsg"></span>
+</div>
