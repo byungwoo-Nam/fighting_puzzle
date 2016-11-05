@@ -1,7 +1,10 @@
 package util.config;
 
+import java.util.List;
+
 import org.json.simple.JSONObject;
 
+import action.puzzle.Puzzle;
 import util.system.StringUtil;
 
 import lombok.Data;
@@ -37,6 +40,45 @@ public class FormValidate{
 			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
 			this.rtnJson.put("errorMsg", alertMessage.getPuzzleImageError());
 			this.rtnJson.put("elementID", "puzzleUrl_check");
+		}else if(!paramJson.containsKey("col") || paramJson.get("col").equals("") || !codeConfig.getPuzzleSizeJson().containsKey(Integer.parseInt(paramJson.get("col").toString()))){
+			// 퍼즐 가로 크기 체크
+			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
+			this.rtnJson.put("errorMsg", alertMessage.getPuzzleColError());
+			this.rtnJson.put("elementID", "col_check");
+		}else if(!paramJson.containsKey("row") || paramJson.get("row").equals("") || !codeConfig.getPuzzleSizeJson().containsKey(Integer.parseInt(paramJson.get("row").toString()))){
+			// 퍼즐 가로 크기 체크
+			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
+			this.rtnJson.put("errorMsg", alertMessage.getPuzzleRowError());
+			this.rtnJson.put("elementID", "row_check");
+		}else if(!paramJson.containsKey("hashtag") || paramJson.get("hashtag").equals("") || !stringUtil.hashtag_validation(paramJson.get("hashtag").toString())){
+			// 해시태그 체크
+			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
+			this.rtnJson.put("errorMsg", alertMessage.getPuzzleHashtagError());
+			this.rtnJson.put("elementID", "hashtag_check");
+		}else if(false){
+			// 추가 가능
+		}else{
+			this.rtnJson.put("res", true);
+		}
+		
+		return this.rtnJson;
+	}
+	
+	// 퍼즐 기록 등록/수정 체크(validation)
+	public JSONObject recordEditorForm(JSONObject paramJson) throws Exception{
+		Puzzle puzzle = new Puzzle();
+		paramJson.put("seq", paramJson.containsKey(("puzzle_seq")) ? paramJson.get("puzzle_seq") : 0);
+		puzzle.initForAjax(paramJson);
+		if(!paramJson.containsKey("puzzle_seq") || paramJson.get("puzzle_seq").equals("") || puzzle.getData() == null){
+			// 퍼즐 존재 체크
+			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
+			this.rtnJson.put("errorMsg", alertMessage.getRecordPuzzleError());
+			this.rtnJson.put("elementID", "puzzle_check");
+		}else if(!paramJson.containsKey("time") || paramJson.get("time").equals("")){
+			// 시간 체크
+			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
+			this.rtnJson.put("errorMsg", alertMessage.getRecordTimeError());
+			this.rtnJson.put("elementID", "time_check");
 		}else if(false){
 			// 추가 가능
 		}else{

@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import action.puzzle.Record;
 import lombok.Data;
 
 @Data
@@ -50,18 +51,42 @@ public class Ajax extends ActionSupport  {
 		this.isAdmin = StringUtil.stringToBool(StringUtil.isNullOrSpace((String)session.get("isAdmin"),"").trim());
 	}
 	
-	public String ajaxFormValidate(){
+	public String ajaxConnector() throws Exception{
 		init();
-		JSONObject jsonObject = (JSONObject) JSONValue.parse(data);
+		JSONObject jsonObject = (JSONObject) JSONValue.parse(this.data);
+		String ajaxMode = jsonObject.get("ajaxMode").toString();
+		if(ajaxMode.equals("formValidate")){
+			formValidate(jsonObject);
+		}else if(ajaxMode.equals("dataInsert")){
+			dataInsert(jsonObject);
+		}
+		
+		return SUCCESS;
+	}
+	
+	public void formValidate(JSONObject jsonObject){
+		init();
 		String formID = jsonObject.get("formID").toString();
 		if(formID.equals("puzzleEditorForm")){
 			this.validateMsgJson = this.formValidate.puzzleEditorForm(jsonObject);
 		}
 		
 		Gson gson = new Gson();
-		this.rtnString = gson.toJson(this.validateMsgJson);
+		this.rtnString = gson.toJson(this.validateMsgJson);		
+	}
+	
+	public void dataInsert(JSONObject jsonObject) throws Exception{
+		init();
+		System.out.println("dataIO");
+		String dataMode = jsonObject.get("dataMode").toString();
+		if(dataMode.equals("record")){
+			Record record = new Record();
+			record.initForAjax(jsonObject);
+			record.writeAction();
+		}
 		
-		return SUCCESS;		
+		Gson gson = new Gson();
+		this.rtnString = gson.toJson(this.validateMsgJson);		
 	}
 	
 //	public String ajaxGetData() throws Exception{

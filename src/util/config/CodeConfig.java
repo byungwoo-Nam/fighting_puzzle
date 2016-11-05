@@ -2,6 +2,7 @@ package util.config;
 
 import java.util.LinkedHashMap;
 import org.apache.struts2.ServletActionContext;
+import org.json.simple.JSONObject;
 
 import lombok.Data;
 import lombok.Setter;
@@ -15,12 +16,21 @@ public class CodeConfig{
 	private int serverPort = ServletActionContext.getRequest().getServerPort();
 	private String domain = this.serverScheme + "://" + this.serverName + ":" + this.serverPort + "/";
 	
-    //첨부 가능한 이미지 파일 확장자 모음
-    private LinkedHashMap attachImageFileExtMap = new LinkedHashMap() {{
+    //	첨부 가능한 이미지 파일 확장자 모음
+    private JSONObject attachImageFileExtJson = new JSONObject() {{
     	put("jpeg","jpeg");
     	put("jpg","jpg");
     	put("gif","gif");
     	put("bmp","bmp");
     	put("png","png");
+    }};
+    
+    //	퍼즐 가로-세로 수
+    private JSONObject puzzleSizeJson = new JSONObject() {{
+    	put(3, 3);
+    	put(4, 4);
+    	put(5, 5);
+    	put(6, 6);
+    	put(7, 7);
     }};
 }

@@ -13,6 +13,13 @@ public class AlertMessage{
 	private String writeError = "등록 실패";
 	private String fileUploadError = "파일 첨부가 실패 하였습니다.";
 	
-	//*******************퍼즐등록관련*******************/
+	//*******************퍼즐관련*******************/
 	private String PuzzleImageError = "퍼즐이미지를 등록해 주세요.";
+	private String PuzzleColError = "가로 퍼즐 값을 선택해 주세요.";
+	private String PuzzleRowError = "세로 퍼즐 값을 선택해 주세요.";
+	private String PuzzleHashtagError = "올바른 해시태그를 입력해 주세요.";
+	
+	//*******************레코드관련*******************/
+	private String RecordPuzzleError = "퍼즐 정보가 올바르지 않습니다.";
+	private String RecordTimeError = "시간 정보가 올바르지 않습니다.";
 }

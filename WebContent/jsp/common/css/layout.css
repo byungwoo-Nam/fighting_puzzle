@@ -134,7 +134,8 @@ article footer{
 	height:100% !important;
 	width:100%; 
 	height:auto;  
-	background-color:#fff; 
+	background-color:black;
+	opacity:0.8; 
 	border: 5px solid #4A4A4A; 
 	z-index: 10;
 }
@@ -217,15 +218,69 @@ article footer{
 
 
 /*** gameÈ­¸é ***/
-#a_puzzleGame, #a_puzzleGame>div, #a_puzzleGame .contentArea, #a_puzzleGame .contentArea #imgArea{
+#a_puzzleGame, #a_puzzleGame>div, #a_puzzleGame, #a_puzzleGame #imgArea{
 	height:100%;
+}
+
+.contentArea{
+	height:70%;
 }
 
 #a_puzzleGame{
 	margin:0;
 }
 
+#a_puzzleGame header{
+	height:30%;
+}
+
+#a_puzzleGame header #prevImgArea{
+	height:100%;
+}
+
 #a_puzzleGame .ui-draggable-dragging{
 	opacity:0.5;
 	z-index:9999;
+}
+
+.puzzleTarget{
+	opacity:0.6;
+}
+
+.recording{
+	font-size: 40px;
+	font-weight:500;
+	color:red;
+}
+
+.layer-puzzleStartPop .content>img{
+	display:block; 
+	width:70%;
+}
+
+.layer-puzzleStartPop .content>i{
+	color:#007F6B; 
+	font-size:250px;
+}
+
+.layer-puzzleStartPop .content>div{
+	font-size:30px; 
+	color:#007F6B;
+}
+
+.layer-puzzleStartPop .content>div>span{
+	display:block;
+}
+
+.layer-puzzleEndPop .content{
+	font-size:50px; 
+	color:#007F6B;
+}
+
+.layer-puzzleEndPop .content span{
+	display:block;
+}
+
+.layer-puzzleEndPop .timePrint{
+	color:red;
 }

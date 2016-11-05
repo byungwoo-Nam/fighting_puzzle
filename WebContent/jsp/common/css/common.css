@@ -3,6 +3,26 @@
 body{padding:0 !important; background-color:#DDDFE2;}
 h1, h2, h3, h4, h5{margin:0;}
 
+/* 모바일에서만 작동할 것
+html, body {
+  overflow-y: hidden;
+}
+body {
+  position: relative
+}
+*/
+
+.container-fluid{
+	padding:0;
+}
+
+.container-fluid, .container-fluid .row{
+	width:100%;
+}
+
+.container-fluid .row{
+	margin:0 auto;
+}
 
 .alert{
 	margin: 0 !important;
@@ -26,10 +46,16 @@ h1, h2, h3, h4, h5{margin:0;}
     background-color: #007F6B;
 }
 
-.ml5{margin-left:5px !important;}
-.ml10{margin-left:10px !important;}
+.mt10{margin-top:10px !important;}
+.mt20{margin-top:20px !important;}
 .mr10{margin-right:10px !important;}
 .mb10{margin-bottom:10px !important;}
+.mb15{margin-bottom:10px !important;}
+.ml5{margin-left:5px !important;}
+.ml10{margin-left:10px !important;}
+
+.pr0{padding-right:0px !important;}
+.pl0{padding-left:0px !important;}
 
 .dis-fl{display:flex;}
 .dis-b{display:block;}
@@ -56,4 +82,15 @@ h1, h2, h3, h4, h5{margin:0;}
 	text-decoration: underline;
 }
 
+.of-a{
+	overflow:hidden;
+}
+
 .fa{vertical-align:middle;}
+
+.parentFix{
+	width: auto;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+}

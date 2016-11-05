@@ -6,11 +6,26 @@
 	<head>
 		<s:include value="/jsp/page/include/head.jsp" />
 		<script type="text/javascript">
-			$(document).ready(function() {
-				$(".site-wrapper").height($(window).height()-58+"px");
+			$(window).load(function() {
+				$("#startPop").trigger("click");
+				$(".site-wrapper").height($(window).height()-48+"px");
+				/*
+				var imgRatio = 0;
+				var areaRatio = 0;
 				
-				var imgRatio = $("#gameImg").width() / $("#gameImg").height();
-			    var areaRatio = $("#imgArea").width() / $("#imgArea").height();
+				// 미리보기 이미지
+				imgRatio = $("#origImg").width() / $("#origImg").height();
+			    areaRatio = $("#prevImgArea").width() / $("#prevImgArea").height();
+			    if(imgRatio < areaRatio){
+			        $("#origImg").css({"width":"auto","height":"100%"});
+			    }else{
+			        $("#origImg").css({"width":"100%","height":"auto"});
+			    }
+			    */
+			   	// 퍼즐이미지
+			   	/*
+			    imgRatio = $("#gameImg").width() / $("#gameImg").height();
+			    areaRatio = $("#imgArea").width() / $("#imgArea").height();
 			    if(imgRatio < areaRatio){
 			        $("#gameImg").css({"width":"auto","height":"100%"});
 			    }else{
@@ -21,29 +36,17 @@
 			        $("#gameImg").css("marginLeft","-"+($("#gameImg").width()-$("#imgArea").width())/2+"px");
 			    }
 			    
+			    */
 			    $("#imgArea").width($("#gameImg").width());
-			    
-			    $("#imgArea").jigsaw({x: 4, y:4, margin: 2});
-			    
-			    $(window).on("resize orientationchange",function(){
-			        var imgRatio=$("#gameImg").width()/$("#gameImg").height();
-			        var areaRatio=$("#imgArea").width()/$("#imgArea").height();
-			        if(imgRatio < areaRatio){
-			            $("#gameImg").css({"width":"auto","height":"100%"});
-			        }else{
-			            $("#gameImg").css({"width":"100%","height":"auto"});
-			        }
-			        if($("#imgArea").width() < $("#gameImg").width()){
-			            $("#gameImg").css("marginLeft","-"+($("#gameImg").width()-$("#imgArea").width())/2+"px");
-			        }
-			        console.log(imgRatio);
-			        console.log(areaRatio);
-			    });
-			    
+			    $("#gameImg").width($("#gameImg").width()-4*3);
+
+			    $("#imgArea").fpp({x:3, y:3, margin: 2});
+
+			    //$("#imgArea").width($("#gameImg").width()+10);	    
 			});
 		</script>
 	</head>
-	<body>
+	<body>	
 		<s:set name="data" value='puzzleDTO' />
 		<s:include value="/jsp/page/include/gnb.jsp">
 			<s:param name="option">view</s:param>
@@ -51,38 +54,30 @@
 		</s:include> 
 		<div class="site-wrapper">			
 			<article id="a_puzzleGame">
+				<input type="button" id="startPop" class="hide openPop" data-pop-id="puzzleStartPop" />
+				<input type="button" id="endPop" class="hide openPop" data-pop-id="puzzleEndPop" />
+				<input type="hidden" id="seq" value="${data.seq}" />
 				<div>
-					<!-- 
-					<header>
-						<div class="userImage small mr10">
-							<img src="/jsp/temp/userSample1.jpg" />
-						</div>
-						<div class="title">
-							<div>
-								<a href="/" >#용인</a>
-								<a href="/" >#명지대</a>
-								<a href="/" >#창조관</a>
+					<header class="container-fluid">
+						<div class="row">
+							<div id="prevImgArea" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+								<img id="origImg" src="${data.puzzleUrl}" class="parentFix" alt="gameImg" />
 							</div>
-							<div class="regDate">
-								2016-10-10 AM 12:14
+							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 pl0 pr0 ta-c">
+								<h3 class="bestRecord bold mb10"><i class="fa fa-clock-o" aria-hidden="true"></i> 20.00초</h3>
+								<div class="recording mt20"><span class='timePrint'>00:00</span></div>
 							</div>
 						</div>
 					</header>
-					 -->
 					<div class="contentArea mb10">
-					<!-- 
-						<div>
-							<div>
-								<h2 class="bestRecord bold ta-c mb10"><i class="fa fa-clock-o" aria-hidden="true"></i> 20.00초</h2>
-							</div>
-						</div>
-						 -->
 						<div id="imgArea">
-							<img id="gameImg" src="${data.puzzleUrl}" alt="thumbnail1" />
+							<img id="gameImg" class="parentFix" src="${data.puzzleUrl}" alt="gameImg" />
 						</div>
 					</div>
 				</div>
 			</article>
-		</div>	
+		</div>
+		<jsp:include page="/jsp/page/puzzle/pop/puzzleStartPop.jsp" flush="false" />
+		<jsp:include page="/jsp/page/puzzle/pop/puzzleEndPop.jsp" flush="false" />	
 	</body>
 </html>

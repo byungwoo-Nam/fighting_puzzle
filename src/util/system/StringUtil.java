@@ -110,6 +110,18 @@ public class StringUtil {
 	    return i;
 	}
 	
+	/**
+	 * TODO 해시태그 validation 체크.
+	 * 
+	 * @param str : 체크할 해시태그 string <br>
+	 * @return boolean <br>
+	 */
+	public boolean hashtag_validation(String str){
+		// 5~19자의 영문 대 소문자, 숫자 사용 가능
+		String strRegex = "(^|\\s)*#(.+?)(?=[\\s.,:)]|$)";
+		return str.matches(strRegex);
+	}
+	
 //	/**
 //	 * TODO 객체에 gson형식으로 다른 객체 추가
 //	 * 

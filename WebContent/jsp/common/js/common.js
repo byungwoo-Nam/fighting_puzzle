@@ -47,7 +47,7 @@ function getAjaxData(data){
 
 function validateCheck(obj){
 	var rtn = false;
-	var data = {"formID":obj.attr("id")+obj.attr("data-mode")};
+	var data = {"ajaxMode":"formValidate", "formID":obj.attr("id")+obj.attr("data-mode")};
 	obj.find("input[name!='']").each(function(){
 		if($(this).attr("type")=="file"){
 			data[$(this).attr("name")] = $(this)[0].jFiler.files_list.length;
@@ -68,7 +68,7 @@ function validateCheck(obj){
 		data[$(this).attr("name")] = $(this).val();
 	});
 
-	data.url = "/ajaxFormValidate.do";
+	data.url = "/ajaxConnect.do";
 	var jsonObj = JSON.parse(getAjaxData(data));
 	if(!jsonObj.res){
 		$("#test1").showAlert({"title":jsonObj.errorTitle, "msg":jsonObj.errorMsg});

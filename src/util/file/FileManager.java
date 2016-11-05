@@ -46,7 +46,7 @@ public class FileManager {
 			chkExt = fileName.get(i).substring(fileExtIdx+1);
 			
 			// 확장자 체크
-			if(!codeConfig.getAttachImageFileExtMap().containsKey(chkExt.toLowerCase())){
+			if(!codeConfig.getAttachImageFileExtJson().containsKey(chkExt.toLowerCase())){
 				return false;
 			}
 

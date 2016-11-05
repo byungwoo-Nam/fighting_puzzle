@@ -34,7 +34,7 @@
 		</action>		
 		
 		<!-- ajax FormValidate 로직-->
-		<action name="ajaxFormValidate" class="action.basic.Ajax" method="ajaxFormValidate">
+		<action name="ajaxConnect" class="action.basic.Ajax" method="ajaxConnector">
 			<result>/jsp/page/common/json_result.jsp</result>
 		</action>
 

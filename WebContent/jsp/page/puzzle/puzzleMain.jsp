@@ -32,12 +32,12 @@
 						</div>
 						<div class="title">
 							<div>
-								<a href="/" >#용인</a>
-								<a href="/" >#명지대</a>
-								<a href="/" >#창조관</a>
+								<s:iterator value="#data.hashtagList" status="stat">
+									<a href="/" >#${hashtag}</a>
+								</s:iterator>
 							</div>
 							<div class="regDate">
-								2016-10-10 AM 12:14
+								${data.printDate}
 							</div>
 						</div>
 					</header>
