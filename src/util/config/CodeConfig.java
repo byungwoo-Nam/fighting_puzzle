@@ -31,6 +31,5 @@ public class CodeConfig{
     	put(4, 4);
     	put(5, 5);
     	put(6, 6);
-    	put(7, 7);
     }};
 }

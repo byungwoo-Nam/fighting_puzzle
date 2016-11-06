@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -120,6 +121,21 @@ public class StringUtil {
 		// 5~19자의 영문 대 소문자, 숫자 사용 가능
 		String strRegex = "(^|\\s)*#(.+?)(?=[\\s.,:)]|$)";
 		return str.matches(strRegex);
+	}
+	
+	/**
+	 * TODO 밀리세컨드 변환.
+	 * 
+	 * @param ms : 변환할 밀리세컨드 int <br>
+	 * @return String <br>
+	 */
+	public static String convertMillisecond(int ms){
+		// 초로만 변환
+		Double d = (ms/1000.0);
+		BigDecimal bd = new BigDecimal(d.toString());
+		BigDecimal result = null;
+		result = bd.setScale(2, BigDecimal.ROUND_DOWN);       //내림
+		return result.toString();
 	}
 	
 //	/**

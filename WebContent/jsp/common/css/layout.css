@@ -170,6 +170,12 @@ article footer{
     padding: 0 5px;
 }
 
+/*** index ***/
+#a_index .replyArea{
+	border-top: 1px solid #DDDFE2;
+    padding: 5px;
+}
+
 /*** view ***/
 #a_puzzleMain{
 	margin-bottom:2px;
@@ -180,9 +186,14 @@ article footer{
 }
 
 /*** ´ñ±Û¿µ¿ª ***/
-.replyArea{
+#a_puzzleMain+.replyArea{
 	padding: 10px 10px;
 	background-color:#f3f3f3;
+}
+
+.replyArea>div:first-child{
+	text-align: center;
+    max-width: 50px;
 }
 
 .replyArea .userImage{
@@ -190,11 +201,18 @@ article footer{
     width: 40px;
     border-radius: 1000px;
     overflow:hidden;
+    align-items: initial;
+    display: inline-block;
 }
 
-.replyArea .userImage img{
-    width: 100%;
-    height: auto;
+.replyArea .replyContent>div:first-child{
+	color:#5e5e5e;
+	font-weight: bold;
+}
+
+.replyArea .replyContent>div:last-child{
+	color:#90949c;
+	font-size:12px;
 }
 
 .replyArea #userReplyInput{

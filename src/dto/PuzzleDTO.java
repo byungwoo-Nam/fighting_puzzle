@@ -20,9 +20,13 @@ public class PuzzleDTO {
 	// join data
 	private String userName;
 	private String userPicture;
-	private int likeCnt; 
+	private int bestRecord;
+	private int playCnt;
+	private int replyCnt;
+	private int likeCnt;
 	
 	// make data
 	private List<HashtagDTO> hashtagList = new ArrayList<HashtagDTO>();
+	private List<ReplyDTO> replyList = new ArrayList<ReplyDTO>();
 	private String printDate;
 }

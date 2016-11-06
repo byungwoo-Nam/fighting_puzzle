@@ -11,4 +11,11 @@ public class ReplyDTO {
 	private int puzzle_seq;
 	private String content;
 	private String regDate;
+	
+	// join data
+	private String userName;
+	private String userPicture;
+	
+	// make data
+	private String printDate;
 }

@@ -20,7 +20,7 @@
 				<article id="a_index">
 					<div>
 						<header>
-							<div class="userImage small mr10">
+							<div class="userImage mr10">
 								<img src="<s:property value="userPicture"/>" />
 							</div>
 							<div class="title">
@@ -35,27 +35,44 @@
 						<div class="contentArea mb10">
 							<div>
 								<div>
-									<h2 class="bestRecord bold ta-c mb10"><i class="fa fa-clock-o" aria-hidden="true"></i> 20.00초</h2>
+									<h2 class="bestRecord bold ta-c mb10"><i class="fa fa-clock-o" aria-hidden="true"></i> <s:property value="@util.system.StringUtil@convertMillisecond(bestRecord)"/>초</h2>
 								</div>
 								<div class="mb10">
-									<a href="/" >#용인</a>
-									<a href="/" >#명지대</a>
-									<a href="/" >#창조관</a>
+									<s:iterator value="hashtagList" status="stat">
+										<a href="/" >#<s:property value="hashtag"/></a>
+									</s:iterator>
 								</div>
 							</div>
 							<img src="<s:property value="puzzleUrl"/>" class="viewPuzzleMain img-responsive" alt="thumbnail1" data-idx="<s:property value="seq"/>" />
 						</div>
-						<footer>
+						<footer class="mb10">
 							<div class="dis-ib">
-								<i class="fa fa-child" aria-hidden="true"></i> 10명
-								<i class="fa fa-heart ml10" aria-hidden="true"></i> 200명
+								<i class="fa fa-child" aria-hidden="true"></i> <s:property value="playCnt"/>명
+								<i class="fa fa-heart ml10" aria-hidden="true"></i> <s:property value="likeCnt"/>명
 							</div>
 							<div class="replyInfo fr">
-								댓글 3개
+								댓글 <s:property value="replyCnt"/>개
 							</div>
 						</footer>
 					</div>
+					<s:if test = "replyList.size!=0">
+						<s:iterator value="replyList" status="stat">
+							<div class="replyArea row">
+								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+									<div class="userImage">
+										<img src="<s:property value="userPicture"/>" />
+									</div>
+								</div>
+								<div class="replyContent col-xs-10 col-sm-10 col-md-10 col-lg-10">
+									<div><s:property value="userName"/></div>
+									<div><s:property value="content"/></div>
+									<div><s:property value="printDate"/></div>
+								</div>
+							</div>
+						</s:iterator>
+					</s:if>
 				</article>
+
 			</s:iterator>
 			
 		</div>

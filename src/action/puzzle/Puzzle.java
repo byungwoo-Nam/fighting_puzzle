@@ -113,6 +113,9 @@ public class Puzzle extends ActionSupport  {
 		
 		this.puzzleDTO = (PuzzleDTO) this.puzzleDAO.getOneRow(this.paramJson);
 		
+		System.out.println(this.puzzleDTO);
+		System.out.println(this.whereJson);
+		
 		return this.isAjax ? this.puzzleDTO : SUCCESS;
 	}
 	

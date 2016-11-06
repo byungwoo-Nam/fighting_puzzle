@@ -5,6 +5,7 @@
 <html lang="ko">
 	<head>
 		<s:include value="/jsp/page/include/head.jsp" />
+		<s:set name="data" value='puzzleDTO' />
 		<script type="text/javascript">
 			$(window).load(function() {
 				$("#startPop").trigger("click");
@@ -37,17 +38,20 @@
 			    }
 			    
 			    */
+			    
+			    var col = "${data.col}";
+			    var row = "${data.row}";
+			    
 			    $("#imgArea").width($("#gameImg").width());
-			    $("#gameImg").width($("#gameImg").width()-4*3);
+			    $("#gameImg").width($("#gameImg").width()-4*col);
 
-			    $("#imgArea").fpp({x:3, y:3, margin: 2});
+			    $("#imgArea").fpp({x:col, y:row, margin: 2});
 
 			    //$("#imgArea").width($("#gameImg").width()+10);	    
 			});
 		</script>
 	</head>
 	<body>	
-		<s:set name="data" value='puzzleDTO' />
 		<s:include value="/jsp/page/include/gnb.jsp">
 			<s:param name="option">view</s:param>
 			<s:param name="title">${data.userName}님의 퍼즐</s:param>

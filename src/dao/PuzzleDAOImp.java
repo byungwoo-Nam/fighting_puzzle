@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Repository;
 
 import dto.HashtagDTO;
 import dto.PuzzleDTO;
+import dto.ReplyDTO;
 import util.system.StringUtil;
 
 @Repository
@@ -31,6 +34,7 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 	private PuzzleDTO puzzleDTO; 
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	private String table_name = " PUZZLE  ";
+	private JSONObject puzzleJson;
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource){ 
@@ -41,35 +45,61 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 	
 	}
 	
-	public ResultSetExtractor getPuzzleRSE(){
-		return new ResultSetExtractor(){
-        	@Override
-        	public List<PuzzleDTO> extractData(ResultSet rs) throws SQLException, DataAccessException{
-        		List<PuzzleDTO> list = new ArrayList<PuzzleDTO>();
-        		while(rs.next()){
-        			PuzzleDTO puzzleDTO = new PuzzleDTO();
-        			puzzleDTO.setSeq(rs.getInt("seq"));
-        			puzzleDTO.setUser_seq(rs.getInt("user_seq"));
-        			puzzleDTO.setRow(rs.getInt("row"));
-        			puzzleDTO.setCol(rs.getInt("col"));
-        			puzzleDTO.setPuzzleUrl(rs.getString("puzzleUrl"));
-        			puzzleDTO.setRegDate(rs.getString("regdate"));
-        			puzzleDTO.setUserName(rs.getString("userName"));
-        			puzzleDTO.setUserPicture(rs.getString("userPicture"));
-        			puzzleDTO.setPrintDate(rs.getString("printDate"));
-        			String[] h_seqs = (rs.getString("h_seqs")).split("\\|", 0);
-        			String[] h_hashtags = (rs.getString("h_hashtags")).split("\\|", 0);
-        			for(int i=0; i<h_seqs.length; i++){
-        				System.out.println(h_seqs.length);
-        				HashtagDTO hashtagDTO = new HashtagDTO();
-        				hashtagDTO.setSeq(Integer.parseInt(h_seqs[i]));
-        				hashtagDTO.setPuzzle_seq(puzzleDTO.getSeq());
-        				hashtagDTO.setHashtag(h_hashtags[i]);
-        				puzzleDTO.getHashtagList().add(hashtagDTO);
-        			}
-        			list.add(puzzleDTO);
+	public RowMapper getPuzzleRM(){
+		return new RowMapper(){
+        	public PuzzleDTO mapRow(ResultSet rs, int rowNum) throws SQLException, DataAccessException{
+        		int seq = rs.getInt("p.seq");
+        		PuzzleDTO puzzleDTO;
+        		if(puzzleJson != null){
+        			puzzleDTO = (PuzzleDTO)puzzleJson.get(seq);
+        		}else{
+        			puzzleDTO = null;
+        			puzzleJson = new JSONObject();
         		}
-        		return list;
+        		
+        		if(puzzleDTO == null){
+        			puzzleDTO = new PuzzleDTO();
+        			puzzleDTO.setSeq(seq);
+        			puzzleDTO.setUser_seq(rs.getInt("p.user_seq"));
+        			puzzleDTO.setRow(rs.getInt("p.row"));
+        			puzzleDTO.setCol(rs.getInt("p.col"));
+        			puzzleDTO.setPuzzleUrl(rs.getString("p.puzzleUrl"));
+        			puzzleDTO.setRegDate(rs.getString("p.regdate"));
+        			puzzleDTO.setUserName(rs.getString("u.name"));
+        			puzzleDTO.setUserPicture(rs.getString("u.pictureUrl"));
+        			puzzleDTO.setPrintDate(rs.getString("printDate"));
+        			puzzleDTO.setBestRecord(rs.getInt("bestRecord"));
+        			puzzleDTO.setPlayCnt(rs.getInt("playCnt"));
+        			puzzleDTO.setReplyCnt(rs.getInt("replyCnt"));
+        			puzzleDTO.setLikeCnt(rs.getInt("likeCnt"));
+        			puzzleJson.put(seq, puzzleDTO);
+        		}
+        		
+        		// hashtag select
+        		HashtagDTO hashtagDTO = new HashtagDTO();
+        		int h_seq = rs.getInt("h.seq");
+        		hashtagDTO.setSeq(h_seq);
+        		hashtagDTO.setPuzzle_seq(seq);
+        		hashtagDTO.setHashtag(rs.getString("h.hashtag"));
+        		if(!puzzleDTO.getHashtagList().contains(hashtagDTO)){
+        			puzzleDTO.getHashtagList().add(hashtagDTO);
+        		}
+        		
+        		// reply select
+        		ReplyDTO replyDTO = new ReplyDTO();
+        		int r_seq = rs.getInt("r.seq");
+        		replyDTO.setSeq(r_seq);
+        		replyDTO.setPuzzle_seq(seq);
+        		replyDTO.setContent(rs.getString("r.content"));
+        		replyDTO.setRegDate(rs.getString("r.regDate"));
+        		replyDTO.setPrintDate(rs.getString("r.printDate"));
+        		replyDTO.setUserName(rs.getString("r.userName"));
+        		replyDTO.setUserPicture(rs.getString("r.userPicture"));
+        		if(!puzzleDTO.getReplyList().contains(replyDTO) && r_seq != 0){
+        			puzzleDTO.getReplyList().add(replyDTO);
+        		}
+        		
+        		return puzzleDTO;
         	}
         };
 	}
@@ -83,34 +113,37 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 		
 		sqlJson.put("one", 1);
 		
-        sql = "	SELECT P.*, U.name AS userName, U.pictureUrl AS userPicture,	\n";
+        sql += "	SELECT P.*, U.name as userName , U.pictureUrl as userPicture,	\n";
+//        sql += "	( SELECT R2.time FROM( SELECT R2.puzzle_seq, Min(time) as time FROM RECORD R2 GROUP BY R2.puzzle_seq) R1 INNER JOIN RECORD R2 ON R1.puzzle_seq = R2.puzzle_seq AND R2.time = R1.time where R2.puzzle_seq = P.seq ) AS bestRecord,	\n";
+//        sql += "	( SELECT COUNT(*) FROM REPLY WHERE puzzle_seq = P.seq ) AS replyCnt,	\n";
+//        sql += "	( SELECT COUNT(*) FROM RECORD WHERE puzzle_seq = P.seq GROUP BY user_seq ) AS playCnt,	\n";
+//        sql += "	( SELECT COUNT(*) FROM `LIKE` WHERE puzzle_seq = P.seq ) AS likeCnt,	\n";
         sql += "	(	CASE	\n";
-        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regdate, NOW( ))) < 60 THEN CONCAT(TIMESTAMPDIFF( SECOND , P.regdate, NOW( )), '초 전')	\n";			// 60 = 1분 이전
-        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regdate, NOW( ))) < 60*60 THEN CONCAT(TIMESTAMPDIFF( MINUTE , P.regdate, NOW( )), '분 전')	\n";		// 60*60 = 1시간 이전
-        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regdate, NOW( ))) < 60*60*24 THEN CONCAT(TIMESTAMPDIFF( HOUR , P.regdate, NOW( )), '시간 전')	\n";	// 60*60*24 = 1일 이전
-        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regdate, NOW( ))) < 60*60*24*6 THEN CONCAT(TIMESTAMPDIFF( DAY , P.regdate, NOW( )), '일 전')	\n";	// 60*60*24*6 = 6일 이전
+        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regDate, NOW( ))) < 60 THEN CONCAT(TIMESTAMPDIFF( SECOND , P.regDate, NOW( )), '초 전')	\n";			// 60 = 1분 이전
+        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regDate, NOW( ))) < 60*60 THEN CONCAT(TIMESTAMPDIFF( MINUTE , P.regDate, NOW( )), '분 전')	\n";		// 60*60 = 1시간 이전
+        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regDate, NOW( ))) < 60*60*24 THEN CONCAT(TIMESTAMPDIFF( HOUR , P.regDate, NOW( )), '시간 전')	\n";	// 60*60*24 = 1일 이전
+        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regDate, NOW( ))) < 60*60*24*6 THEN CONCAT(TIMESTAMPDIFF( DAY , P.regDate, NOW( )), '일 전')	\n";	// 60*60*24*6 = 6일 이전
         sql += "		ELSE (	\n";
         sql += "			CASE		\n";
-		sql += "				WHEN DATE_FORMAT(P.regdate,'%p') = 'AM' THEN DATE_FORMAT(P.regdate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
+		sql += "				WHEN DATE_FORMAT(P.regDate,'%p') = 'AM' THEN DATE_FORMAT(P.regDate, '%Y.%m.%d 오전 %l:%i:%s')		\n";
 		sql += "			ELSE		\n";
-		sql += "				DATE_FORMAT(P.regdate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
+		sql += "				DATE_FORMAT(P.regDate, '%Y.%m.%d 오후 %l:%i:%s')		\n";
 		sql += "			END	)		\n";
-		sql += "	END	) AS printDate,		\n";
-        sql += "	IFNULL(GROUP_CONCAT( H.seq SEPARATOR  '|' ), '|') AS h_seqs, IFNULL(GROUP_CONCAT( H.hashtag SEPARATOR  '|' ), '|') AS h_hashtags	\n";
-        sql += "	FROM	" + table_name;
-        sql += "	P JOIN USER U ON P.user_seq = U.seq LEFT JOIN HASHTAG H ON P.seq = H.puzzle_seq WHERE :one = :one	\n		";
+		sql += "	END	) AS printDate		\n";
+		sql += "	FROM	" + table_name;
+        sql += "	P JOIN USER U ON P.user_seq = U.seq	\n";
+        sql += "	WHERE :one = :one	\n		";
+        
         if(whereJson!=null && !whereJson.isEmpty()){
             for( Object key : whereJson.keySet() ){
             	sqlJson.put(key, whereJson.get(key));
             	sql += " and " + key + " = :"+key+"		\n";
             }
         }
-        sql += "	GROUP BY P.seq		\n";
         
         System.out.println(sql);
         
-        list = (List<PuzzleDTO>) this.jdbcTemplate.query(sql, sqlJson, getPuzzleRSE());
-        
+		list = this.jdbcTemplate.query(sql, sqlJson, new BeanPropertyRowMapper(PuzzleDTO.class));
         this.puzzleDTO = (list.size() == 1) ? list.get(0) : null;
         
         return this.puzzleDTO;
@@ -118,11 +151,11 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 	
 	//	LIST
 	public Object getList(JSONObject paramJson) {
-		Map<String,Object> sqlMap = new HashMap<String,Object>();
-		List<PuzzleDTO> list = new ArrayList<PuzzleDTO>();
+		JSONObject sqlJson = new JSONObject();
+		List<PuzzleDTO>list = new ArrayList<PuzzleDTO>();
 		boolean isCount = paramJson.containsKey("isCount") ? (boolean)paramJson.get("isCount") : false;
-		Map<String, Object> whereMap = (Map<String, Object>) (paramJson.containsKey("whereJson") ? paramJson.get("whereJson") : null);
-		Map<String, Object> searchMap = (Map<String, Object>) (paramJson.containsKey("searchMap") ? paramJson.get("searchMap") : null);
+		JSONObject whereJson = (JSONObject) (paramJson.containsKey("whereJson") ? paramJson.get("whereJson") : null);
+		JSONObject searchJson = (JSONObject) (paramJson.containsKey("searchJson") ? paramJson.get("searchJson") : null);
 		int pageNum = paramJson.containsKey("pageNum") ? (int)paramJson.get("pageNum") : 0;
 		int countPerPage = paramJson.containsKey("countPerPage") ? (int)paramJson.get("countPerPage") : 0;
 		int startNum = (pageNum-1)*countPerPage;
@@ -131,38 +164,56 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 		
 		String sql = "";
 		
-		sqlMap.put("one", 1);
-		sqlMap.put("startNum", startNum);
-		sqlMap.put("countPerPage", countPerPage);
+		sqlJson.put("one", 1);
+		sqlJson.put("startNum", startNum);
+		sqlJson.put("countPerPage", countPerPage);
 		
 		if(isCount){
 			sql += "	SELECT COUNT(*)	\n";
 		}else{
-			sql += "	SELECT P.user_seq, P.puzzleURL, U.name AS userName, U.pictureUrl AS userPicture, \n";
-			sql += "	P.SEQ,	\n";
-			sql += "	CASE		\n";
-			sql += "	WHEN DATE_FORMAT(P.regDate,'%p') = 'AM' THEN 		\n";
-			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
-			sql += "	ELSE		\n";
-			sql += "	DATE_FORMAT(P.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
-			sql += "	END AS REGDATE, P.regDate as orig_regdate		\n";
+	        sql += "	SELECT P.seq, P.user_seq, P.row, P.col, P.puzzleUrl, P.regDate, H.seq, H.hashtag, R.seq, R.user_seq, R.content, R.regDate, R.printDate, R.userName, R.userPicture, U.name, U.pictureUrl,	\n";
+	        sql += "	( SELECT R2.time FROM( SELECT R2.puzzle_seq, Min(time) as time FROM RECORD R2 GROUP BY R2.puzzle_seq) R1 INNER JOIN RECORD R2 ON R1.puzzle_seq = R2.puzzle_seq AND R2.time = R1.time where R2.puzzle_seq = P.seq ) AS bestRecord,	\n";
+	        sql += "	( SELECT COUNT(*) FROM REPLY WHERE puzzle_seq = P.seq ) AS replyCnt,	\n";
+	        sql += "	( SELECT COUNT(*) FROM ( SELECT * FROM RECORD GROUP BY user_seq ) AS RG WHERE puzzle_seq = P.seq ) AS playCnt,	\n";
+	        sql += "	( SELECT COUNT(*) FROM `LIKE` WHERE puzzle_seq = P.seq ) AS likeCnt,	\n";
+	        sql += "	(	CASE	\n";
+	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regDate, NOW( ))) < 60 THEN CONCAT(TIMESTAMPDIFF( SECOND , P.regDate, NOW( )), '초 전')	\n";			// 60 = 1분 이전
+	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regDate, NOW( ))) < 60*60 THEN CONCAT(TIMESTAMPDIFF( MINUTE , P.regDate, NOW( )), '분 전')	\n";		// 60*60 = 1시간 이전
+	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regDate, NOW( ))) < 60*60*24 THEN CONCAT(TIMESTAMPDIFF( HOUR , P.regDate, NOW( )), '시간 전')	\n";	// 60*60*24 = 1일 이전
+	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , P.regDate, NOW( ))) < 60*60*24*6 THEN CONCAT(TIMESTAMPDIFF( DAY , P.regDate, NOW( )), '일 전')	\n";	// 60*60*24*6 = 6일 이전
+	        sql += "		ELSE (	\n";
+	        sql += "			CASE		\n";
+			sql += "				WHEN DATE_FORMAT(P.regDate,'%p') = 'AM' THEN DATE_FORMAT(P.regDate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
+			sql += "			ELSE		\n";
+			sql += "				DATE_FORMAT(P.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
+			sql += "			END	)		\n";
+			sql += "	END	) AS printDate		\n";
 		}
-        sql += " FROM "+ table_name + " P JOIN USER U ON P.user_seq = U.seq WHERE :one = :one \n";
-        if(whereMap!=null && !whereMap.isEmpty()){
-            for( String key : whereMap.keySet() ){
-            	sqlMap.put(key, whereMap.get(key));
+		sql += "	FROM	" + table_name;
+        sql += "	P JOIN USER U ON P.user_seq = U.seq	\n";
+        sql += "	INNER JOIN HASHTAG H ON P.seq = H.puzzle_seq	\n";
+        sql += "	LEFT JOIN ( SELECT a.*, ( CASE WHEN DATE_FORMAT(a.regDate,'%p') = 'AM' THEN DATE_FORMAT(a.regDate, '%Y.%m.%d 오전 %h:%i:%s') ELSE DATE_FORMAT(a.regDate, '%Y.%m.%d 오후 %h:%i:%s') END ) AS printDate,  U.name AS userName, U.pictureUrl AS userPicture FROM REPLY AS a LEFT JOIN REPLY AS a2 ON a.puzzle_seq = a2.puzzle_seq AND a.seq <= a2.seq JOIN USER U ON a.user_seq = U.seq GROUP BY a.content HAVING COUNT(*) <= 5 ORDER BY a.puzzle_seq DESC, a.seq DESC ) R ON P.seq = R.puzzle_seq	\n";
+        sql += "	WHERE :one = :one	\n		";
+        if(whereJson!=null && !whereJson.isEmpty()){
+            for( Object key : whereJson.keySet() ){
+            	sqlJson.put(key, whereJson.get(key));
             	sql += " and " + key + " = :"+key+"		\n";
             }
         }
-        if(searchMap!=null && !searchMap.isEmpty()){
-            for( String key : searchMap.keySet() ){
-            	sqlMap.put(key, "%" + searchMap.get(key) + "%");
+        if(searchJson!=null && !searchJson.isEmpty()){
+            for( Object key : searchJson.keySet() ){
+            	sqlJson.put(key, "%" + searchJson.get(key) + "%");
             	sql += " and LOWER( "+key+" ) like LOWER( :"+key+" )";
             }
         }
         
+        //sql += "	GROUP BY P.seq		\n";
+        
         if(!sortCol.equals("")){
-        	sql += " ORDER BY " + sortCol + " " + sortVal + "		\n";
+        	sql += "	ORDER BY " + sortCol + " " + sortVal + "		\n";
+        	sql += "	, R.seq DESC	\n";
+        }else{
+        	sql += "	ORDER BY R.seq DESC	\n";
         }
         
         if(isCount || pageNum==0){
@@ -173,9 +224,12 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
         System.out.println("sql:::"+sql);
         
         if(isCount){
-        	return this.jdbcTemplate.queryForInt(sql,sqlMap);
+        	return this.jdbcTemplate.queryForInt(sql,sqlJson);
 		}else{
-			list  = this.jdbcTemplate.query(sql, sqlMap, new BeanPropertyRowMapper(PuzzleDTO.class));
+			this.jdbcTemplate.query(sql, sqlJson, getPuzzleRM());
+			list = new ArrayList<PuzzleDTO>(puzzleJson.values());
+			puzzleJson = null;
+			Collections.reverse(list);
 	        return list;
 		}
 	}
