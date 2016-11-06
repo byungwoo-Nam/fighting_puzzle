@@ -94,10 +94,6 @@
 		  // seconds
 		  if(this.T.difference > 1000) {
 		    seconds = Math.floor(this.T.difference / 1000);
-		    if(seconds>999){
-		    	// 시간초과
-		    	stopTimer();
-		    }
 //		    if (seconds > 60) {
 //		      seconds = seconds % 60;
 //		    }
@@ -135,6 +131,10 @@
 		  time += miliseconds;
 
 		  this.T.timerObj.html(time);
+		  if(seconds>999){
+			  // 시간초과
+			  _this.timerStop();
+		  }
 		}
 	
 	fpp.prototype.timerStop = function(){
@@ -281,7 +281,7 @@
 			}
 			selected[randI][randJ] = true;
 			var bp = "-" +(randI * w) +"px -" +(randJ * h) +"px";
-			obj.children(".fpp_panel_").children("div:eq(" +i +")").css("background-position",bp).attr("origIDX", randI+randJ*this.options.y)
+			obj.children(".fpp_panel_").children("div:eq(" +i +")").css("background-position",bp).attr("origIDX", randI+randJ*this.options.x)
 		}
 		var _this = this;
 
