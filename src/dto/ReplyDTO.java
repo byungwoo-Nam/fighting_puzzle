@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 public class ReplyDTO {
 	private int seq;
 	private int puzzle_seq;
+	private int user_seq;
 	private String content;
 	private String regDate;
 	

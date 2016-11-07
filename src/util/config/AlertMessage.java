@@ -22,4 +22,8 @@ public class AlertMessage{
 	//*******************레코드관련*******************/
 	private String RecordPuzzleError = "퍼즐 정보가 올바르지 않습니다.";
 	private String RecordTimeError = "시간 정보가 올바르지 않습니다.";
+	
+	//*******************댓글관련*******************/
+	private String ReplyPuzzleError = "퍼즐 정보가 올바르지 않습니다.";
+	private String ReplyContentError = "댓글을 입력해 주세요.";
 }

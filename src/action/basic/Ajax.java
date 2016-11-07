@@ -19,6 +19,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import action.puzzle.Record;
+import action.puzzle.Reply;
 import lombok.Data;
 
 @Data
@@ -59,6 +60,8 @@ public class Ajax extends ActionSupport  {
 			formValidate(jsonObject);
 		}else if(ajaxMode.equals("dataInsert")){
 			dataInsert(jsonObject);
+		}else if(ajaxMode.equals("getData")){
+			this.rtnString = getData(jsonObject);
 		}
 		
 		return SUCCESS;
@@ -77,16 +80,34 @@ public class Ajax extends ActionSupport  {
 	
 	public void dataInsert(JSONObject jsonObject) throws Exception{
 		init();
-		System.out.println("dataIO");
 		String dataMode = jsonObject.get("dataMode").toString();
 		if(dataMode.equals("record")){
 			Record record = new Record();
 			record.initForAjax(jsonObject);
 			record.writeAction();
+		}else if(dataMode.equals("reply")){
+			Reply reply = new Reply();
+			reply.initForAjax(jsonObject);
+			reply.writeAction();
 		}
 		
 		Gson gson = new Gson();
 		this.rtnString = gson.toJson(this.validateMsgJson);		
+	}
+	
+	public String getData(JSONObject jsonObject) throws Exception{
+		init();
+		String s = "";
+		Gson gson = new Gson();
+		String dataMode = jsonObject.get("dataMode").toString();
+		
+		if(dataMode.equals("reply")){
+			Reply reply = new Reply();
+			reply.initForAjax(new JSONObject(){{put("whereJson", jsonObject);}});
+			s = gson.toJson(reply.getList());
+		}
+		
+		return s;	
 	}
 	
 //	public String ajaxGetData() throws Exception{

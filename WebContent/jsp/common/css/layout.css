@@ -32,6 +32,7 @@
 }
 
 .gnbArea-view{
+	z-index: 9999;
 	width:100%;
 	height:48px;
 	margin: 0 auto;
@@ -195,6 +196,10 @@ article footer{
 .replyArea>div:first-child{
 	text-align: center;
     max-width: 50px;
+}
+
+.replyArea .replyWriteArea{
+	max-width: 100% !important;
 }
 
 .replyArea .userImage{

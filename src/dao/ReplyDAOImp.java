@@ -17,29 +17,29 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import dto.HashtagDTO;
+import dto.ReplyDTO;
 import util.system.StringUtil;
 
 @Repository
-public class HashtagDAOImp implements FightingPuzzleDAO {
+public class ReplyDAOImp implements FightingPuzzleDAO {
 
-	private HashtagDTO hashtagDTO; 
+	private ReplyDTO replyDTO; 
 	private NamedParameterJdbcTemplate jdbcTemplate;
-	private String table_name = " HASHTAG  ";
+	private String table_name = " REPLY  ";
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource){ 
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 	
-	public HashtagDAOImp(){
+	public ReplyDAOImp(){
 	
 	}
 	
 	//	조건에 맞는 해시태그목록
 	public Object getOneRow(JSONObject paramJson) {
 		JSONObject sqlJson = new JSONObject();
-		List<HashtagDTO> list = new ArrayList<HashtagDTO>();
+		List<ReplyDTO> list = new ArrayList<ReplyDTO>();
 		JSONObject whereJson = (JSONObject) (paramJson.containsKey("whereJson") ? paramJson.get("whereJson") : null);
 		String sql = "";
 		
@@ -56,15 +56,15 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
         
         System.out.println(sql);
         
-        list  = this.jdbcTemplate.query(sql,sqlJson,new BeanPropertyRowMapper(HashtagDTO.class));
-        this.hashtagDTO = (list.size() == 1) ? list.get(0) : null;
-        return this.hashtagDTO;
+        list  = this.jdbcTemplate.query(sql,sqlJson,new BeanPropertyRowMapper(ReplyDTO.class));
+        this.replyDTO = (list.size() == 1) ? list.get(0) : null;
+        return this.replyDTO;
 	}
 	
 	//	LIST
 	public Object getList(JSONObject paramJson) {
 		JSONObject sqlJson = new JSONObject();
-		List<HashtagDTO> list = new ArrayList<HashtagDTO>();
+		List<ReplyDTO> list = new ArrayList<ReplyDTO>();
 		boolean isCount = paramJson.containsKey("isCount") ? (boolean)paramJson.get("isCount") : false;
 		JSONObject whereJson = (JSONObject) (paramJson.containsKey("whereJson") ? paramJson.get("whereJson") : null);
 		JSONObject searchJson = (JSONObject) (paramJson.containsKey("searchJson") ? paramJson.get("searchJson") : null);
@@ -83,9 +83,23 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
 		if(isCount){
 			sql += "	SELECT COUNT(*)	\n";
 		}else{
-			sql += "	SELECT * \n";
+			sql += "	SELECT R.*, U.name AS userName, U.pictureUrl AS userPicture, \n";
+			sql += "	(	CASE	\n";
+	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , R.regDate, NOW( ))) < 60 THEN CONCAT(TIMESTAMPDIFF( SECOND , R.regDate, NOW( )), '초 전')	\n";			// 60 = 1분 이전
+	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , R.regDate, NOW( ))) < 60*60 THEN CONCAT(TIMESTAMPDIFF( MINUTE , R.regDate, NOW( )), '분 전')	\n";		// 60*60 = 1시간 이전
+	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , R.regDate, NOW( ))) < 60*60*24 THEN CONCAT(TIMESTAMPDIFF( HOUR , R.regDate, NOW( )), '시간 전')	\n";	// 60*60*24 = 1일 이전
+	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , R.regDate, NOW( ))) < 60*60*24*6 THEN CONCAT(TIMESTAMPDIFF( DAY , R.regDate, NOW( )), '일 전')	\n";	// 60*60*24*6 = 6일 이전
+	        sql += "		ELSE (	\n";
+	        sql += "			CASE		\n";
+			sql += "				WHEN DATE_FORMAT(R.regDate,'%p') = 'AM' THEN DATE_FORMAT(R.regDate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
+			sql += "			ELSE		\n";
+			sql += "				DATE_FORMAT(R.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
+			sql += "			END	)		\n";
+			sql += "	END	) AS printDate		\n";
 		}
-        sql += " FROM "+ table_name + "  WHERE :one = :one \n";
+        sql += "	FROM "+ table_name;
+        sql += "	R JOIN USER U ON R.user_seq = U.seq	\n";
+        sql += "	WHERE :one = :one	\n		";
         if(whereJson!=null && !whereJson.isEmpty()){
             for( Object key : whereJson.keySet() ){
             	sqlJson.put(key, whereJson.get(key));
@@ -113,7 +127,7 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
         if(isCount){
         	return this.jdbcTemplate.queryForInt(sql,sqlJson);
 		}else{
-			list  = this.jdbcTemplate.query(sql, sqlJson, new BeanPropertyRowMapper(HashtagDTO.class));
+			list  = this.jdbcTemplate.query(sql, sqlJson, new BeanPropertyRowMapper(ReplyDTO.class));
 	        return list;
 		}
 	}
@@ -122,12 +136,13 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
 	public int write(Object dto) {
 		String sql = "";
 		sql += "	INSERT INTO " + table_name + "	\n";
-		sql += "	(puzzle_seq, hashtag)	\n";
-		sql += "	values(:puzzle_seq, :hashtag)	\n";
+		sql += "	(puzzle_seq, user_seq, content)	\n";
+		sql += "	values(:puzzle_seq, :user_seq, :content)	\n";
 		
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("puzzle_seq", ((HashtagDTO)dto).getPuzzle_seq(), Types.NUMERIC);
-		paramSource.addValue("hashtag", ((HashtagDTO)dto).getHashtag(), Types.VARCHAR);
+		paramSource.addValue("puzzle_seq", ((ReplyDTO)dto).getPuzzle_seq(), Types.NUMERIC);
+		paramSource.addValue("user_seq", ((ReplyDTO)dto).getUser_seq(), Types.NUMERIC);
+		paramSource.addValue("content", ((ReplyDTO)dto).getContent(), Types.VARCHAR);
 		
 		int rtnInt = 0;
 		
@@ -172,7 +187,7 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
 //		paramSource.addValue("seq", ((UserDTO)dto).getSeq(), Types.NUMERIC);
 		
 		if(this.jdbcTemplate.update(sql, paramSource) > 0){
-			return ((HashtagDTO)dto).getSeq();
+			return ((ReplyDTO)dto).getSeq();
 		}else{
 			return 0;
 		}

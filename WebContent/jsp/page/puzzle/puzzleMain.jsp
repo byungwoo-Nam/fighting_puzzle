@@ -14,6 +14,18 @@
 					$(location).attr("href",url);
 					e.preventDefault();
 				});
+				
+				$(".replyWriteArea button").click(function(){
+					var inputObj = $("#userReplyInput");
+					var data = {"ajaxMode":"dataInsert", "dataMode":"reply", "puzzle_seq":inputObj.attr("data-idx"), "content":inputObj.val()};
+					
+					data.url = "/ajaxConnect.do";
+					JSON.parse(getAjaxData(data));
+					
+					var data = {"ajaxMode":"getData", "dataMode":"reply", "puzzle_seq":inputObj.attr("data-idx")};
+					var test = JSON.parse(getAjaxData(data));
+					console.log(test);
+				});
 			});
 		</script>
 	</head>
@@ -59,64 +71,40 @@
 					</div>
 					<footer>
 						<div class="dis-ib">
-							<i class="fa fa-heart" aria-hidden="true"></i> 200명
+							<i class="fa fa-heart" aria-hidden="true"></i> ${data.likeCnt}명
 						</div>
 						<div class="replyInfo fr">
-							댓글 10개
+							댓글 ${data.replyCnt}개
 						</div>
 					</footer>
 				</div>
 			</article>
 			<div class="replyArea">
-				<div class="dis-fl mb10">
+				<div class="replyWriteArea dis-fl mb10">
 					<div class="userImage mr10">
 						<img src="/jsp/temp/userSample1.jpg" />
 					</div>
-					<input type="text" id="userReplyInput" class="form-control" placeholder="댓글을 입력하세요..." />
-					<button type="submit" class="btn btn-default ml10">게시</button>
+					<input type="text" id="userReplyInput" class="form-control" data-idx="${data.seq}" placeholder="댓글을 입력하세요..." />
+					<button type="button" class="btn btn-default ml10">게시</button>
 				</div>
-				<div class="replyItems">
-					<div class="userImage mr10">
-						<img src="/jsp/temp/userSample2.jpg" />
-					</div>
-					<div class="replyItem">
-						<div class="replyWriter">
-							<strong>신광호</strong>
-							<span>30분 전</span>
+				<s:if test = "#data.replyList.size!=0">
+					<s:iterator value="#data.replyList" status="stat">
+						<div class="replyItems">
+							<div class="userImage mr10">
+								<img src="<s:property value="userPicture"/>" />
+							</div>
+							<div class="replyItem">
+								<div class="replyWriter">
+									<strong><s:property value="userName"/></strong>
+									<span><s:property value="printDate"/></span>
+								</div>
+								<div class="replyContent">
+									<s:property value="content"/>
+								</div>
+							</div>
 						</div>
-						<div class="replyContent">
-							재밌음!!
-						</div>
-					</div>
-				</div>
-				<div class="replyItems">
-					<div class="userImage mr10">
-						<img src="/jsp/temp/userSample3.jpg" />
-					</div>
-					<div class="replyItem">
-						<div class="replyWriter">
-							<strong>이성호</strong>
-							<span>4시간 전</span>
-						</div>
-						<div class="replyContent">
-							너무 어려운데ㅠㅠ
-						</div>
-					</div>
-				</div>
-				<div class="replyItems">
-					<div class="userImage mr10">
-						<img src="/jsp/temp/userSample1.jpg" />
-					</div>
-					<div class="replyItem">
-						<div class="replyWriter">
-							<strong>남병우</strong>
-							<span>1일 전</span>
-						</div>
-						<div class="replyContent">
-							깨볼사람은 깨봐~~~~ㅋㅋㅋㅋ
-						</div>
-					</div>
-				</div>
+					</s:iterator>
+				</s:if>
 			</div>
 		</div>	
 	</body>
