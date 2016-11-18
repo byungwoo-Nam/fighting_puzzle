@@ -20,7 +20,6 @@
 		  		<param name="namespace">/puzzle</param>
 		  		<param name="actionName">puzzleMain.do</param>
 		  		<param name="seq">${seq}</param>
-		  		
     	  	</result>
     	  	<result name="validation">/jsp/page/common/error/alert.jsp</result>
 		</action>	

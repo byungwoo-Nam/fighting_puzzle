@@ -4,7 +4,6 @@
 	<package name="basic" namespace="/" extends="fighting_puzzle">
 		<!-- 메인 -->
 		<action name="index" class="action.puzzle.Puzzle" method="getList">
-			<param name="pageKind">index</param>
 			<result>/jsp/page/index.jsp</result>
 		</action>	
 		
@@ -20,7 +19,7 @@
 		<action name="loginCallback" class="action.basic.Login" method="callBack">
 			<result type="redirectAction">
 		  		<param name="namespace">${nextActionNamespace}</param>
-		  		<param name="actionName">${nextActionName}</param>
+		  		<param name="actionName">${nextActionName}?${nextQueryString}</param>
     	  	</result>
 			<result name="error">/jsp/page/common/error/loginError.jsp</result>
 		</action>		

@@ -123,6 +123,10 @@ article footer{
 	color: #90949c;
 }
 
+.likeCntIcon{
+	color: #ea3c3c;
+}
+
 /* 레이어 팝업 공통 */
 .layer {display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:100;}
 .layer .bg {position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50);}
@@ -187,6 +191,14 @@ article footer{
 	width:100%;
 }
 
+#likeBtn>i{
+	color:#a0a0a0;
+}
+
+#likeBtn.like-active>i, #likeBtn.like-active>span{
+	color:#ea3c3c !important;
+}
+
 /*** 댓글영역 ***/
 #a_puzzleMain+.replyArea{
 	padding: 10px 10px;
@@ -209,6 +221,11 @@ article footer{
     overflow:hidden;
     align-items: initial;
     display: inline-block;
+}
+
+.replyArea .userImage img{
+    width: 100%;
+    height: auto;
 }
 
 .replyArea .replyContent>div:first-child{

@@ -16,21 +16,21 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import dao.FightingPuzzleDAO;
-import dto.ReplyDTO;
+import dto.LikeDTO;
 import lombok.Data;
 import util.config.CodeConfig;
 import util.config.FormValidate;
 
 @Data
-public class Reply extends ActionSupport  {
+public class Like extends ActionSupport  {
 	private Map session;
 	private ActionContext context;
 	private WebApplicationContext wac;
 	private FormValidate formValidate = new FormValidate();
 	private CodeConfig codeConfig = new CodeConfig();
-	private FightingPuzzleDAO replyDAO;
-	private ReplyDTO replyDTO;
-	private List<ReplyDTO> dataList;
+	private FightingPuzzleDAO likeDAO;
+	private LikeDTO likeDTO;
+	private List<LikeDTO> dataList;
 	
 	private JSONObject paramJson = new JSONObject();
 	private JSONObject whereJson = new JSONObject();
@@ -49,15 +49,14 @@ public class Reply extends ActionSupport  {
 	
 	private boolean isAjax;	//	ajax요청시
 	
-	private int seq;				//	댓글 seq
+	private int seq;				//	좋아요 seq
 	private int puzzle_seq;		//	퍼즐 seq
 	private int user_seq;		//	회원 seq
-	private String content;		//	댓글내용
 	
-	public Reply() {
+	public Like() {
 		ServletContext servletContext = ServletActionContext.getServletContext();
 	    this.wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-	    this.replyDTO = new ReplyDTO();
+	    this.likeDTO = new LikeDTO();
 	}
 
 	@Override
@@ -67,7 +66,7 @@ public class Reply extends ActionSupport  {
 	
 	//	요소 초기화 및 세팅
 	public void init(){
-		this.replyDAO = (FightingPuzzleDAO)this.wac.getBean("reply");
+		this.likeDAO = (FightingPuzzleDAO)this.wac.getBean("like");
 		
 		this.context = ActionContext.getContext();	//session을 생성하기 위해
 		this.session = this.context.getSession();		// Map 사용시
@@ -93,27 +92,26 @@ public class Reply extends ActionSupport  {
 		this.paramJson.put("sortVal", this.sortVal);
 		this.paramJson.put("whereJson", this.whereJson);
 		
-		this.dataList = (List<ReplyDTO>)this.replyDAO.getList(this.paramJson);
+		this.dataList = (List<LikeDTO>)this.likeDAO.getList(this.paramJson);
 		
 		return this.isAjax ? this.dataList : SUCCESS;
 	}
 	
-//	public Object getData() throws Exception{
-//		init();
-//		
-//		this.whereJson.put("P.seq", this.seq);
-//		this.paramJson.put("whereJson", this.whereJson);
-//		
-//		this.puzzleDTO = (PuzzleDTO) this.puzzleDAO.getOneRow(this.paramJson);
-//		this.puzzleDTO.setHashtagList(hashtagList); =
-//		
-//		System.out.println(this.puzzleDTO);
-//		System.out.println(this.whereJson);
-//		
-//		return this.isAjax ? this.puzzleDTO : SUCCESS;
-//	}
-//	
-	public String writeAction() throws Exception{
+	public Object getData() throws Exception{
+		init();
+		
+		if(this.seq!=0){
+			this.whereJson.put("seq", this.seq);
+		}
+		
+		this.paramJson.put("whereJson", this.whereJson);
+		
+		this.likeDTO = (LikeDTO) this.likeDAO.getOneRow(this.paramJson);
+		
+		return this.isAjax ? this.likeDTO : SUCCESS;
+	}
+	
+	public Object writeAction() throws Exception{
 		init();
 
 		this.user_seq = (int) session.get("user_seq");
@@ -122,12 +120,10 @@ public class Reply extends ActionSupport  {
 		
 		if(this.isAjax){
 			this.puzzle_seq = Integer.parseInt(this.ajaxJson.get("puzzle_seq").toString());
-			this.content = this.ajaxJson.get("content").toString();
 		}
 		
 		this.paramJson.put("puzzle_seq", this.puzzle_seq);
-		this.paramJson.put("content", this.content);
-		this.validateResJson = this.formValidate.replyEditorForm(this.paramJson);
+		this.validateResJson = this.formValidate.likeEditorForm(this.paramJson);
 		this.paramJson.clear();
 		
 		if(!(boolean)this.validateResJson.get("res")){
@@ -135,12 +131,34 @@ public class Reply extends ActionSupport  {
 			return "validation";
 		}
 		
-		this.replyDTO.setPuzzle_seq(this.puzzle_seq);
-		this.replyDTO.setContent(this.content);
-		this.replyDTO.setUser_seq(this.user_seq);
+		this.likeDTO.setPuzzle_seq(this.puzzle_seq);
+		this.likeDTO.setUser_seq(this.user_seq);
 		
-		this.seq = this.replyDAO.write(this.replyDTO);
+		this.seq = this.likeDAO.write(this.likeDTO);
 		
-		return SUCCESS;
+		return this.isAjax ? this.seq : SUCCESS;
+	}
+	
+	public Object deleteAction() throws Exception{
+		init();
+		
+		this.user_seq = (int) session.get("user_seq");
+		
+		if(this.isAjax){
+			this.puzzle_seq = Integer.parseInt(this.ajaxJson.get("puzzle_seq").toString());
+		}
+		
+		this.whereJson.put("user_seq", this.user_seq);
+		this.whereJson.put("puzzle_seq", this.puzzle_seq);
+		this.likeDTO = (LikeDTO) this.getData();
+		
+		if(this.likeDTO == null){
+			return "validation";
+		}
+		
+		this.paramJson.put("seq", this.likeDTO.getSeq());
+		this.likeDAO.delete(paramJson);
+		
+		return this.isAjax ? this.seq : SUCCESS;
 	}
 }

@@ -44,6 +44,9 @@ public class SessionInterceptor extends AbstractInterceptor {
     	
     	String nextAction = request.getRequestURI().substring(1);	//	이동할 페이지 액션(다음페이지)
     	String[] nextActionArr = nextAction.split("/");
+    	String nextQueryString = request.getQueryString();
+    	
+    	System.out.println(nextQueryString);
     	
     	boolean isAdminSession = StringUtil.stringToBool(StringUtil.isNullOrSpace((String)session.get("isAdmin"),"").trim());		//	관리자 세션
     	boolean isMemberSession = StringUtil.stringToBool(StringUtil.isNullOrSpace((String)session.get("isMember"),"").trim());	//	일반회원 세션
@@ -73,6 +76,7 @@ public class SessionInterceptor extends AbstractInterceptor {
         		session.put("nextActionNamespace", nextActionArr[0]);
         		session.put("nextActionName", nextActionArr[1]);
         	}
+           	session.put("nextQueryString", nextQueryString);
     	}
     	
     	System.out.println("context::::" + context.getName() + "(sessionIntercepteor.java)");

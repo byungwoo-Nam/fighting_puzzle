@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import action.puzzle.Like;
 import action.puzzle.Record;
 import action.puzzle.Reply;
 import lombok.Data;
@@ -60,6 +61,8 @@ public class Ajax extends ActionSupport  {
 			formValidate(jsonObject);
 		}else if(ajaxMode.equals("dataInsert")){
 			dataInsert(jsonObject);
+		}else if(ajaxMode.equals("dataDelete")){
+			dataDelete(jsonObject);
 		}else if(ajaxMode.equals("getData")){
 			this.rtnString = getData(jsonObject);
 		}
@@ -89,10 +92,28 @@ public class Ajax extends ActionSupport  {
 			Reply reply = new Reply();
 			reply.initForAjax(jsonObject);
 			reply.writeAction();
+		}else if(dataMode.equals("like")){
+			Like like = new Like();
+			like.initForAjax(jsonObject);
+			like.writeAction();
 		}
 		
 		Gson gson = new Gson();
 		this.rtnString = gson.toJson(this.validateMsgJson);		
+	}
+	
+	public void dataDelete(JSONObject jsonObject) throws Exception{
+		init();
+		String dataMode = jsonObject.get("dataMode").toString();
+		
+		if(dataMode.equals("like")){
+			Like like = new Like();
+			like.initForAjax(jsonObject);
+			like.deleteAction();
+		}
+		
+		Gson gson = new Gson();
+		this.rtnString = gson.toJson(this.validateMsgJson);	
 	}
 	
 	public String getData(JSONObject jsonObject) throws Exception{
@@ -100,10 +121,12 @@ public class Ajax extends ActionSupport  {
 		String s = "";
 		Gson gson = new Gson();
 		String dataMode = jsonObject.get("dataMode").toString();
+		JSONObject whereJson = new JSONObject();
 		
 		if(dataMode.equals("reply")){
 			Reply reply = new Reply();
-			reply.initForAjax(new JSONObject(){{put("whereJson", jsonObject);}});
+			whereJson.put("puzzle_seq", jsonObject.get("puzzle_seq"));
+			reply.initForAjax(new JSONObject(){{put("whereJson", whereJson);}});
 			s = gson.toJson(reply.getList());
 		}
 		

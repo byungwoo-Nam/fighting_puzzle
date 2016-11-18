@@ -18,6 +18,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import dao.FightingPuzzleDAO;
 import dto.HashtagDTO;
+import dto.LikeDTO;
 import dto.PuzzleDTO;
 import dto.ReplyDTO;
 import lombok.Data;
@@ -118,13 +119,13 @@ public class Puzzle extends ActionSupport  {
 		this.tempJson.put("puzzle_seq", this.seq);
 		Hashtag hashtag = new Hashtag();
 		Reply reply = new Reply();
+		Like like = new Like();
 		hashtag.initForAjax(this.tempJson);
 		reply.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
+		like.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
 		this.puzzleDTO.setHashtagList((List<HashtagDTO>) hashtag.getList());
 		this.puzzleDTO.setReplyList((List<ReplyDTO>) reply.getList());
-		
-		System.out.println(this.puzzleDTO);
-		System.out.println(this.whereJson);
+		this.puzzleDTO.setLike((like.getData() == null) ? false : true);
 		
 		return this.isAjax ? this.puzzleDTO : SUCCESS;
 	}
@@ -139,6 +140,7 @@ public class Puzzle extends ActionSupport  {
 		
 		this.paramJson.put("row", this.row);
 		this.paramJson.put("col", this.col);
+		this.paramJson.put("hashtag", this.hashtag);
 		this.paramJson.put("puzzleUrl", this.puzzleUrl.size());
 		this.validateResJson = this.formValidate.puzzleEditorForm(paramJson);
 		paramJson.clear();

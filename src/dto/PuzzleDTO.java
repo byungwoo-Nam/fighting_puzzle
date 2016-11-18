@@ -29,4 +29,5 @@ public class PuzzleDTO {
 	private List<HashtagDTO> hashtagList = new ArrayList<HashtagDTO>();
 	private List<ReplyDTO> replyList = new ArrayList<ReplyDTO>();
 	private String printDate;
+	private boolean isLike;
 }

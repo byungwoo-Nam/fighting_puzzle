@@ -46,7 +46,7 @@ public class FormValidate{
 			this.rtnJson.put("errorMsg", alertMessage.getPuzzleColError());
 			this.rtnJson.put("elementID", "col_check");
 		}else if(!paramJson.containsKey("row") || paramJson.get("row").equals("") || !codeConfig.getPuzzleSizeJson().containsKey(Integer.parseInt(paramJson.get("row").toString()))){
-			// 퍼즐 가로 크기 체크
+			// 퍼즐 세로 크기 체크
 			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
 			this.rtnJson.put("errorMsg", alertMessage.getPuzzleRowError());
 			this.rtnJson.put("elementID", "row_check");
@@ -61,6 +61,7 @@ public class FormValidate{
 			this.rtnJson.put("res", true);
 		}
 		
+		System.out.println(this.rtnJson);
 		return this.rtnJson;
 	}
 	
@@ -88,7 +89,7 @@ public class FormValidate{
 		return this.rtnJson;
 	}
 	
-	// 댓글 기록 등록/수정 체크(validation)
+	// 댓글 등록/수정 체크(validation)
 	public JSONObject replyEditorForm(JSONObject paramJson) throws Exception{
 		Puzzle puzzle = new Puzzle();
 		paramJson.put("seq", paramJson.containsKey(("puzzle_seq")) ? paramJson.get("puzzle_seq") : 0);
@@ -103,6 +104,25 @@ public class FormValidate{
 			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
 			this.rtnJson.put("errorMsg", alertMessage.getReplyContentError());
 			this.rtnJson.put("elementID", "content_check");
+		}else if(false){
+			// 추가 가능
+		}else{
+			this.rtnJson.put("res", true);
+		}
+		
+		return this.rtnJson;
+	}
+	
+	// 좋아요 등록/수정 체크(validation)
+	public JSONObject likeEditorForm(JSONObject paramJson) throws Exception{
+		Puzzle puzzle = new Puzzle();
+		paramJson.put("seq", paramJson.containsKey(("puzzle_seq")) ? paramJson.get("puzzle_seq") : 0);
+		puzzle.initForAjax(paramJson);
+		if(!paramJson.containsKey("puzzle_seq") || paramJson.get("puzzle_seq").equals("") || puzzle.getData() == null){
+			// 퍼즐 존재 체크
+			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
+			this.rtnJson.put("errorMsg", alertMessage.getLikePuzzleError());
+			this.rtnJson.put("elementID", "puzzle_check");
 		}else if(false){
 			// 추가 가능
 		}else{

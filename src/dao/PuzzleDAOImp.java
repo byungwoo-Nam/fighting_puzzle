@@ -114,7 +114,7 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 		sqlJson.put("one", 1);
 		
         sql += "	SELECT P.*, U.name as userName , U.pictureUrl as userPicture,	\n";
-        sql += "	( SELECT R2.time FROM( SELECT R2.puzzle_seq, Min(time) as time FROM RECORD R2 GROUP BY R2.puzzle_seq) R1 INNER JOIN RECORD R2 ON R1.puzzle_seq = R2.puzzle_seq AND R2.time = R1.time where R2.puzzle_seq = P.seq ) AS bestRecord,	\n";
+        sql += "	IFNULL(( SELECT R2.time FROM( SELECT R2.puzzle_seq, Min(time) as time FROM RECORD R2 GROUP BY R2.puzzle_seq) R1 INNER JOIN RECORD R2 ON R1.puzzle_seq = R2.puzzle_seq AND R2.time = R1.time where R2.puzzle_seq = P.seq ),0) AS bestRecord,	\n";
         sql += "	( SELECT COUNT(*) FROM REPLY WHERE puzzle_seq = P.seq ) AS replyCnt,	\n";
         sql += "	( SELECT COUNT(*) FROM ( SELECT * FROM RECORD GROUP BY user_seq ) AS RG WHERE puzzle_seq = P.seq ) AS playCnt,	\n";
         sql += "	( SELECT COUNT(*) FROM `LIKE` WHERE puzzle_seq = P.seq ) AS likeCnt,	\n";

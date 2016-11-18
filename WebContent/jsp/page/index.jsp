@@ -11,7 +11,10 @@
 		</script>
 	</head>
 	<body>
-		<s:include value="/jsp/page/include/gnb.jsp" />
+		<s:include value="/jsp/page/include/gnb.jsp">
+			<s:param name="option">default</s:param>
+			<s:param name="title">default</s:param>
+		</s:include>
 		<div class="container">	
 			<s:if test = "dataList.size==0">
 				등록된 퍼즐이 없습니다.
@@ -35,7 +38,15 @@
 						<div class="contentArea mb10">
 							<div>
 								<div>
-									<h2 class="bestRecord bold ta-c mb10"><i class="fa fa-clock-o" aria-hidden="true"></i> <s:property value="@util.system.StringUtil@convertMillisecond(bestRecord)"/>초</h2>
+									<h2 class="bestRecord bold ta-c mb10">
+										<s:if test = "bestRecord!=0">
+											<i class="fa fa-clock-o" aria-hidden="true"></i>
+											<s:property value="@util.system.StringUtil@convertMillisecond(bestRecord)"/>초
+										</s:if>
+										<s:else>
+											<p>기록이 없습니다.</p><p>도전하세요!</p>
+										</s:else>
+									</h2>
 								</div>
 								<div class="mb10">
 									<s:iterator value="hashtagList" status="stat">
@@ -48,7 +59,7 @@
 						<footer class="mb10">
 							<div class="dis-ib">
 								<i class="fa fa-child" aria-hidden="true"></i> <s:property value="playCnt"/>명
-								<i class="fa fa-heart ml10" aria-hidden="true"></i> <s:property value="likeCnt"/>명
+								<i class="fa fa-heart ml10 likeCntIcon" aria-hidden="true"></i> <s:property value="likeCnt"/>명
 							</div>
 							<div class="replyInfo fr">
 								댓글 <s:property value="replyCnt"/>개

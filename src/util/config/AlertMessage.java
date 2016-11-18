@@ -11,6 +11,7 @@ public class AlertMessage{
 	
 	//*******************공통사용*******************/
 	private String writeError = "등록 실패";
+	private String accessError = "에러발생";
 	private String fileUploadError = "파일 첨부가 실패 하였습니다.";
 	
 	//*******************퍼즐관련*******************/
@@ -26,4 +27,7 @@ public class AlertMessage{
 	//*******************댓글관련*******************/
 	private String ReplyPuzzleError = "퍼즐 정보가 올바르지 않습니다.";
 	private String ReplyContentError = "댓글을 입력해 주세요.";
+	
+	//*******************댓글관련*******************/
+	private String LikePuzzleError = "퍼즐 정보가 올바르지 않습니다.";
 }

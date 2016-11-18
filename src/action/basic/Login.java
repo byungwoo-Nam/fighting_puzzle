@@ -39,6 +39,7 @@ public class Login extends ActionSupport  {
 	
 	private String nextActionNamespace;
 	private String nextActionName;
+	private String nextQueryString;
 	
 	public Login() {
 		ServletContext servletContext = ServletActionContext.getServletContext();
@@ -121,11 +122,15 @@ public class Login extends ActionSupport  {
 			this.nextActionName = "index";
 		}
 		
+		this.nextQueryString = (session.get("nextQueryString")!=null) ? session.get("nextQueryString").toString() : "";
+		
 		session.remove("nextActionNamespace");
 		session.remove("nextActionName");
+		session.remove("nextQueryString");
 		
 		this.session.put("isMember", "true");
 		this.session.put("user_seq", user_seq);
+		this.session.put("user_picture", userDTO.getPictureUrl());
 		this.context.setSession(this.session);
 		
 		return SUCCESS;
