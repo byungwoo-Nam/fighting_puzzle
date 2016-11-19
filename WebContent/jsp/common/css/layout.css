@@ -257,6 +257,19 @@ article footer{
 	color:#90949c;
 }
 
+.replyUpdate, .replyDelete{
+	color:#8190b0;
+}
+
+.replyUpdateArea{
+	width:100%;
+}
+
+#replyMore{
+	border-top: 1px solid #DDDFE2;
+    padding: 7px;
+}
+
 
 /*** gameÈ­¸é ***/
 #a_puzzleGame, #a_puzzleGame>div, #a_puzzleGame, #a_puzzleGame #imgArea{

@@ -32,7 +32,7 @@
 		    </result>
 		</action>		
 		
-		<!-- ajax FormValidate 로직-->
+		<!-- ajax 연결 로직-->
 		<action name="ajaxConnect" class="action.basic.Ajax" method="ajaxConnector">
 			<result>/jsp/page/common/json_result.jsp</result>
 		</action>

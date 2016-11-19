@@ -35,7 +35,6 @@ function getAjaxData(data){
 		dataType:"text",
 		async: false,
 		success:function(result){
-			console.log(result);
 			rtnData = result;
 		},
 		error: function(xhr,status, error){
@@ -78,6 +77,18 @@ function validateCheck(obj){
 	}
 	
 	return rtn;
+}
+
+function blankCheck(s){
+	var pattern = /^\s+|\s+$/g;
+	return (s.replace( pattern, '' ) == "" ) ? true : false;
+}
+
+function convertMillisecond(ms){
+	var d = (ms/1000.0);
+	var digits = Math.pow(10, 2);
+	var num = Math.floor(d * digits) / digits;
+	return num.toFixed(2);
 }
 
 $.fn.showAlert = function(q) {

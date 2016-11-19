@@ -19,6 +19,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import action.puzzle.Like;
+import action.puzzle.Puzzle;
 import action.puzzle.Record;
 import action.puzzle.Reply;
 import lombok.Data;
@@ -61,10 +62,14 @@ public class Ajax extends ActionSupport  {
 			formValidate(jsonObject);
 		}else if(ajaxMode.equals("dataInsert")){
 			dataInsert(jsonObject);
+		}else if(ajaxMode.equals("dataUpdate")){
+			dataUpdate(jsonObject);
 		}else if(ajaxMode.equals("dataDelete")){
 			dataDelete(jsonObject);
 		}else if(ajaxMode.equals("getData")){
 			this.rtnString = getData(jsonObject);
+		}else if(ajaxMode.equals("getTotalCount")){
+			this.rtnString = getTotalCount(jsonObject);
 		}
 		
 		return SUCCESS;
@@ -102,6 +107,19 @@ public class Ajax extends ActionSupport  {
 		this.rtnString = gson.toJson(this.validateMsgJson);		
 	}
 	
+	public void dataUpdate(JSONObject jsonObject) throws Exception{
+		init();
+		String dataMode = jsonObject.get("dataMode").toString();
+		if(dataMode.equals("reply")){
+			Reply reply = new Reply();
+			reply.initForAjax(jsonObject);
+			reply.updateAction();
+		}
+		
+		Gson gson = new Gson();
+		this.rtnString = gson.toJson(this.validateMsgJson);		
+	}
+	
 	public void dataDelete(JSONObject jsonObject) throws Exception{
 		init();
 		String dataMode = jsonObject.get("dataMode").toString();
@@ -110,6 +128,10 @@ public class Ajax extends ActionSupport  {
 			Like like = new Like();
 			like.initForAjax(jsonObject);
 			like.deleteAction();
+		}else if(dataMode.equals("reply")){
+			Reply reply = new Reply();
+			reply.initForAjax(jsonObject);
+			reply.deleteAction();
 		}
 		
 		Gson gson = new Gson();
@@ -122,65 +144,36 @@ public class Ajax extends ActionSupport  {
 		Gson gson = new Gson();
 		String dataMode = jsonObject.get("dataMode").toString();
 		JSONObject whereJson = new JSONObject();
-		
 		if(dataMode.equals("reply")){
 			Reply reply = new Reply();
 			whereJson.put("puzzle_seq", jsonObject.get("puzzle_seq"));
-			reply.initForAjax(new JSONObject(){{put("whereJson", whereJson);}});
+			reply.initForAjax(new JSONObject(){{put("whereJson", whereJson); put("pageNum", jsonObject.get("pageNum"));}});
 			s = gson.toJson(reply.getList());
+		}else if(dataMode.equals("puzzleList")){
+			Puzzle puzzle = new Puzzle();
+			puzzle.initForAjax(jsonObject);
+			Object rtnObj = puzzle.getList();
+			s = (rtnObj == null) ? null : gson.toJson(rtnObj);
 		}
 		
 		return s;	
 	}
 	
-//	public String ajaxGetData() throws Exception{
-//		init();
-//		Gson gson = new Gson();
-//		JSONObject jsonObject = (JSONObject) JSONValue.parse(data);
-//		String dataKind = jsonObject.get("dataKind").toString();
-//		System.out.println(jsonObject);
-//		if(this.isAdmin && dataKind.equals("shop")){
-//			jsonObject.put("queryMode","one");
-//			ShopMember shopMember= new ShopMember();
-//			this.rtnString = gson.toJson(shopMember.getData(jsonObject));
-//		}else if(this.isAdmin && dataKind.equals("shopList")){
-//			jsonObject.put("queryMode","list");
-//			ShopMember shopMember= new ShopMember();
-//			this.rtnString = gson.toJson(shopMember.getData(jsonObject));
-//		}else if(this.isAdmin && dataKind.equals("faq")){
-//			Faq faq = new Faq();
-//			this.rtnString = gson.toJson(faq.getData(jsonObject));
-//		}else if(dataKind.equals("generalProduct")){
-//			GeneralProduct generalProduct = new GeneralProduct();
-//			Map<String, Object> data = generalProduct.getOriginalData(Integer.parseInt(jsonObject.get("seq").toString()));
-//			this.rtnString = gson.toJson(data);
-//		}else if(dataKind.equals("generalProductList")){
-//			GeneralProduct generalProduct = new GeneralProduct();
-//			this.rtnString = gson.toJson(generalProduct.getData(jsonObject));
-//		}else if(this.isAdmin && dataKind.equals("qna")){
-//			Qna qna = new Qna();
-//			this.rtnString = gson.toJson(qna.getData(jsonObject));
-//		}else if(dataKind.equals("chartData")){
-//			ChartData chartData = new ChartData();
-//			this.rtnString = gson.toJson(chartData.getData(jsonObject));
-//		}
-//		
-//		return SUCCESS;		
-//	}
-	
-//	public String ajaxAction() throws Exception{
-//		init();
-//		JSONObject jsonObject = (JSONObject) JSONValue.parse(data);
-//		String actionName = jsonObject.get("actionName").toString();
-//		if(actionName.equals("deliveryOK")){
-//			Order order = new Order();
-//			order.deliveryOK(jsonObject);
-////			this.rtnString = true;
-//		}
-//		
-//		Gson gson = new Gson();
-//		this.rtnString = gson.toJson(validateMsgMap);
-//		
-//		return SUCCESS;	
-//	}
+	public String getTotalCount(JSONObject jsonObject) throws Exception{
+		init();
+		
+		String s = "";
+		Gson gson = new Gson();
+		String dataMode = jsonObject.get("dataMode").toString();
+		JSONObject whereJson = new JSONObject();
+		
+		if(dataMode.equals("reply")){
+			Reply reply = new Reply();
+			whereJson.put("puzzle_seq", jsonObject.get("puzzle_seq"));
+			reply.initForAjax(new JSONObject(){{put("whereJson", whereJson);}});
+			s = reply.getTotalCount() + "";
+		}
+		
+		return s;	
+	}
 }

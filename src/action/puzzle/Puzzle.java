@@ -45,8 +45,10 @@ public class Puzzle extends ActionSupport  {
 	private JSONObject validateResJson = new JSONObject();
 	private String rtnString;
 	
-	private int sortCol = 0;											// 	정렬 컬럼
-    private String sortVal = "";										// 	정렬 내용
+	private int sortCol = 0;				// 	정렬 컬럼
+    private String sortVal = "";			// 	정렬 내용
+    private int pageNum;					//	페이지번호
+    private int puzzleCountPerPage;		//	한페이지에 보일 기본 퍼즐 수
     
 	private JSONObject sortColKindJson = new JSONObject() {{
 		// db상의 name과 매칭
@@ -85,27 +87,34 @@ public class Puzzle extends ActionSupport  {
 		this.puzzleDAO = (FightingPuzzleDAO)this.wac.getBean("puzzle");
 		this.hashtagDAO = (FightingPuzzleDAO)this.wac.getBean("hashtag");
 		
+		this.puzzleCountPerPage = codeConfig.getPuzzleCountPerPage();
+		
 		this.context = ActionContext.getContext();	//session을 생성하기 위해
 		this.session = this.context.getSession();		// Map 사용시
 	}
 	
 	//	ajax로 요청시 요소 초기화
 	public void initForAjax(JSONObject jsonObject){
-		this.seq = jsonObject.containsKey("seq") ? Integer.parseInt(jsonObject.get("seq").toString()) : null;
+		this.seq = jsonObject.containsKey("seq") ? Integer.parseInt(jsonObject.get("seq").toString()) : this.seq;
+		this.pageNum = jsonObject.containsKey("pageNum") ? Integer.parseInt(jsonObject.get("pageNum").toString()) : this.pageNum;
 		this.isAjax = true;
 	}
 	
-	public String getList() throws Exception{
+	public Object getList() throws Exception{
 		init();
 		
+		this.pageNum = this.pageNum == 0 ? 1 : this.pageNum;
 		this.sortCol = this.sortColKindJson.containsKey(this.sortCol) ? this.sortCol : 0;
 		this.sortVal = this.sortVal.equals("ASC") ? "ASC" : "DESC";
+		this.paramJson.put("pageNum",this.pageNum);
+		this.paramJson.put("countPerPage",this.puzzleCountPerPage);
+		this.paramJson.put("countPerPage2", codeConfig.getReplyPreviewCountPerPage());
 		this.paramJson.put("sortCol", this.sortColKindJson.get(this.sortCol));
 		this.paramJson.put("sortVal", this.sortVal);
 		
 		this.dataList = (List<PuzzleDTO>)this.puzzleDAO.getList(this.paramJson);
 		
-		return SUCCESS;
+		return this.isAjax ? this.dataList : SUCCESS;
 	}
 	
 	public Object getData() throws Exception{

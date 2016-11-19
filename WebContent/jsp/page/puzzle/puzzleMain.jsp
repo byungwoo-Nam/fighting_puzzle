@@ -20,9 +20,51 @@
 					var data = {"ajaxMode":"dataInsert", "dataMode":"reply", "puzzle_seq":inputObj.attr("data-idx"), "content":inputObj.val()};
 					data.url = "/ajaxConnect.do";
 					JSON.parse(getAjaxData(data));
-					data = {"ajaxMode":"getData", "dataMode":"reply", "puzzle_seq":inputObj.attr("data-idx")};
+					$(".replyItemArea").empty();
+					$("#userReplyInput").val("");
+					getReplyData(1);
+					getReplyCount();
+				});
+				
+				$(document).on("click touchstart",".replyDelete",function(e){
+					if(confirm("댓글을 삭제 하시겠습니까?")){
+						var data = {"ajaxMode":"dataDelete", "dataMode":"reply", "seq":$(this).attr("data-idx")};
+						data.url = "/ajaxConnect.do";
+						JSON.parse(getAjaxData(data));
+						$(".replyItemArea").empty();
+						$("#userReplyInput").val("");
+						getReplyData(1);
+						getReplyCount();
+					}
+				});
+				
+				$(document).on("click touchstart",".replyUpdate",function(e){
+					$(this).parents(".replyItems").children(".userImage").hide();
+					$(this).parents(".replyItems").children(".replyItem").hide();
+					$(this).parents(".replyItems").children(".replyUpdateArea").removeClass("hide");
+				});
+				
+				$(document).on("click touchstart",".replyUpdateArea .action",function(e){
+					var data = {"ajaxMode":"dataUpdate", "dataMode":"reply", "seq":$(this).attr("data-idx"), "puzzle_seq":$("#userReplyInput").attr("data-idx"), "content":$(this).parents(".replyUpdateArea").children("textarea").val()};
 					data.url = "/ajaxConnect.do";
-					replyRefresh(JSON.parse(getAjaxData(data)));
+					getAjaxData(data);
+					$(this).parents(".replyItems").find(".replyContent").html(data.content);
+					$(".replyUpdateArea .cancel").trigger("click");
+				});
+				
+				$(document).on("click touchstart",".replyUpdateArea .cancel",function(e){
+					$(this).parents(".replyItems").children(".userImage").show();
+					$(this).parents(".replyItems").children(".replyItem").show();
+					$(this).parents(".replyItems").children(".replyUpdateArea").addClass("hide");
+				});
+				
+				$(document).on("click touchstart","#replyMore",function(e){
+					$(this).attr("data-pageNum", parseInt($(this).attr("data-pageNum"))+1);
+					$(this).remove();
+					getReplyData($(this).attr("data-pageNum"));
+					if( $("#replyCnt").html() > $(".replyItems").length){
+						$(".replyItemArea").append($(this));						
+					}
 				});
 				
 				$("#likeBtn").click(function(){
@@ -43,11 +85,18 @@
 					}
 				});
 				
-				function replyRefresh(replyObj){
+				function getReplyCount(){
+					var data = {"ajaxMode":"getTotalCount", "dataMode":"reply", "puzzle_seq":$("#userReplyInput").attr("data-idx")};
+					data.url = "/ajaxConnect.do";
+					$("#replyCnt").html(JSON.parse(getAjaxData(data)));
+				}
+				
+				function getReplyData(page){
+					var user_seq = "<s:property value="#session.user_seq" />";
+					var data = {"ajaxMode":"getData", "dataMode":"reply", "puzzle_seq":$("#userReplyInput").attr("data-idx"), "pageNum":page};
+					data.url = "/ajaxConnect.do";
+					var replyObj = JSON.parse(getAjaxData(data));
 					var replyHTML;
-					$(".replyItemArea").empty();
-					$("#userReplyInput").val("");
-					$("#replyCnt").html(replyObj.length);
 					$.each(replyObj, function(key, value) { 
 						replyHTML = "";
 						replyHTML += '<div class="replyItems">';
@@ -62,6 +111,12 @@
 						replyHTML += '<div class="replyContent">';
 						replyHTML += value.content;
 						replyHTML += '</div>';
+						if(user_seq == value.user_seq){
+							replyHTML += '<div class="replyOption">';
+							replyHTML += '<span class="replyUpdate">수정</span>';
+							replyHTML += '<span class="replyDelete ml10" data-idx="' + value.seq + '">삭제</span>';
+							replyHTML += '</div>';
+						}
 						replyHTML += '</div>';
 						replyHTML += '</div>';
 						$(".replyItemArea").append(replyHTML);
@@ -151,10 +206,26 @@
 									<div class="replyContent">
 										<s:property value="content"/>
 									</div>
+									<s:if test = "#session.user_seq == user_seq">
+										<div class="replyOption">
+											<span class="replyUpdate">수정</span>
+											<span class="replyDelete ml10" data-idx="<s:property value="seq"/>">삭제</span>
+										</div>
+									</s:if>
+								</div>
+								<div class="replyUpdateArea hide">
+									<textarea class="form-control" rows="3"><s:property value="content"/></textarea>
+									<div class="mt5 ta-r">
+										<button type="button" class="action btn btn-warning btn-sm" data-idx="<s:property value="seq"/>">업데이트</button>
+										<button type="button" class="cancel btn btn-default btn-sm">취소</button>
+									</div>
 								</div>
 							</div>
 						</s:iterator>
 					</s:if>
+					<div id="replyMore" data-pageNum="1">
+						<i class="fa fa-comment" aria-hidden="true"></i><span class="ml5 va-m">다음 댓글 보기...</span>
+					</div>
 				</div>
 			</div>
 		</div>	

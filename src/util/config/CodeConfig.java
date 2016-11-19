@@ -15,6 +15,9 @@ public class CodeConfig{
 	private String serverName = ServletActionContext.getRequest().getServerName();
 	private int serverPort = ServletActionContext.getRequest().getServerPort();
 	private String domain = this.serverScheme + "://" + this.serverName + ":" + this.serverPort + "/";
+	private int puzzleCountPerPage = 5;
+	private int replyPreviewCountPerPage = 3;
+	private int replyCountPerPage = 10;
 	
     //	첨부 가능한 이미지 파일 확장자 모음
     private JSONObject attachImageFileExtJson = new JSONObject() {{

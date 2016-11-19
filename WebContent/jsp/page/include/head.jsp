@@ -19,6 +19,7 @@
 <script type="text/javascript" src="/jsp/common/plugin/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/jsp/common/plugin/jQuery.filer-1.0.5/js/jquery.filer.js"></script>
 <script type="text/javascript" src='/jsp/common/js/common.js'></script>
+<script type="text/javascript" src='/jsp/common/js/scrollRefresh.js'></script>
 <script type="text/javascript" src='/jsp/common/js/layerPopup.js'></script>
 <script type="text/javascript" src='/jsp/common/js/puzzle.js'></script>
 

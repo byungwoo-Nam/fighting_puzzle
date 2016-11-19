@@ -45,8 +45,8 @@ public class ReplyDAOImp implements FightingPuzzleDAO {
 		
 		sqlJson.put("one", 1);
 		
-        sql = "	SELECT H.* FROM	" + table_name;
-        sql += "	H JOIN PUZZLE P ON H.puzzle_seq = P.seq	WHERE :one = :one	\n		";
+        sql = "	SELECT * FROM	" + table_name;
+        sql += "	WHERE :one = :one	\n		";
         if(whereJson!=null && !whereJson.isEmpty()){
             for( Object key : whereJson.keySet() ){
             	sqlJson.put(key, whereJson.get(key));
@@ -166,25 +166,12 @@ public class ReplyDAOImp implements FightingPuzzleDAO {
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 		String sql = "";
 		sql += "	UPDATE " + table_name + " SET	\n";
-		sql += "	name = :name, tel1 = :tel1, tel2 = :tel2, tel3 = :tel3	\n";
-		
-//		if(!((PuzzleDTO)dto).getId().equals("")){
-//			sql += ", id = :id	\n";
-//			paramSource.addValue("id", ((PuzzleDTO)dto).getId(), Types.VARCHAR);
-//		}
-//		
-//		if(!((UserDTO)dto).getPw().equals("")){
-//			sql += ", pw = :pw	\n";
-//			paramSource.addValue("pw", ((UserDTO)dto).getPw(), Types.VARCHAR);
-//		}
+		sql += "	content = :content	\n";
 		
 		sql += "	where seq = :seq	\n";
 		
-//		paramSource.addValue("name", ((UserDTO)dto).getName(), Types.VARCHAR);
-//		paramSource.addValue("tel1", ((UserDTO)dto).getTel1(), Types.VARCHAR);
-//		paramSource.addValue("tel2", ((UserDTO)dto).getTel2(), Types.VARCHAR);
-//		paramSource.addValue("tel3", ((UserDTO)dto).getTel3(), Types.VARCHAR);
-//		paramSource.addValue("seq", ((UserDTO)dto).getSeq(), Types.NUMERIC);
+		paramSource.addValue("content", ((ReplyDTO)dto).getContent(), Types.VARCHAR);
+		paramSource.addValue("seq", ((ReplyDTO)dto).getSeq(), Types.NUMERIC);
 		
 		if(this.jdbcTemplate.update(sql, paramSource) > 0){
 			return ((ReplyDTO)dto).getSeq();

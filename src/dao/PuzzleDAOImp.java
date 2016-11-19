@@ -6,6 +6,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 	private PuzzleDTO puzzleDTO; 
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	private String table_name = " PUZZLE  ";
-	private JSONObject puzzleJson;
+	private Map<Integer, Object> puzzleMap;
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource){ 
@@ -50,11 +51,11 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
         	public PuzzleDTO mapRow(ResultSet rs, int rowNum) throws SQLException, DataAccessException{
         		int seq = rs.getInt("p.seq");
         		PuzzleDTO puzzleDTO;
-        		if(puzzleJson != null){
-        			puzzleDTO = (PuzzleDTO)puzzleJson.get(seq);
+        		if(puzzleMap != null){
+        			puzzleDTO = (PuzzleDTO)puzzleMap.get(seq);
         		}else{
         			puzzleDTO = null;
-        			puzzleJson = new JSONObject();
+        			puzzleMap = new LinkedHashMap<Integer, Object>();
         		}
         		
         		if(puzzleDTO == null){
@@ -72,7 +73,10 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
         			puzzleDTO.setPlayCnt(rs.getInt("playCnt"));
         			puzzleDTO.setReplyCnt(rs.getInt("replyCnt"));
         			puzzleDTO.setLikeCnt(rs.getInt("likeCnt"));
-        			puzzleJson.put(seq, puzzleDTO);
+        			puzzleMap.put(seq, puzzleDTO);
+        			System.out.println("seq" + seq);
+        			System.out.println("puzzleDTO" + puzzleDTO);
+        			System.out.println("puzzleJson" + puzzleMap);
         		}
         		
         		// hashtag select
@@ -158,6 +162,7 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 		JSONObject searchJson = (JSONObject) (paramJson.containsKey("searchJson") ? paramJson.get("searchJson") : null);
 		int pageNum = paramJson.containsKey("pageNum") ? (int)paramJson.get("pageNum") : 0;
 		int countPerPage = paramJson.containsKey("countPerPage") ? (int)paramJson.get("countPerPage") : 0;
+		int countPerPage2 = paramJson.containsKey("countPerPage2") ? (int)paramJson.get("countPerPage2") : 0;
 		int startNum = (pageNum-1)*countPerPage;
 		String sortCol = paramJson.containsKey("sortCol") ? (String)paramJson.get("sortCol") : "";
 		String sortVal = paramJson.containsKey("sortVal") ? (String)paramJson.get("sortVal") : "";
@@ -167,9 +172,11 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 		sqlJson.put("one", 1);
 		sqlJson.put("startNum", startNum);
 		sqlJson.put("countPerPage", countPerPage);
+		sqlJson.put("countPerPage2", countPerPage2);
 		
 		if(isCount){
 			sql += "	SELECT COUNT(*)	\n";
+			sql += "	FROM	" + table_name;
 		}else{
 	        sql += "	SELECT P.seq, P.user_seq, P.row, P.col, P.puzzleUrl, P.regDate, H.seq, H.hashtag, R.seq, R.user_seq, R.content, R.regDate, R.printDate, R.userName, R.userPicture, U.name, U.pictureUrl,	\n";
 	        sql += "	( SELECT R2.time FROM( SELECT R2.puzzle_seq, Min(time) as time FROM RECORD R2 GROUP BY R2.puzzle_seq) R1 INNER JOIN RECORD R2 ON R1.puzzle_seq = R2.puzzle_seq AND R2.time = R1.time where R2.puzzle_seq = P.seq ) AS bestRecord,	\n";
@@ -188,11 +195,23 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
 			sql += "				DATE_FORMAT(P.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
 			sql += "			END	)		\n";
 			sql += "	END	) AS printDate		\n";
+			sql += "	FROM	";
+			sql += "	(	SELECT * FROM " + table_name;
+			
+			if(!sortCol.equals("")){
+	        	sql += "	ORDER BY seq " + sortVal + "		\n";
+	        }
+			
+	        if(isCount || pageNum==0){
+			}else{
+				sql += " LIMIT :startNum, :countPerPage	\n";
+			}
+	        
+	        sql += "	)	\n";
+			sql += "	P JOIN USER U ON P.user_seq = U.seq	\n";
+		    sql += "	INNER JOIN HASHTAG H ON P.seq = H.puzzle_seq	\n";
+		    sql += "	LEFT JOIN ( SELECT a.*, ( CASE WHEN DATE_FORMAT(a.regDate,'%p') = 'AM' THEN DATE_FORMAT(a.regDate, '%Y.%m.%d 오전 %h:%i:%s') ELSE DATE_FORMAT(a.regDate, '%Y.%m.%d 오후 %h:%i:%s') END ) AS printDate,  U.name AS userName, U.pictureUrl AS userPicture FROM REPLY AS a LEFT JOIN REPLY AS a2 ON a.puzzle_seq = a2.puzzle_seq AND a.seq <= a2.seq JOIN USER U ON a.user_seq = U.seq GROUP BY a.seq HAVING COUNT(*) <= :countPerPage2 ORDER BY a.puzzle_seq DESC, a.seq DESC ) R ON P.seq = R.puzzle_seq	\n";
 		}
-		sql += "	FROM	" + table_name;
-        sql += "	P JOIN USER U ON P.user_seq = U.seq	\n";
-        sql += "	INNER JOIN HASHTAG H ON P.seq = H.puzzle_seq	\n";
-        sql += "	LEFT JOIN ( SELECT a.*, ( CASE WHEN DATE_FORMAT(a.regDate,'%p') = 'AM' THEN DATE_FORMAT(a.regDate, '%Y.%m.%d 오전 %h:%i:%s') ELSE DATE_FORMAT(a.regDate, '%Y.%m.%d 오후 %h:%i:%s') END ) AS printDate,  U.name AS userName, U.pictureUrl AS userPicture FROM REPLY AS a LEFT JOIN REPLY AS a2 ON a.puzzle_seq = a2.puzzle_seq AND a.seq <= a2.seq JOIN USER U ON a.user_seq = U.seq GROUP BY a.content HAVING COUNT(*) <= 5 ORDER BY a.puzzle_seq DESC, a.seq DESC ) R ON P.seq = R.puzzle_seq	\n";
         sql += "	WHERE :one = :one	\n		";
         if(whereJson!=null && !whereJson.isEmpty()){
             for( Object key : whereJson.keySet() ){
@@ -216,20 +235,14 @@ public class PuzzleDAOImp implements FightingPuzzleDAO {
         	sql += "	ORDER BY R.seq DESC	\n";
         }
         
-        if(isCount || pageNum==0){
-		}else{
-			sql += " LIMIT :startNum, :countPerPage	\n";
-		}
-        
         System.out.println("sql:::"+sql);
         
         if(isCount){
         	return this.jdbcTemplate.queryForInt(sql,sqlJson);
 		}else{
 			this.jdbcTemplate.query(sql, sqlJson, getPuzzleRM());
-			list = new ArrayList<PuzzleDTO>(puzzleJson.values());
-			puzzleJson = null;
-			Collections.reverse(list);
+			list = (puzzleMap==null) ? null : new ArrayList(puzzleMap.values());
+			puzzleMap = null;
 	        return list;
 		}
 	}

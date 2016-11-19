@@ -68,7 +68,9 @@
 								<img id="origImg" src="${data.puzzleUrl}" class="parentFix" alt="gameImg" />
 							</div>
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 pl0 pr0 ta-c">
-								<h3 class="bestRecord bold mb10"><i class="fa fa-clock-o" aria-hidden="true"></i> 20.00초</h3>
+								<s:if test = "#data.bestRecord!=0">
+									<h3 class="bestRecord bold mb10"><i class="fa fa-clock-o" aria-hidden="true"></i> <s:property value="@util.system.StringUtil@convertMillisecond(#data.bestRecord)"/></h3>
+								</s:if>
 								<div class="recording mt20"><span class='timePrint'>00:00</span></div>
 							</div>
 						</div>
