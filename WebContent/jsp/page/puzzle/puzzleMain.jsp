@@ -39,6 +39,7 @@
 				});
 				
 				$(document).on("click touchstart",".replyUpdate",function(e){
+					$(".replyUpdateArea .cancel").trigger("click");
 					$(this).parents(".replyItems").children(".userImage").hide();
 					$(this).parents(".replyItems").children(".replyItem").hide();
 					$(this).parents(".replyItems").children(".replyUpdateArea").removeClass("hide");
@@ -53,9 +54,9 @@
 				});
 				
 				$(document).on("click touchstart",".replyUpdateArea .cancel",function(e){
-					$(this).parents(".replyItems").children(".userImage").show();
-					$(this).parents(".replyItems").children(".replyItem").show();
-					$(this).parents(".replyItems").children(".replyUpdateArea").addClass("hide");
+					$(this).parents(".replyItemArea").find(".userImage").show();
+					$(this).parents(".replyItemArea").find(".replyItem").show();
+					$(this).parents(".replyItemArea").find(".replyUpdateArea").addClass("hide");
 				});
 				
 				$(document).on("click touchstart","#replyMore",function(e){
@@ -117,6 +118,13 @@
 							replyHTML += '<span class="replyDelete ml10" data-idx="' + value.seq + '">삭제</span>';
 							replyHTML += '</div>';
 						}
+						replyHTML += '</div>';
+						replyHTML += '<div class="replyUpdateArea hide">';
+						replyHTML += '<textarea class="form-control" rows="3">' + value.content + '</textarea>';
+						replyHTML += '<div class="mt5 ta-r">';
+						replyHTML += '<button type="button" class="action btn btn-warning btn-sm" data-idx="' + value.seq + '">업데이트</button>';
+						replyHTML += '<button type="button" class="cancel btn btn-default btn-sm">취소</button>';
+						replyHTML += '</div>';
 						replyHTML += '</div>';
 						replyHTML += '</div>';
 						$(".replyItemArea").append(replyHTML);
@@ -223,9 +231,11 @@
 							</div>
 						</s:iterator>
 					</s:if>
-					<div id="replyMore" data-pageNum="1">
-						<i class="fa fa-comment" aria-hidden="true"></i><span class="ml5 va-m">다음 댓글 보기...</span>
-					</div>
+					<s:if test = "#data.replyList.size > 5">
+						<div id="replyMore" data-pageNum="1">
+							<i class="fa fa-comment" aria-hidden="true"></i><span class="ml5 va-m">다음 댓글 보기...</span>
+						</div>
+					</s:if>
 				</div>
 			</div>
 		</div>	
