@@ -49,16 +49,18 @@
 					<input type="file" id="puzzleUrl" name="puzzleUrl" accept="image/*" />
 				</div>
 				<div class="row mb15">
-					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ta-c">
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
 						<label for="" class="control-label"><i class="fa fa-puzzle-piece fa-3x" aria-hidden="true"></i></label>
 					</div>
-					<div tabIndex="2" id="col_check" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<div tabIndex="2" id="col_check" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 						<s:select id="col" name="col" cssClass="form-control input-lg" list="CodeConfig.puzzleSizeJson" headerKey="" headerValue="가로" />
 					</div>
+					
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"><i class="fa fa-times fa-3x" aria-hidden="true"></i></div>
-					<div tabIndex="3" id="row_check" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<div tabIndex="3" id="row_check" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 						<s:select id="row" name="row" cssClass="form-control input-lg" list="CodeConfig.puzzleSizeJson" headerKey="" headerValue="세로" />
 					</div>
+					<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
 				</div>
 				<div tabIndex="4" id="hashtag_check">
 					<input type="text" id="hashtag" name="hashtag" class="form-control input-lg" placeholder="해시태그 입력...(최대 5개)" />
