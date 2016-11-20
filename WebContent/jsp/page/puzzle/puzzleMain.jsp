@@ -26,7 +26,7 @@
 					getReplyCount();
 				});
 				
-				$(document).on("click touchstart",".replyDelete",function(e){
+				$(document).on("click",".replyDelete",function(e){
 					if(confirm("댓글을 삭제 하시겠습니까?")){
 						var data = {"ajaxMode":"dataDelete", "dataMode":"reply", "seq":$(this).attr("data-idx")};
 						data.url = "/ajaxConnect.do";
@@ -38,14 +38,14 @@
 					}
 				});
 				
-				$(document).on("click touchstart",".replyUpdate",function(e){
+				$(document).on("click",".replyUpdate",function(e){
 					$(".replyUpdateArea .cancel").trigger("click");
 					$(this).parents(".replyItems").children(".userImage").hide();
 					$(this).parents(".replyItems").children(".replyItem").hide();
 					$(this).parents(".replyItems").children(".replyUpdateArea").removeClass("hide");
 				});
 				
-				$(document).on("click touchstart",".replyUpdateArea .action",function(e){
+				$(document).on("click",".replyUpdateArea .action",function(e){
 					var data = {"ajaxMode":"dataUpdate", "dataMode":"reply", "seq":$(this).attr("data-idx"), "puzzle_seq":$("#userReplyInput").attr("data-idx"), "content":$(this).parents(".replyUpdateArea").children("textarea").val()};
 					data.url = "/ajaxConnect.do";
 					getAjaxData(data);
@@ -53,13 +53,13 @@
 					$(".replyUpdateArea .cancel").trigger("click");
 				});
 				
-				$(document).on("click touchstart",".replyUpdateArea .cancel",function(e){
+				$(document).on("click",".replyUpdateArea .cancel",function(e){
 					$(this).parents(".replyItemArea").find(".userImage").show();
 					$(this).parents(".replyItemArea").find(".replyItem").show();
 					$(this).parents(".replyItemArea").find(".replyUpdateArea").addClass("hide");
 				});
 				
-				$(document).on("click touchstart","#replyMore",function(e){
+				$(document).on("click","#replyMore",function(e){
 					$(this).attr("data-pageNum", parseInt($(this).attr("data-pageNum"))+1);
 					$(this).remove();
 					getReplyData($(this).attr("data-pageNum"));
@@ -114,16 +114,16 @@
 						replyHTML += '</div>';
 						if(user_seq == value.user_seq){
 							replyHTML += '<div class="replyOption">';
-							replyHTML += '<span class="replyUpdate">수정</span>';
-							replyHTML += '<span class="replyDelete ml10" data-idx="' + value.seq + '">삭제</span>';
+							replyHTML += '<span class="replyUpdate pointer">수정</span>';
+							replyHTML += '<span class="replyDelete pointer ml10" data-idx="' + value.seq + '">삭제</span>';
 							replyHTML += '</div>';
 						}
 						replyHTML += '</div>';
 						replyHTML += '<div class="replyUpdateArea hide">';
 						replyHTML += '<textarea class="form-control" rows="3">' + value.content + '</textarea>';
 						replyHTML += '<div class="mt5 ta-r">';
-						replyHTML += '<button type="button" class="action btn btn-warning btn-sm" data-idx="' + value.seq + '">업데이트</button>';
-						replyHTML += '<button type="button" class="cancel btn btn-default btn-sm">취소</button>';
+						replyHTML += '<button type="button" class="action pointer btn btn-warning btn-sm" data-idx="' + value.seq + '">업데이트</button>';
+						replyHTML += '<button type="button" class="cancel pointer btn btn-default btn-sm">취소</button>';
 						replyHTML += '</div>';
 						replyHTML += '</div>';
 						replyHTML += '</div>';
@@ -216,23 +216,23 @@
 									</div>
 									<s:if test = "#session.user_seq == user_seq">
 										<div class="replyOption">
-											<span class="replyUpdate">수정</span>
-											<span class="replyDelete ml10" data-idx="<s:property value="seq"/>">삭제</span>
+											<span class="replyUpdate pointer">수정</span>
+											<span class="replyDelete pointer ml10" data-idx="<s:property value="seq"/>">삭제</span>
 										</div>
 									</s:if>
 								</div>
 								<div class="replyUpdateArea hide">
 									<textarea class="form-control" rows="3"><s:property value="content"/></textarea>
 									<div class="mt5 ta-r">
-										<button type="button" class="action btn btn-warning btn-sm" data-idx="<s:property value="seq"/>">업데이트</button>
-										<button type="button" class="cancel btn btn-default btn-sm">취소</button>
+										<button type="button" class="action pointer btn btn-warning btn-sm" data-idx="<s:property value="seq"/>">업데이트</button>
+										<button type="button" class="cancel pointer btn btn-default btn-sm">취소</button>
 									</div>
 								</div>
 							</div>
 						</s:iterator>
 					</s:if>
 					<s:if test = "#data.replyList.size > 5">
-						<div id="replyMore" data-pageNum="1">
+						<div id="replyMore" class="pointer" data-pageNum="1">
 							<i class="fa fa-comment" aria-hidden="true"></i><span class="ml5 va-m">다음 댓글 보기...</span>
 						</div>
 					</s:if>

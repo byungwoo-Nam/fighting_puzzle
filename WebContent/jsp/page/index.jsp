@@ -50,7 +50,7 @@
 						});
 						puzzleHTML += '</div>';
 						puzzleHTML += '</div>';
-						puzzleHTML += '<img src="' + value.puzzleUrl + '" class="viewPuzzleMain img-responsive" alt="thumbnail1" data-idx="' + value.seq + '" />';
+						puzzleHTML += '<img src="' + value.puzzleUrl + '" class="viewPuzzleMain pointer img-responsive" alt="thumbnail1" data-idx="' + value.seq + '" />';
 						puzzleHTML += '</div>';
 						puzzleHTML += '<footer class="mb10">';
 						puzzleHTML += '<div class="dis-ib">';
@@ -130,7 +130,7 @@
 									</s:iterator>
 								</div>
 							</div>
-							<img src="<s:property value="puzzleUrl"/>" class="viewPuzzleMain img-responsive" alt="thumbnail1" data-idx="<s:property value="seq"/>" />
+							<img src="<s:property value="puzzleUrl"/>" class="viewPuzzleMain pointer img-responsive" alt="thumbnail1" data-idx="<s:property value="seq"/>" />
 						</div>
 						<footer class="mb10">
 							<div class="dis-ib">

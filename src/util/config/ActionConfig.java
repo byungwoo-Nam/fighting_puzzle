@@ -38,9 +38,8 @@ public class ActionConfig{
 		hashmap.put("search",					"adminAction => false,		pageTitle => ");
 		hashmap.put("searchDetail",			"adminAction => false,		pageTitle => ");
 		
-		// ----------------------------myPage.xml-----------------------------
-		hashmap.put("myPage",				"adminAction => false,		pageTitle => ");
-		hashmap.put("myPage2",				"adminAction => false,		pageTitle => ");
+		// ----------------------------user.xml-----------------------------
+		hashmap.put("userMain",				"adminAction => false,		pageTitle => ");
 		
 		// ----------------------------puzzle.xml-----------------------------
 		hashmap.put("puzzleMain",			"adminAction => false,		pageTitle => ");

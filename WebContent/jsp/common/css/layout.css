@@ -102,7 +102,6 @@ article .userImage{
     width: 50px;
     border-radius: 1000px;
     overflow:hidden;
-    align-items: flex-start;
     display: flex;
 }
 
@@ -129,6 +128,7 @@ article footer{
 
 .puzzleHashtagBtn{
 	color: #337ab7;
+	cursor: pointer;
 }
 
 /* 레이어 팝업 공통 */
@@ -223,7 +223,6 @@ article footer{
     width: 40px;
     border-radius: 1000px;
     overflow:hidden;
-    align-items: initial;
     display: inline-block;
 }
 
@@ -382,20 +381,13 @@ article footer{
 	background-size: cover !important;
 }
 
-/*
-.searchDetailList .row .thumbnail {
-    margin-bottom:0px;
-    position:relative;
+/* userpage */
+#userPage{
+	background-color : initial !important;
+	margin-top: 50px;
 }
 
-.searchDetailList .row .thumbnail img {
-    max-width: 100%;
-    max-height: 100%;
-    position:absolute;
-    top:0;
-	left:0;
-	right:0;
-	bottom:0;
-	margin:auto;
+#userPage .userImage{
+	width: 150px;
+	height: 150px;
 }
-*/

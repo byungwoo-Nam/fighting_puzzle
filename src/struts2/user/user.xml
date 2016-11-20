@@ -1,0 +1,10 @@
+<!DOCTYPE struts PUBLIC    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"    
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="user" namespace="/user" extends="fighting_puzzle">
+		<!-- 마이페이지 -->
+		<action name="userMain" class="action.basic.Index">
+			<result>/jsp/page/user/userMain.jsp</result>
+		</action>		
+	</package>
+</struts>

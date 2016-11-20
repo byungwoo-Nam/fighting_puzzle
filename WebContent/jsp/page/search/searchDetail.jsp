@@ -29,7 +29,7 @@
 					<s:if test="(#stat.index+1)%3==1">
 						<div class="row">
 					</s:if>
-							<div class="viewPuzzleMain thumbnail ta-c" data-idx="<s:property value="seq"/>" style="background:url(<s:property value="puzzleUrl"/>)">
+							<div class="viewPuzzleMain pointer thumbnail ta-c" data-idx="<s:property value="seq"/>" style="background:url(<s:property value="puzzleUrl"/>)">
 							</div>
 					<s:if test="(#stat.index+1)%3==0">
 						</div>

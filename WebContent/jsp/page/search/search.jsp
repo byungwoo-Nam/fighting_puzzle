@@ -20,7 +20,7 @@
 					}
 				});
 				
-				$(document).on("click touchstart",".searchDetailBtn",function(e){
+				$(document).on("click",".searchDetailBtn",function(e){
 					var url = "/search/searchDetail.do";
 					var hashtag = $(this).find(".hashtag").html();
 					url += "?keyword=" + hashtag;
@@ -43,7 +43,7 @@
 						resultHTML += '</div>';
 					}else{
 						$.each(JSON.parse(resultObj), function(key, value) {
-							resultHTML += '<div class="searchDetailBtn row mt15 pb15">';
+							resultHTML += '<div class="searchDetailBtn pointer row mt15 pb15">';
 							resultHTML += '<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">';
 							resultHTML += '<label for="" class="control-label"><i class="fa fa-hashtag fa-2x" aria-hidden="true"></i></label>';
 							resultHTML += '</div>';
@@ -85,7 +85,7 @@
 							</div>
 						</s:if>
 						<s:iterator value="dataList1" status="stat">
-							<div class="searchDetailBtn row mt15 pb15">
+							<div class="searchDetailBtn pointer row mt15 pb15">
 								<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
 									<label for="" class="control-label"><i class="fa fa-hashtag fa-2x" aria-hidden="true"></i></label>
 								</div>
@@ -106,7 +106,7 @@
 							</div>
 						</s:if>
 						<s:iterator value="dataList2" status="stat">
-							<div class="searchDetailBtn row mt15 pb15">
+							<div class="searchDetailBtn pointer row mt15 pb15">
 								<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
 									<label for="" class="control-label"><i class="fa fa-hashtag fa-2x" aria-hidden="true"></i></label>
 								</div>

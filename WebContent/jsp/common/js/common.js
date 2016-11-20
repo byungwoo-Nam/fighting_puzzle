@@ -1,10 +1,15 @@
-$(document).on("click touchstart",".gnbArea div",function(e){
+$(document).on("click",".logoutBtn",function(e){
+	var url = "/logout.do";
+	$(location).attr("href",url);
+	e.preventDefault();
+});
+$(document).on("click",".gnbArea div",function(e){
 	var url = $(this).attr("data-url");
 	$(location).attr("href",url);
 	e.preventDefault();
 });
 
-$(document).on("click touchstart",".viewPuzzleMain",function(e){
+$(document).on("click",".viewPuzzleMain",function(e){
 	var url = "/puzzle/puzzleMain.do";
 	var seq = $(this).attr("data-idx");
 	url += "?seq=" + seq;
@@ -12,12 +17,12 @@ $(document).on("click touchstart",".viewPuzzleMain",function(e){
 	e.preventDefault();
 });
 
-$(document).on("click touchstart",".backBtn",function(e){
+$(document).on("click",".backBtn",function(e){
 	history.back();
 	e.preventDefault();
 });
 
-$(document).on("click touchstart",".puzzleHashtagBtn",function(e){
+$(document).on("click",".puzzleHashtagBtn",function(e){
 	var url = "/search/searchDetail.do";
 	var keyword = $(this).html();
 	keyword = keyword.replace("#", "");
@@ -27,7 +32,7 @@ $(document).on("click touchstart",".puzzleHashtagBtn",function(e){
 	e.preventDefault();
 });
 
-$(document).on("click touchstart",":button[type='submit']",function(e){
+$(document).on("click",":button[type='submit']",function(e){
 	if(validateCheck($(this).parents("form"))){
 		if(confirm($(this).parents("form").attr("data-confirm-msg"))){
 			return true;
