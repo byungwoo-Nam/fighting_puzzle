@@ -391,3 +391,7 @@ article footer{
 	width: 150px;
 	height: 150px;
 }
+
+#userPage .row{
+	border-bottom: 1px solid #a9a9a9;
+}
