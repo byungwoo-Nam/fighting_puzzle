@@ -42,7 +42,10 @@
 		</script>
 	</head>
 	<body>
-		<s:include value="/jsp/page/include/gnb.jsp" />
+		<s:include value="/jsp/page/include/gnb.jsp">
+			<s:param name="option">default</s:param>
+			<s:param name="title">default</s:param>
+		</s:include>
 		<s:form id="puzzle" name="puzzleEditor" data-mode="EditorForm"  cssClass="dib" method="post" namespace="/puzzle" action="puzzleWriteAction" theme="simple" enctype="multipart/form-data" data-confirm-msg="퍼즐을 등록 하시겠습니까?">
 			<div class="container">
 				<div tabIndex="1" id="puzzleUrl_check">

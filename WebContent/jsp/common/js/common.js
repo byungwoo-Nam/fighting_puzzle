@@ -1,10 +1,10 @@
-$(document).on("click",".gnbArea div",function(e){
+$(document).on("click touchstart",".gnbArea div",function(e){
 	var url = $(this).attr("data-url");
 	$(location).attr("href",url);
 	e.preventDefault();
 });
 
-$(document).on("click",".viewPuzzleMain",function(e){
+$(document).on("click touchstart",".viewPuzzleMain",function(e){
 	var url = "/puzzle/puzzleMain.do";
 	var seq = $(this).attr("data-idx");
 	url += "?seq=" + seq;
@@ -12,12 +12,12 @@ $(document).on("click",".viewPuzzleMain",function(e){
 	e.preventDefault();
 });
 
-$(document).on("click",".backBtn",function(e){
+$(document).on("click touchstart",".backBtn",function(e){
 	history.back();
 	e.preventDefault();
 });
 
-$(document).on("click",":button[type='submit']",function(e){
+$(document).on("click touchstart",":button[type='submit']",function(e){
 	if(validateCheck($(this).parents("form"))){
 		if(confirm($(this).parents("form").attr("data-confirm-msg"))){
 			return true;

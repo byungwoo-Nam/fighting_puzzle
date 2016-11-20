@@ -34,16 +34,20 @@ public class Hashtag extends ActionSupport  {
 	
 	private JSONObject paramJson = new JSONObject();
 	private JSONObject whereJson = new JSONObject();
+	private JSONObject searchJson = new JSONObject();
 	private JSONObject validateResJson = new JSONObject();
 	private String rtnString;
 	
 	private int sortCol = 0;											// 	정렬 컬럼
     private String sortVal = "";										// 	정렬 내용
     
+    private boolean searchMode = false; 
+    
 	private JSONObject sortColKindJson = new JSONObject() {{
 		// db상의 name과 매칭
 		put(0,"seq");			// 기본값 정렬
 		put(1,"seq");			// 등록번호 정렬
+		put(2,"hashtag");		// 해시태그 정렬
 	}};
 	
 	private boolean isAjax;	//	ajax요청시
@@ -73,7 +77,11 @@ public class Hashtag extends ActionSupport  {
 	
 	//	ajax로 요청시 요소 초기화
 	public void initForAjax(JSONObject jsonObject){
-		this.whereJson = jsonObject;
+		this.whereJson = jsonObject.containsKey("whereJson") ? (JSONObject) jsonObject.get("whereJson") : this.whereJson;
+		this.searchJson = jsonObject.containsKey("searchJson") ? (JSONObject) jsonObject.get("searchJson") : this.searchJson;
+		this.sortCol = jsonObject.containsKey("sortCol") ? Integer.parseInt(jsonObject.get("sortCol").toString()) : this.sortCol;
+		this.sortVal = jsonObject.containsKey("sortVal") ? jsonObject.get("sortVal").toString() : this.sortVal;
+		this.searchMode = jsonObject.containsKey("searchMode") ? (boolean)jsonObject.get("searchMode") : this.searchMode;
 		this.isAjax = true;
 	}
 	
@@ -85,30 +93,28 @@ public class Hashtag extends ActionSupport  {
 		if(this.whereJson==null){
 			this.whereJson.put("seq", this.seq);
 		}
-		
 		this.paramJson.put("sortCol", this.sortColKindJson.get(this.sortCol));
 		this.paramJson.put("sortVal", this.sortVal);
 		this.paramJson.put("whereJson", this.whereJson);
+		if(this.searchJson!=null){
+			this.paramJson.put("searchJson", this.searchJson);
+		}
+		this.paramJson.put("searchMode", this.searchMode);
 		
 		this.dataList = (List<HashtagDTO>)this.hashtagDAO.getList(this.paramJson);
 		
 		return this.isAjax ? this.dataList : SUCCESS;
 	}
 	
-//	public Object getData() throws Exception{
-//		init();
-//		
-//		this.whereJson.put("P.seq", this.seq);
-//		this.paramJson.put("whereJson", this.whereJson);
-//		
-//		this.puzzleDTO = (PuzzleDTO) this.puzzleDAO.getOneRow(this.paramJson);
-//		this.puzzleDTO.setHashtagList(hashtagList); =
-//		
-//		System.out.println(this.puzzleDTO);
-//		System.out.println(this.whereJson);
-//		
-//		return this.isAjax ? this.puzzleDTO : SUCCESS;
-//	}
+	public Object getData() throws Exception{
+		init();
+		
+		this.paramJson.put("whereJson", this.whereJson);
+		
+		this.hashtagDTO = (HashtagDTO) this.hashtagDAO.getOneRow(this.paramJson);
+		
+		return this.isAjax ? this.hashtagDTO : SUCCESS;
+	}
 //	
 //	public String writeAction() throws Exception{
 //		init();

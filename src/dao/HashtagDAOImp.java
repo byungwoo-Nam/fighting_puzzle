@@ -45,8 +45,8 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
 		
 		sqlJson.put("one", 1);
 		
-        sql = "	SELECT H.* FROM	" + table_name;
-        sql += "	H JOIN PUZZLE P ON H.puzzle_seq = P.seq	WHERE :one = :one	\n		";
+        sql = "	SELECT * FROM	" + table_name;
+        sql += "	WHERE :one = :one	\n		";
         if(whereJson!=null && !whereJson.isEmpty()){
             for( Object key : whereJson.keySet() ){
             	sqlJson.put(key, whereJson.get(key));
@@ -55,9 +55,13 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
         }
         
         System.out.println(sql);
+        System.out.println(whereJson);
+        System.out.println(sqlJson);
         
         list  = this.jdbcTemplate.query(sql,sqlJson,new BeanPropertyRowMapper(HashtagDTO.class));
-        this.hashtagDTO = (list.size() == 1) ? list.get(0) : null;
+        this.hashtagDTO = (list.size() > 0) ? list.get(0) : null;
+        
+        System.out.println(this.hashtagDTO);
         return this.hashtagDTO;
 	}
 	
@@ -73,6 +77,7 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
 		int startNum = (pageNum-1)*countPerPage;
 		String sortCol = paramJson.containsKey("sortCol") ? (String)paramJson.get("sortCol") : "";
 		String sortVal = paramJson.containsKey("sortVal") ? (String)paramJson.get("sortVal") : "";
+		boolean searchMode = paramJson.containsKey("searchMode") ? (boolean)paramJson.get("searchMode") : false;
 		
 		String sql = "";
 		
@@ -85,6 +90,10 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
 		}else{
 			sql += "	SELECT * \n";
 		}
+		
+		if(searchMode){
+			sql += "	, COUNT( * ) AS groupCount \n";
+		}
         sql += " FROM "+ table_name + "  WHERE :one = :one \n";
         if(whereJson!=null && !whereJson.isEmpty()){
             for( Object key : whereJson.keySet() ){
@@ -94,10 +103,14 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
         }
         if(searchJson!=null && !searchJson.isEmpty()){
             for( Object key : searchJson.keySet() ){
-            	sqlJson.put(key, "%" + searchJson.get(key) + "%");
+            	sqlJson.put(key, searchJson.get(key) + "%");
             	sql += " and LOWER( "+key+" ) like LOWER( :"+key+" )";
             }
         }
+        
+        if(searchMode){
+			sql += "	GROUP BY hashtag \n";
+		}
         
         if(!sortCol.equals("")){
         	sql += " ORDER BY " + sortCol + " " + sortVal + "		\n";
@@ -114,7 +127,7 @@ public class HashtagDAOImp implements FightingPuzzleDAO {
         	return this.jdbcTemplate.queryForInt(sql,sqlJson);
 		}else{
 			list  = this.jdbcTemplate.query(sql, sqlJson, new BeanPropertyRowMapper(HashtagDTO.class));
-	        return list;
+			return list.size()>0 ? list : null;
 		}
 	}
 	

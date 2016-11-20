@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import action.puzzle.Hashtag;
 import action.puzzle.Like;
 import action.puzzle.Puzzle;
 import action.puzzle.Record;
@@ -144,6 +145,7 @@ public class Ajax extends ActionSupport  {
 		Gson gson = new Gson();
 		String dataMode = jsonObject.get("dataMode").toString();
 		JSONObject whereJson = new JSONObject();
+		JSONObject searchJson = new JSONObject();
 		if(dataMode.equals("reply")){
 			Reply reply = new Reply();
 			whereJson.put("puzzle_seq", jsonObject.get("puzzle_seq"));
@@ -153,6 +155,16 @@ public class Ajax extends ActionSupport  {
 			Puzzle puzzle = new Puzzle();
 			puzzle.initForAjax(jsonObject);
 			Object rtnObj = puzzle.getList();
+			s = (rtnObj == null) ? null : gson.toJson(rtnObj);
+		}else if(dataMode.equals("search")){
+			Hashtag hashtag = new Hashtag();
+			searchJson.put("hashtag", jsonObject.get("keyword"));
+			jsonObject.put("searchJson", searchJson);
+			jsonObject.put("sortCol", 2);
+			jsonObject.put("sortVal", "ASC");
+			jsonObject.put("searchMode", true);
+			hashtag.initForAjax(jsonObject);
+			Object rtnObj = hashtag.getList();
 			s = (rtnObj == null) ? null : gson.toJson(rtnObj);
 		}
 		

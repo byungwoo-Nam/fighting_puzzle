@@ -49,6 +49,8 @@ public class Puzzle extends ActionSupport  {
     private String sortVal = "";			// 	정렬 내용
     private int pageNum;					//	페이지번호
     private int puzzleCountPerPage;		//	한페이지에 보일 기본 퍼즐 수
+    private boolean searchMode = false;
+    private boolean searchMode2 = false;
     
 	private JSONObject sortColKindJson = new JSONObject() {{
 		// db상의 name과 매칭
@@ -87,7 +89,7 @@ public class Puzzle extends ActionSupport  {
 		this.puzzleDAO = (FightingPuzzleDAO)this.wac.getBean("puzzle");
 		this.hashtagDAO = (FightingPuzzleDAO)this.wac.getBean("hashtag");
 		
-		this.puzzleCountPerPage = codeConfig.getPuzzleCountPerPage();
+		this.puzzleCountPerPage = this.puzzleCountPerPage==0 ? codeConfig.getPuzzleCountPerPage() : this.puzzleCountPerPage;
 		
 		this.context = ActionContext.getContext();	//session을 생성하기 위해
 		this.session = this.context.getSession();		// Map 사용시
@@ -97,6 +99,9 @@ public class Puzzle extends ActionSupport  {
 	public void initForAjax(JSONObject jsonObject){
 		this.seq = jsonObject.containsKey("seq") ? Integer.parseInt(jsonObject.get("seq").toString()) : this.seq;
 		this.pageNum = jsonObject.containsKey("pageNum") ? Integer.parseInt(jsonObject.get("pageNum").toString()) : this.pageNum;
+		this.whereJson = jsonObject.containsKey("whereJson") ? (JSONObject) jsonObject.get("whereJson") : this.whereJson;
+		this.searchMode = jsonObject.containsKey("searchMode") ? (boolean)jsonObject.get("searchMode") : this.searchMode;
+		this.searchMode2 = jsonObject.containsKey("searchMode2") ? (boolean)jsonObject.get("searchMode2") : this.searchMode2;
 		this.isAjax = true;
 	}
 	
@@ -106,11 +111,18 @@ public class Puzzle extends ActionSupport  {
 		this.pageNum = this.pageNum == 0 ? 1 : this.pageNum;
 		this.sortCol = this.sortColKindJson.containsKey(this.sortCol) ? this.sortCol : 0;
 		this.sortVal = this.sortVal.equals("ASC") ? "ASC" : "DESC";
+		
+		if(this.whereJson!=null){
+			this.paramJson.put("whereJson", this.whereJson);
+		}
+		
 		this.paramJson.put("pageNum",this.pageNum);
 		this.paramJson.put("countPerPage",this.puzzleCountPerPage);
 		this.paramJson.put("countPerPage2", codeConfig.getReplyPreviewCountPerPage());
 		this.paramJson.put("sortCol", this.sortColKindJson.get(this.sortCol));
 		this.paramJson.put("sortVal", this.sortVal);
+		this.paramJson.put("searchMode", this.searchMode);
+		this.paramJson.put("searchMode2", this.searchMode2);
 		
 		this.dataList = (List<PuzzleDTO>)this.puzzleDAO.getList(this.paramJson);
 		
@@ -119,6 +131,8 @@ public class Puzzle extends ActionSupport  {
 	
 	public Object getData() throws Exception{
 		init();
+		
+		this.user_seq = (int) session.get("user_seq");
 		
 		this.whereJson.put("P.seq", this.seq);
 		this.paramJson.put("whereJson", this.whereJson);
@@ -129,11 +143,13 @@ public class Puzzle extends ActionSupport  {
 		Hashtag hashtag = new Hashtag();
 		Reply reply = new Reply();
 		Like like = new Like();
-		hashtag.initForAjax(this.tempJson);
+		hashtag.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
 		reply.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
 		like.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
 		this.puzzleDTO.setHashtagList((List<HashtagDTO>) hashtag.getList());
 		this.puzzleDTO.setReplyList((List<ReplyDTO>) reply.getList());
+		
+		this.tempJson.put("user_seq", this.user_seq);
 		this.puzzleDTO.setLike((like.getData() == null) ? false : true);
 		
 		return this.isAjax ? this.puzzleDTO : SUCCESS;

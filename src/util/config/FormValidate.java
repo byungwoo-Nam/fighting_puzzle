@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.json.simple.JSONObject;
 
+import action.puzzle.Hashtag;
 import action.puzzle.Puzzle;
 import util.system.StringUtil;
 
@@ -123,6 +124,29 @@ public class FormValidate{
 			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
 			this.rtnJson.put("errorMsg", alertMessage.getLikePuzzleError());
 			this.rtnJson.put("elementID", "puzzle_check");
+		}else if(false){
+			// 추가 가능
+		}else{
+			this.rtnJson.put("res", true);
+		}
+		
+		return this.rtnJson;
+	}
+	
+	// 검색기록 등록/수정 체크(validation)
+	public JSONObject searchEditorForm(JSONObject paramJson) throws Exception{
+		Hashtag hashtag = new Hashtag();
+		JSONObject whereJson = new JSONObject();
+		if(paramJson.containsKey("keyword")){
+			whereJson.put("hashtag", paramJson.get("keyword"));
+		}
+		hashtag.initForAjax(new JSONObject(){{put("whereJson", whereJson);}});
+		
+		if(!paramJson.containsKey("keyword") || paramJson.get("keyword").equals("") || hashtag.getData() == null){
+			// 해시태그 존재 체크
+			this.rtnJson.put("errorTitle", alertMessage.getWriteError());
+			this.rtnJson.put("errorMsg", alertMessage.getSearchError());
+			this.rtnJson.put("elementID", "search_check");
 		}else if(false){
 			// 추가 가능
 		}else{

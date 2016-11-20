@@ -106,7 +106,11 @@ public class Like extends ActionSupport  {
 		
 		this.paramJson.put("whereJson", this.whereJson);
 		
+		System.out.println(this.paramJson);
+		
 		this.likeDTO = (LikeDTO) this.likeDAO.getOneRow(this.paramJson);
+		
+		System.out.println(this.likeDTO);
 		
 		return this.isAjax ? this.likeDTO : SUCCESS;
 	}

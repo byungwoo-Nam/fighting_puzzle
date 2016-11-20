@@ -30,4 +30,7 @@ public class AlertMessage{
 	
 	//*******************댓글관련*******************/
 	private String LikePuzzleError = "퍼즐 정보가 올바르지 않습니다.";
+	
+	//*******************검색관련*******************/
+	private String SearchError = "검색이 실패 하였습니다.";
 }

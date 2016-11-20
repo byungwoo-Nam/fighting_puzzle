@@ -338,3 +338,59 @@ article footer{
 .layer-puzzleEndPop .timePrint{
 	color:red;
 }
+
+/* search */
+.searchArea .row{
+	border-bottom: 1px solid #a9a9a9;
+    width: 100%;
+    margin:0;
+}
+
+.searchArea .hashtagMark{
+    height: 40px;
+    line-height: 40px;
+}
+
+.searchArea .searchContent p{
+	margin:0;
+}
+
+.searchArea .searchContent p:last-child{
+	color:#888787;
+}
+
+.searchArea .resultEmpty{
+	line-height: 46px;
+}
+
+/* searchDetail */
+.searchDetailList .row{
+	width:99%;
+	margin: 0 auto;
+	text-align:center;
+}
+
+.searchDetailList .row .thumbnail{
+	width:32%;
+	margin-bottom:5px;
+	display: inline-block;
+	background-size: cover !important;
+}
+
+/*
+.searchDetailList .row .thumbnail {
+    margin-bottom:0px;
+    position:relative;
+}
+
+.searchDetailList .row .thumbnail img {
+    max-width: 100%;
+    max-height: 100%;
+    position:absolute;
+    top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	margin:auto;
+}
+*/

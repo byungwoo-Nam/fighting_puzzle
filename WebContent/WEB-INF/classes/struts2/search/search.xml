@@ -6,5 +6,8 @@
 		<action name="search" class="action.basic.Index">
 			<result>/jsp/page/search/search.jsp</result>
 		</action>		
+		<action name="searchDetail" class="action.search.Search" method="getList">
+			<result>/jsp/page/search/searchDetail.jsp</result>
+		</action>		
 	</package>
 </struts>
