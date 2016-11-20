@@ -159,7 +159,7 @@ article footer{
 	font-size:20px;
 }
 .pop-layer .pop-container {
-	padding: 20px 25px;
+	padding: 55px 25px;
 	max-height:100%;
 }
 .pop-layer p.ctxt {color: #666; line-height: 25px;}
@@ -333,6 +333,7 @@ article footer{
 .layer-puzzleEndPop .content{
 	font-size:50px; 
 	color:#007F6B;
+	margin-top: 40px;
 }
 
 .layer-puzzleEndPop .content span{

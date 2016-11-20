@@ -75,15 +75,15 @@
 		    </div>
 		    <div class="searchDefault">
 				<div class="searchArea mt10">
-						<!-- 
-						<div class="row mt5">
-							<div class="searchContent resultEmpty col-xs-9 col-sm-9 col-md-9 col-lg-9">
-								<p>검색 결과 없음</p>
-							</div>
-						</div>
-						 -->
 					<div>
 						<span>인기 검색어</span>
+						<s:if test="dataList1.size==0">
+							<div class="row mt5">
+								<div class="searchContent resultEmpty col-xs-9 col-sm-9 col-md-9 col-lg-9">
+									<p>검색 결과 없음</p>
+								</div>
+							</div>
+						</s:if>
 						<s:iterator value="dataList1" status="stat">
 							<div class="searchDetailBtn row mt15 pb15">
 								<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
@@ -98,6 +98,13 @@
 					</div>
 					<div class="mt50">
 						<span>최근 검색</span>
+						<s:if test="dataList2.size==0">
+							<div class="row mt5">
+								<div class="searchContent resultEmpty col-xs-9 col-sm-9 col-md-9 col-lg-9">
+									<p>검색 결과 없음</p>
+								</div>
+							</div>
+						</s:if>
 						<s:iterator value="dataList2" status="stat">
 							<div class="searchDetailBtn row mt15 pb15">
 								<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
