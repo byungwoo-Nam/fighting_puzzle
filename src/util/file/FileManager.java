@@ -34,7 +34,7 @@ public class FileManager {
 		String saveFileName = yyyyMMddHHmmss + idx + option + fileName.get(idx).substring(fileName.get(idx).lastIndexOf("."));
 		File destFile = new File(FilePath_full + yyyyMMddHHmmss + idx + option + fileName.get(idx).substring(fileName.get(idx).lastIndexOf(".")));			       
 		FileUtils.copyFile(getUploads.get(idx), destFile);
-		ImageManager im = new ImageManager(FilePath_full);
+		ImageManager im = new ImageManager(destFile);
 		im.resize();
 		return this.dataServer_url + this.dataMode + FilePath_detail + saveFileName;
 	}

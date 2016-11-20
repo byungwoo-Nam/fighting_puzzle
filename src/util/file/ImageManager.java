@@ -12,17 +12,18 @@ import util.config.CodeConfig;
 
 public class ImageManager {
 	private CodeConfig codeConfig = new CodeConfig();
-	private String path;
+	private File origFile;
 	private Image origImage;
 	private double resize_width;
 	private double resize_height;
 	private int maxImageSize;
 	private double resizeRatio;
 	
-	public ImageManager(String path){
-		this.path = path;
+	public ImageManager(File f){
+		this.origFile = f;
+		System.out.println(this.origFile.getAbsolutePath());
 		this.maxImageSize = codeConfig.getMaxImageSize();
-		this.origImage = new ImageIcon(path).getImage();
+		this.origImage = new ImageIcon(f.getAbsolutePath()).getImage();
 		sizeInit();
 	}
 	
@@ -44,12 +45,11 @@ public class ImageManager {
 	
 	public void resize(){
 		try {
-            File f = new File(this.path);
-            BufferedImage buffer_original_image = ImageIO.read(f);
+            BufferedImage buffer_original_image = ImageIO.read(this.origFile);
             BufferedImage buffer_thumbnail_image = new BufferedImage((int)this.resize_width, (int)this.resize_height, BufferedImage.TYPE_3BYTE_BGR);
             Graphics2D graphic = buffer_thumbnail_image.createGraphics();
             graphic.drawImage(buffer_original_image, 0, 0, (int)this.resize_width, (int)this.resize_height, null);
-            ImageIO.write(buffer_thumbnail_image, "jpg", f);
+            ImageIO.write(buffer_thumbnail_image, "jpg", this.origFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
