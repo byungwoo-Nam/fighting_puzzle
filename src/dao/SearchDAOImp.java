@@ -73,6 +73,8 @@ public class SearchDAOImp implements FightingPuzzleDAO {
 		int startNum = (pageNum-1)*countPerPage;
 		String sortCol = paramJson.containsKey("sortCol") ? (String)paramJson.get("sortCol") : "";
 		String sortVal = paramJson.containsKey("sortVal") ? (String)paramJson.get("sortVal") : "";
+		boolean searchMode = paramJson.containsKey("searchMode") ? (boolean)paramJson.get("searchMode") : false;
+		boolean searchMode2 = paramJson.containsKey("searchMode2") ? (boolean)paramJson.get("searchMode2") : false;
 		
 		String sql = "";
 		
@@ -80,32 +82,54 @@ public class SearchDAOImp implements FightingPuzzleDAO {
 		sqlJson.put("startNum", startNum);
 		sqlJson.put("countPerPage", countPerPage);
 		
-		if(isCount){
-			sql += "	SELECT COUNT(*)	\n";
-		}else{
-			sql += "	SELECT * \n";
-		}
-        sql += " FROM "+ table_name + "  WHERE :one = :one \n";
-        if(whereJson!=null && !whereJson.isEmpty()){
-            for( Object key : whereJson.keySet() ){
+		
+		if(searchMode){
+			sql += "	SELECT S.* , COUNT( DISTINCT S.user_seq ) AS CNT,	\n";
+			sql += "	(select count(*) from HASHTAG where hashtag = S.keyword) AS puzzleCount	\n";
+			sql += "	FROM SEARCH S	\n";
+			sql += "	GROUP BY S.keyword		\n";
+			sql += "	ORDER BY CNT DESC, S.seq DESC \n";
+			sql += "	LIMIT 0 , 5	\n";
+		}else if(searchMode2){
+			sql += "	SELECT S.* , 	\n";
+			sql += "	(select count(*) from HASHTAG where hashtag = S.keyword) AS puzzleCount	\n";
+			sql += "	FROM SEARCH S	\n";
+			sql += "	GROUP BY S.keyword		\n";
+			sql += "	HAVING 1=1 	\n";
+			for( Object key : whereJson.keySet() ){
             	sqlJson.put(key, whereJson.get(key));
             	sql += " and " + key + " = :"+key+"		\n";
             }
-        }
-        if(searchJson!=null && !searchJson.isEmpty()){
-            for( Object key : searchJson.keySet() ){
-            	sqlJson.put(key, "%" + searchJson.get(key) + "%");
-            	sql += " and LOWER( "+key+" ) like LOWER( :"+key+" )";
-            }
-        }
-        
-        if(!sortCol.equals("")){
-        	sql += " ORDER BY " + sortCol + " " + sortVal + "		\n";
-        }
-        
-        if(isCount || pageNum==0){
+			sql += "	ORDER BY S.seq DESC \n";
+			sql += "	LIMIT 0 , 5	\n";
 		}else{
-			sql += " LIMIT :startNum, :countPerPage	\n";
+			if(isCount){
+				sql += "	SELECT COUNT(*)	\n";
+			}else{
+				sql += "	SELECT * \n";
+			}
+	        sql += " FROM "+ table_name + "  WHERE :one = :one \n";
+	        if(whereJson!=null && !whereJson.isEmpty()){
+	            for( Object key : whereJson.keySet() ){
+	            	sqlJson.put(key, whereJson.get(key));
+	            	sql += " and " + key + " = :"+key+"		\n";
+	            }
+	        }
+	        if(searchJson!=null && !searchJson.isEmpty()){
+	            for( Object key : searchJson.keySet() ){
+	            	sqlJson.put(key, "%" + searchJson.get(key) + "%");
+	            	sql += " and LOWER( "+key+" ) like LOWER( :"+key+" )";
+	            }
+	        }
+	        
+	        if(!sortCol.equals("")){
+	        	sql += " ORDER BY " + sortCol + " " + sortVal + "		\n";
+	        }
+	        
+	        if(isCount || pageNum==0){
+			}else{
+				sql += " LIMIT :startNum, :countPerPage	\n";
+			}
 		}
         
         System.out.println("sql:::"+sql);

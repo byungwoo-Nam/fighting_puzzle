@@ -149,7 +149,7 @@
 						<div class="title">
 							<div>
 								<s:iterator value="#data.hashtagList" status="stat">
-									<a href="/" >#${hashtag}</a>
+									<span class="puzzleHashtagBtn">#${hashtag}</span>
 								</s:iterator>
 							</div>
 							<div class="regDate">

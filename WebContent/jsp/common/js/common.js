@@ -17,6 +17,16 @@ $(document).on("click touchstart",".backBtn",function(e){
 	e.preventDefault();
 });
 
+$(document).on("click touchstart",".puzzleHashtagBtn",function(e){
+	var url = "/search/searchDetail.do";
+	var keyword = $(this).html();
+	keyword = keyword.replace("#", "");
+	
+	url += "?keyword=" + keyword;
+	$(location).attr("href",url);
+	e.preventDefault();
+});
+
 $(document).on("click touchstart",":button[type='submit']",function(e){
 	if(validateCheck($(this).parents("form"))){
 		if(confirm($(this).parents("form").attr("data-confirm-msg"))){

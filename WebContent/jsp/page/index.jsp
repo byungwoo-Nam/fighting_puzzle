@@ -126,7 +126,7 @@
 								</div>
 								<div class="mb10">
 									<s:iterator value="hashtagList" status="stat">
-										<a href="/" >#<s:property value="hashtag"/></a>
+										<span class="puzzleHashtagBtn">#<s:property value="hashtag"/></span>
 									</s:iterator>
 								</div>
 							</div>

@@ -43,7 +43,6 @@
 						resultHTML += '</div>';
 					}else{
 						$.each(JSON.parse(resultObj), function(key, value) {
-							console.log(value);
 							resultHTML += '<div class="searchDetailBtn row mt15 pb15">';
 							resultHTML += '<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">';
 							resultHTML += '<label for="" class="control-label"><i class="fa fa-hashtag fa-2x" aria-hidden="true"></i></label>';
@@ -84,28 +83,32 @@
 						</div>
 						 -->
 					<div>
-						<span>인기</span>
-						<div class="searchDetailBtn row mt15 pb15">
-							<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
-								<label for="" class="control-label"><i class="fa fa-hashtag fa-2x" aria-hidden="true"></i></label>
+						<span>인기 검색어</span>
+						<s:iterator value="dataList1" status="stat">
+							<div class="searchDetailBtn row mt15 pb15">
+								<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
+									<label for="" class="control-label"><i class="fa fa-hashtag fa-2x" aria-hidden="true"></i></label>
+								</div>
+								<div class="searchContent col-xs-9 col-sm-9 col-md-9 col-lg-9">
+									<p><strong>#<span class="hashtag"><s:property value="keyword"/></span></strong></p>
+									<p>퍼즐 <s:property value="puzzleCount"/>개</p>
+								</div>
 							</div>
-							<div class="searchContent col-xs-9 col-sm-9 col-md-9 col-lg-9">
-								<p><strong>#<span class="hashtag">나</span></strong></p>
-								<p>게시물 1000개</p>
-							</div>
-						</div>
+						</s:iterator>
 					</div>
 					<div class="mt50">
 						<span>최근 검색</span>
-						<div class="searchDetailBtn row mt15 pb15">
-							<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
-								<label for="" class="control-label"><i class="fa fa-hashtag fa-2x" aria-hidden="true"></i></label>
+						<s:iterator value="dataList2" status="stat">
+							<div class="searchDetailBtn row mt15 pb15">
+								<div class="hashtagMark col-xs-2 col-sm-2 col-md-2 col-lg-2 ta-c">
+									<label for="" class="control-label"><i class="fa fa-hashtag fa-2x" aria-hidden="true"></i></label>
+								</div>
+								<div class="searchContent col-xs-9 col-sm-9 col-md-9 col-lg-9">
+									<p><strong>#<span class="hashtag"><s:property value="keyword"/></span></strong></p>
+									<p>게시물 <s:property value="puzzleCount"/>개</p>
+								</div>
 							</div>
-							<div class="searchContent col-xs-9 col-sm-9 col-md-9 col-lg-9">
-								<p><strong>#<span class="hashtag">나</span></strong></p>
-								<p>게시물 1000개</p>
-							</div>
-						</div>
+						</s:iterator>
 					</div>
 				</div>
 			</div>

@@ -21,7 +21,7 @@
 			<s:param name="title">#${keyword}</s:param>
 		</s:include> 
 		<div class="site-wrapper searchDetailList pt30">
-			<s:iterator value="dataList1" status="stat">
+			<s:iterator value="puzzleDataList1" status="stat">
 				<s:if test = "#stat.first">
 					<div>
 						<p class="ml15"><strong>인기 게시물</strong></p>
@@ -38,7 +38,7 @@
 						</div>
 					</s:if>
 			</s:iterator>
-			<s:iterator value="dataList2" status="stat">
+			<s:iterator value="puzzleDataList2" status="stat">
 				<s:if test = "#stat.first">
 					<div class="mt50">
 						<p class="ml15"><strong>최근 퍼즐</strong></p>

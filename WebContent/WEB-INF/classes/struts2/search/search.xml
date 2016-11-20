@@ -3,10 +3,10 @@
 <struts>
 	<package name="search" namespace="/search" extends="fighting_puzzle">
 		<!-- 검색 -->
-		<action name="search" class="action.basic.Index">
+		<action name="search" class="action.search.Search" method="getList">
 			<result>/jsp/page/search/search.jsp</result>
 		</action>		
-		<action name="searchDetail" class="action.search.Search" method="getList">
+		<action name="searchDetail" class="action.search.Search" method="getData">
 			<result>/jsp/page/search/searchDetail.jsp</result>
 		</action>		
 	</package>

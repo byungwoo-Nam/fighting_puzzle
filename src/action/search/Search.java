@@ -41,8 +41,10 @@ public class Search extends ActionSupport  {
 	private FightingPuzzleDAO searchDAO;
 	private SearchDTO searchDTO;
 	private PuzzleDTO puzzleDTO;
-	private List<PuzzleDTO> dataList1;
-	private List<PuzzleDTO> dataList2;
+	private List<SearchDTO> dataList1;
+	private List<SearchDTO> dataList2;
+	private List<PuzzleDTO> puzzleDataList1;
+	private List<PuzzleDTO> puzzleDataList2;
 	
 	private JSONObject paramJson = new JSONObject();
 	private JSONObject whereJson = new JSONObject();
@@ -104,6 +106,42 @@ public class Search extends ActionSupport  {
 	
 	public Object getList() throws Exception{
 		init();
+		
+		this.user_seq = (int) session.get("user_seq");
+//		this.whereJson.put("P.seq", this.seq);
+//		this.paramJson.put("whereJson", this.whereJson);
+//		this.puzzleDTO = (PuzzleDTO) this.puzzleDAO.getOneRow(this.paramJson);
+//		
+//		this.tempJson.clear();
+//		this.tempJson.put("puzzle_seq", this.seq);
+//		Hashtag hashtag = new Hashtag();
+//		Reply reply = new Reply();
+//		Like like = new Like();
+//		hashtag.initForAjax(this.tempJson);
+//		reply.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
+//		like.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
+//		this.puzzleDTO.setHashtagList((List<HashtagDTO>) hashtag.getList());
+//		this.puzzleDTO.setReplyList((List<ReplyDTO>) reply.getList());
+//		this.puzzleDTO.setLike((like.getData() == null) ? false : true);
+		
+//		return this.isAjax ? this.puzzleDTO : SUCCESS;
+		
+		this.paramJson.put("searchMode", true);
+		
+		this.dataList1 = (List<SearchDTO>) this.searchDAO.getList(this.paramJson);
+		
+		
+		this.whereJson.put("S.user_seq", this.user_seq);
+		this.paramJson.put("whereJson", this.whereJson);
+		this.paramJson.remove("searchMode");
+		this.paramJson.put("searchMode2", true);
+		this.dataList2 = (List<SearchDTO>) this.searchDAO.getList(this.paramJson);
+		
+		return this.isAjax ? null : SUCCESS;
+	}
+	
+	public Object getData() throws Exception{
+		init();
 	
 		this.writeAction();
 		
@@ -124,37 +162,14 @@ public class Search extends ActionSupport  {
 		this.paramJson.put("whereJson", this.whereJson);
 		
 		puzzle.initForAjax(this.paramJson);
-		this.dataList1 = (List<PuzzleDTO>) puzzle.getList();
+		this.puzzleDataList1 = (List<PuzzleDTO>) puzzle.getList();
 		
 		this.paramJson.remove("searchMode");
 		this.paramJson.put("searchMode2", true);
 		puzzle.initForAjax(this.paramJson);
-		this.dataList2 = (List<PuzzleDTO>) puzzle.getList();
+		this.puzzleDataList2 = (List<PuzzleDTO>) puzzle.getList();
 		
-		return this.isAjax ? this.dataList1 : SUCCESS;
-	}
-	
-	public Object getData() throws Exception{
-		init();
-		
-//		this.whereJson.put("P.seq", this.seq);
-//		this.paramJson.put("whereJson", this.whereJson);
-//		this.puzzleDTO = (PuzzleDTO) this.puzzleDAO.getOneRow(this.paramJson);
-//		
-//		this.tempJson.clear();
-//		this.tempJson.put("puzzle_seq", this.seq);
-//		Hashtag hashtag = new Hashtag();
-//		Reply reply = new Reply();
-//		Like like = new Like();
-//		hashtag.initForAjax(this.tempJson);
-//		reply.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
-//		like.initForAjax(new JSONObject(){{put("whereJson", tempJson);}});
-//		this.puzzleDTO.setHashtagList((List<HashtagDTO>) hashtag.getList());
-//		this.puzzleDTO.setReplyList((List<ReplyDTO>) reply.getList());
-//		this.puzzleDTO.setLike((like.getData() == null) ? false : true);
-		
-//		return this.isAjax ? this.puzzleDTO : SUCCESS;
-		return null;
+		return this.isAjax ? null : SUCCESS;
 	}
 	
 	public Object writeAction() throws Exception{

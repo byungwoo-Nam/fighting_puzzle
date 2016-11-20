@@ -127,6 +127,10 @@ article footer{
 	color: #ea3c3c;
 }
 
+.puzzleHashtagBtn{
+	color: #337ab7;
+}
+
 /* 레이어 팝업 공통 */
 .layer {display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:100;}
 .layer .bg {position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50);}

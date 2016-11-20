@@ -11,4 +11,7 @@ public class SearchDTO {
 	private int user_seq;
 	private String keyword;
 	private String regdate;
+	
+	//make data
+	private int puzzleCount;
 }
