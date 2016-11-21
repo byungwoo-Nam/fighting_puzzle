@@ -12,4 +12,9 @@ public class UserDTO {
 	private String id;
 	private String pictureUrl;
 	private String regDate;
+	
+	//joinData
+	private int puzzleWriteCnt;
+	private int playCnt;
+	
 }

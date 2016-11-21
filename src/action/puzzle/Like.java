@@ -40,11 +40,13 @@ public class Like extends ActionSupport  {
 	
 	private int sortCol = 0;											// 	정렬 컬럼
     private String sortVal = "";										// 	정렬 내용
+    private int pageNum;												//	페이지번호
+    private int likeCountPerPage;										//	한페이지에 보일 기본 퍼즐 수
     
 	private JSONObject sortColKindJson = new JSONObject() {{
 		// db상의 name과 매칭
-		put(0,"seq");			// 기본값 정렬
-		put(1,"seq");			// 등록번호 정렬
+		put(0,"L.seq");			// 기본값 정렬
+		put(1,"L.seq");			// 등록번호 정렬
 	}};
 	
 	private boolean isAjax;	//	ajax요청시
@@ -68,6 +70,8 @@ public class Like extends ActionSupport  {
 	public void init(){
 		this.likeDAO = (FightingPuzzleDAO)this.wac.getBean("like");
 		
+		this.likeCountPerPage = this.likeCountPerPage==0 ? codeConfig.getLikeCountPerPage() : this.likeCountPerPage;
+		
 		this.context = ActionContext.getContext();	//session을 생성하기 위해
 		this.session = this.context.getSession();		// Map 사용시
 	}
@@ -82,17 +86,21 @@ public class Like extends ActionSupport  {
 	public Object getList() throws Exception{
 		init();
 		
+		this.user_seq = (int) session.get("user_seq");
+		
 		this.sortCol = this.sortColKindJson.containsKey(this.sortCol) ? this.sortCol : 0;
 		this.sortVal = this.sortVal.equals("ASC") ? "ASC" : "DESC";
-		if(this.whereJson==null){
-			this.whereJson.put("seq", this.seq);
+		if(!this.whereJson.containsKey("L.user_seq")){
+			this.whereJson.put("L.user_seq", this.user_seq);
 		}
 		
 		this.paramJson.put("sortCol", this.sortColKindJson.get(this.sortCol));
 		this.paramJson.put("sortVal", this.sortVal);
 		this.paramJson.put("whereJson", this.whereJson);
 		
+		System.out.println("##################"+whereJson);
 		this.dataList = (List<LikeDTO>)this.likeDAO.getList(this.paramJson);
+		System.out.println(this.dataList);
 		
 		return this.isAjax ? this.dataList : SUCCESS;
 	}

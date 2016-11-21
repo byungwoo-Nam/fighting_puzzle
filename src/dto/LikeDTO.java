@@ -10,4 +10,7 @@ public class LikeDTO {
 	private int seq;
 	private int puzzle_seq;
 	private int user_seq;
+	
+	// join data
+	private String puzzleUrl;
 }

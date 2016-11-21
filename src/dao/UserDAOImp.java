@@ -43,7 +43,11 @@ public class UserDAOImp implements FightingPuzzleDAO {
 		
 		sqlJson.put("one", 1);
 		
-        sql = "	SELECT * FROM"+ table_name + "WHERE :one = :one	\n";
+		sql = "";
+        sql += "	SELECT *	\n";
+        sql += "	, (select count(*) from PUZZLE where user_seq=USER.seq) AS puzzleWriteCnt		\n";
+        sql += "	, (SELECT COUNT( DISTINCT puzzle_seq ) FROM RECORD WHERE user_seq = USER.seq) AS playCnt		\n";
+        sql += "	FROM	\n"+ table_name + "WHERE :one = :one	\n";
         if(whereJson!=null && !whereJson.isEmpty()){
             for( Object key : whereJson.keySet() ){
             	sqlJson.put(key, whereJson.get(key));

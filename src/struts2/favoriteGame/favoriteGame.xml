@@ -3,7 +3,7 @@
 <struts>
 	<package name="favoriteGame" namespace="/favoriteGame" extends="fighting_puzzle">
 		<!-- 즐겨찾기 -->
-		<action name="favoriteGame" class="action.basic.Index">
+		<action name="favoriteGame" class="action.puzzle.Like" method="getList">
 			<result>/jsp/page/favoriteGame/favoriteGame.jsp</result>
 		</action>		
 

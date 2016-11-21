@@ -102,7 +102,6 @@ article .userImage{
     width: 50px;
     border-radius: 1000px;
     overflow:hidden;
-    display: flex;
 }
 
 article .userImage img{
@@ -394,4 +393,17 @@ article footer{
 
 #userPage .row{
 	border-bottom: 1px solid #a9a9a9;
+}
+
+#userPage .row p{
+	display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0;
+    background-color: white;
+    -webkit-border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    margin-right: 10px;
+    border: 1px solid #5a5757;
 }

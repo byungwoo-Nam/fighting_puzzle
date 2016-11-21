@@ -76,53 +76,41 @@ public class LikeDAOImp implements FightingPuzzleDAO {
 		
 		String sql = "";
 		
-//		sqlJson.put("one", 1);
-//		sqlJson.put("startNum", startNum);
-//		sqlJson.put("countPerPage", countPerPage);
-//		
-//		if(isCount){
-//			sql += "	SELECT COUNT(*)	\n";
-//		}else{
-//			sql += "	SELECT * \n";
-//			sql += "	(	CASE	\n";
-//	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , R.regDate, NOW( ))) < 60 THEN CONCAT(TIMESTAMPDIFF( SECOND , R.regDate, NOW( )), '초 전')	\n";			// 60 = 1분 이전
-//	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , R.regDate, NOW( ))) < 60*60 THEN CONCAT(TIMESTAMPDIFF( MINUTE , R.regDate, NOW( )), '분 전')	\n";		// 60*60 = 1시간 이전
-//	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , R.regDate, NOW( ))) < 60*60*24 THEN CONCAT(TIMESTAMPDIFF( HOUR , R.regDate, NOW( )), '시간 전')	\n";	// 60*60*24 = 1일 이전
-//	        sql += "			WHEN (TIMESTAMPDIFF( SECOND , R.regDate, NOW( ))) < 60*60*24*6 THEN CONCAT(TIMESTAMPDIFF( DAY , R.regDate, NOW( )), '일 전')	\n";	// 60*60*24*6 = 6일 이전
-//	        sql += "		ELSE (	\n";
-//	        sql += "			CASE		\n";
-//			sql += "				WHEN DATE_FORMAT(R.regDate,'%p') = 'AM' THEN DATE_FORMAT(R.regDate, '%Y.%m.%d 오전 %h:%i:%s')		\n";
-//			sql += "			ELSE		\n";
-//			sql += "				DATE_FORMAT(R.regDate, '%Y.%m.%d 오후 %h:%i:%s')		\n";
-//			sql += "			END	)		\n";
-//			sql += "	END	) AS printDate		\n";
-//		}
-//        sql += "	FROM "+ table_name;
-//        sql += "	R JOIN USER U ON R.user_seq = U.seq	\n";
-//        sql += "	WHERE :one = :one	\n		";
-//        if(whereJson!=null && !whereJson.isEmpty()){
-//            for( Object key : whereJson.keySet() ){
-//            	sqlJson.put(key, whereJson.get(key));
-//            	sql += " and " + key + " = :"+key+"		\n";
-//            }
-//        }
-//        if(searchJson!=null && !searchJson.isEmpty()){
-//            for( Object key : searchJson.keySet() ){
-//            	sqlJson.put(key, "%" + searchJson.get(key) + "%");
-//            	sql += " and LOWER( "+key+" ) like LOWER( :"+key+" )";
-//            }
-//        }
-//        
-//        if(!sortCol.equals("")){
-//        	sql += " ORDER BY " + sortCol + " " + sortVal + "		\n";
-//        }
-//        
-//        if(isCount || pageNum==0){
-//		}else{
-//			sql += " LIMIT :startNum, :countPerPage	\n";
-//		}
-//        
-//        System.out.println("sql:::"+sql);
+		sqlJson.put("one", 1);
+		sqlJson.put("startNum", startNum);
+		sqlJson.put("countPerPage", countPerPage);
+		
+		if(isCount){
+			sql += "	SELECT COUNT(*)	\n";
+		}else{
+			sql += "	SELECT * \n";
+		}
+        sql += "	FROM "+ table_name;
+        sql += "	L JOIN PUZZLE P ON L.puzzle_seq = P.seq	\n";
+        sql += "	WHERE :one = :one	\n		";
+        if(whereJson!=null && !whereJson.isEmpty()){
+            for( Object key : whereJson.keySet() ){
+            	sqlJson.put(key, whereJson.get(key));
+            	sql += " and " + key + " = :"+key+"		\n";
+            }
+        }
+        if(searchJson!=null && !searchJson.isEmpty()){
+            for( Object key : searchJson.keySet() ){
+            	sqlJson.put(key, "%" + searchJson.get(key) + "%");
+            	sql += " and LOWER( "+key+" ) like LOWER( :"+key+" )";
+            }
+        }
+        
+        if(!sortCol.equals("")){
+        	sql += " ORDER BY " + sortCol + " " + sortVal + "		\n";
+        }
+        
+        if(isCount || pageNum==0){
+		}else{
+			sql += " LIMIT :startNum, :countPerPage	\n";
+		}
+        
+        System.out.println("sql:::"+sql);
         
         if(isCount){
         	return this.jdbcTemplate.queryForInt(sql,sqlJson);
